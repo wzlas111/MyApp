@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/text_use"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center" >
+
+        <SurfaceView
+            android:id="@+id/videoView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="visible" >
+        </SurfaceView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="140dip"
+            android:layout_height="70dip"
+            android:background="@drawable/video_recorder_recording_btn"
+            android:visibility="gone" />
+        <Button
+            android:id="@+id/start"
+            android:layout_width="140dip"
+            android:layout_height="70dip"
+            android:background="@drawable/video_recorder_start_btn_nor"/>
+    </LinearLayout>
+
+</LinearLayout>

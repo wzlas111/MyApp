@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TextViewTopTitle"
+            android:text="@string/cust_new" />
+        
+        <Button
+            android:id="@+id/btSaveCust"
+	        style="@style/ButtonSave"
+	        />
+    </RelativeLayout>
+
+    <ScrollView
+        style="@style/ScrollViewInput" >
+
+        <RelativeLayout
+            style="@style/RelativeLayoutInput" >"
+
+            <include layout="@layout/focus" />
+
+            <LinearLayout
+                style="@style/LinearLayoutInputBefore" >"
+
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_clientName_" />
+
+                    <EditText
+                        android:id="@+id/cust_name"
+                        style="@style/EditTextDefault"
+                        android:maxLength="20"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:orientation="vertical" >
+
+                    <RadioGroup
+                        android:id="@+id/genderGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <RadioButton
+                            android:id="@+id/gogn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cust_share_1"
+                            android:textSize="13sp" />
+
+                        <RadioButton
+                            android:id="@+id/siyou"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/cust_share_2"
+                            android:textSize="13sp" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_contacts_" />
+
+                    <EditText
+                        android:id="@+id/cust_contacter"
+                        android:maxLength="8"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+                
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_job_" />
+
+                    <EditText
+                        android:id="@+id/cust_job"
+                        android:maxLength="30"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_phone_" />
+
+                    <EditText
+                        android:id="@+id/cust_telephone"
+                        style="@style/EditTextDefault"
+                         android:maxLength="20"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_phone2_" />
+
+                    <EditText
+                        android:id="@+id/cust_telephone2"
+                         android:maxLength="20"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_phone3_" />
+
+                    <EditText
+                        android:id="@+id/cust_telephone3"
+                         android:maxLength="20"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_phone4_" />
+
+                    <EditText
+                        android:id="@+id/cust_telephone4"
+                        android:maxLength="20"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+                
+
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_email_" />
+
+                    <EditText
+                        android:id="@+id/cust_youxiang"
+                        android:maxLength="30"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_location_" />
+
+                    <EditText
+                        android:id="@+id/cust_addressoo"
+                        style="@style/EditTextDefault"
+                        android:maxLength="50"
+                        android:hint="@string/pls_input" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >"
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_area_" />
+
+                    <EditText
+                        android:id="@+id/cust_area"
+                        style="@style/EditTextSel"
+                        android:hint="@string/pls_select" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/cust_type_" />
+					<EditText
+                        android:id="@+id/cust_type"
+                        style="@style/EditTextSel"
+                        android:hint="@string/pls_select" />
+<!--                     <Spinner -->
+<!--                         android:id="@+id/cust_type" -->
+<!--                         android:layout_width="fill_parent" -->
+<!--                         android:layout_height="50dip" /> -->
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/loadingLocation"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical|left"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <ProgressBar
+                        android:id="@+id/loadingcustLocation"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginLeft="2dp" />
+
+                    <TextView
+                        android:id="@+id/custLocationTip"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingLeft="1.0dip"
+                        android:singleLine="true"
+                        android:text="@string/loaction_loading"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:id="@+id/custLocationIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:adjustViewBounds="true"
+                        android:paddingLeft="3.0dip"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/location_icon"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/custLocationDesc"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingLeft="3.0dip"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingTop="10.0dip" >
+
+                    <Button
+                        android:id="@+id/btcustLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:drawableTop="@drawable/selector_info_location_true"
+                        android:padding="5dp"
+                        android:text="客户位置"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

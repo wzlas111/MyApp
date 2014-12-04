@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+	
+    <string name="dealer_title">经销商</string>
+    <string name="dealer_detail_title">详细资料</string>
+    
+    <string name="client_title">客户信息</string>
+    
+    <string name="app_name">杰克</string>
+    <string name="menu_settings">退出</string>
+    <string name="title_activity_reg">激活软件</string>
+    <string name="title_activity_unboundlind_step1">验证手机号</string>
+    <string name="title_activity_unboundlind_step2">填写验证码</string>
+    <string name="title_activity_checkin">考勤签到</string>
+    <string name="title_activity_checkout">考勤签退</string>
+    <string name="title_activity_inhistroy">签到历史</string>
+    <string name="title_activity_outhistroy">签退历史</string>
+    <string name="title_activity_lookaround">周边查找</string>
+    <string name="title_activity_pathplanning">路径规划</string>
+    <string name="title_activity_checkinhis">考勤签到记录</string>
+    <string name="title_activity_checkouthis">考勤签退记录</string>
+    <string name="title_activity_checkinsta">考勤签到统计</string>
+    <string name="title_activity_checkoutsta">考勤签退统计</string>
+    <string name="title_activity_set">参数设置</string>
+    <string name="title_activity_about">关于</string>
+    <string name="title_activity_daily">日志上传</string>
+    <string name="title_activity_clearfile">清除本地历史记录文件</string>
+    <string name="title_activity_logout">退出</string>
+    <string name="title_activity_info">信息上报</string>
+    <string name="title_activity_task">我的任务</string>
+    <string name="title_activity_cust">客户信息</string>
+    <string name="title_activity_version">版本</string>
+    <string name="title_activity_help">帮助</string>
+    <!--公告通知  -->
+    <string name="title_activity_bulletin">公告通知</string>
+    <string name="title_activity_view">详细</string>
+   <string name="reading">数据读取中，请稍候&#8230;</string>
+    <!-- 销售服务模块 -->
+    <string name="title_salestaskallocation">客户销量分配</string>
+    <string name="salestaskallocation_add">销量任务分配</string>
+    <string name="sta_cust">客户：</string>
+    <string name="sta_month">日期：</string>
+    <string name="sta_targettask">月目标任务：</string>
+    <string name="salesreport_add">销量上报</string>
+    <string name="salesreport_goodslist">上报销量商品：</string>
+    <string name="salesreport_nodata">管理员未配置数据!</string>
+    <string name="targettt_nodata">目标任务数据未分配!</string>
+    <string name="salesreport_remark">备注：</string>
+    <string name="sta_cust_name">客户</string>
+    <string name="title_salesreport_list">销量上报</string>
+    <string name="title_mquery">月目标任务查询</string>
+    <string name="tip_waitmoment">正在定位中，请稍后点击</string>
+    
+    <string name="title_activity_checkin_desc">通过手机GPS精定位功能进行上下班考勤。</string>
+    <string name="title_activity_checkout_desc">考勤签退。</string>
+    <string name="title_activity_set_desc">消息通知设置和系统信息。</string>
+    <string name="title_activity_about_desc">关于。</string>
+    <string name="title_activity_logout_desc">退出。</string>
+    <string name="title_activity_info_desc">通过手机GPS精定位功能进行工作内容的信息录入，完成后上传至平台。</string>
+    <string name="title_activity_task_desc">手机终端接收平台下发的工作任务，终端用户执行并填写工作任务完成情况，完成后上传到平台。</string>
+    <string name="title_activity_cust_desc">手机终端接收平台侧同步的客户信息，其作用是方便查看客户的信息及位置。</string>
+    <string name="title_activity_version_desc">关于本软件的系统版本信息。</string>
+    <string name="title_activity_help_desc">帮助。</string>
+    
+    <string name="info_add_title">新增信息</string>
+    <string name="info_title">标题：</string>
+    <string name="info_content">内容：</string>
+    <string name="info_loc">位置：</string>
+    <string name="info_pic">图片：</string>
+    <string name="info_soundrecord">录音：</string>
+    <string name="info_soundrecord_message">正在录音中..</string>
+    <string name="info_video">视频：</string>
+    
+    <string name="salesv_title">销量上报</string>
+    <string name="salesv_task_query">销量任务查询</string>
+    <string name="salesv_task_allot">销量任务分配</string>
+    
+    <string name="add">新增</string>
+    <string name="view">查看</string>
+    <string name="del">删除</string>
+    <string name="upd">修改</string>
+    <string name="back">返回</string>
+    <string name="bt_submit_text">提交</string>
+    <string name="info_title_def">标题</string>
+    <string name="info_uploadDate_def">上报时间</string>
+    <string name="info_lon_def">经度</string>
+    <string name="info_lat_def">纬度</string>
+    <string name="info_content_def">内容</string>
+    <string name="ShortCut_reply">快捷回复</string>
+    <string name="add_location">上报位置</string>
+    <string name="take_photo">拍摄照片</string>
+    <string name="recorder_video">录制视频</string>
+    <string name="add_Soundrecord">录制音频</string>
+    <string name="pick_photo">手机相册</string>
+    <string name="info_title_edit_error">请输入标题</string>
+    <string name="info_content_edit_error">请输入内容</string>
+    <string name="noSDCard">没有SD卡</string>
+    <string name="info_add_error">信息上报失败</string>
+    <string name="loaction_loading">定位中 &#8230;</string>
+    
+    <string name="info_upload_succ">信息上报成功</string>
+    <string name="info_upload_err">信息上报失败，请重试</string>
+    <string name="cust_upload_succ">客户信息上报成功</string>
+    <string name="cust_upload_err">客户信息上报失败，请重试</string>
+    <string name="baifang_upload_succ">拜访记录上报成功</string>
+    <string name="baifang_upload_err">拜访记录上报失败，请重试</string>
+    
+    <string name="info_img">上报图片</string>
+    
+    <string name="plan_not_do">待办任务</string>
+    <string name="plan_has_do">已办任务</string>
+    <string name="plan_date">完成期限</string>
+    <string name="plan_releasedate">发布时间</string>
+    <string name="plan_remark">计划事由</string>
+    <string name="plan_location">目的地</string>
+    <string name="plan_lon">经度</string>
+    <string name="plan_lat">纬度</string>
+    <string name="plan_text">完成情况</string>
+    <string name="plan_img">图片</string>
+    <string name="plan_text_edit_error">请输入完成情况</string>
+    <string name="plan_new">您的工作任务有变化</string>
+    <string name="bulletin_new">您的公告通知有更新</string>
+    <string name="knowledge_new">您的知识库有更新</string>
+    <string name="plan_title">标题</string>
+    <string name="plan_upload_succ">任务办理成功</string>
+    <string name="plan_upload_again">该任务已经办理</string>
+    <string name="plan_upload_del">该任务已取消</string>
+    <string name="plan_upload_err">任务办理失败，请重试</string>
+    
+    <string name="cust_new">新增客户</string>
+    <string name="cust_clientName">客户名称</string>
+    <string name="cust_clientName_">客户名称：</string>
+    <string name="cust_contacts">联系人</string>
+    <string name="cust_contacts_">&#160;&#160;&#160;&#160;联系人：</string>
+    <string name="cust_job">职位</string>
+    <string name="cust_job_">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;职位：</string>
+    <string name="cust_phone">电话1</string>
+    <string name="cust_phone2">电话2</string>
+    <string name="cust_phone3">电话3</string>
+    <string name="cust_phone4">电话4</string>
+    <string name="cust_phone_">&#160;&#160;&#160;&#160;&#160;&#160;电话1：</string>
+    <string name="cust_phone2_">&#160;&#160;&#160;&#160;&#160;&#160;电话2：</string>
+    <string name="cust_phone3_">&#160;&#160;&#160;&#160;&#160;&#160;电话3：</string>
+    <string name="cust_phone4_">&#160;&#160;&#160;&#160;&#160;&#160;电话4：</string>
+    <string name="cust_email">邮箱</string>
+    <string name="cust_email_">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;邮箱：</string>
+    <string name="cust_location">地址</string>
+    <string name="cust_location_">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;地址：</string>
+    <string name="cust_area">区域</string>
+    <string name="cust_area_">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;区域：</string>
+    <string name="cust_type">客户类型</string>
+    <string name="cust_type_">客户类型：</string>
+    <string name="cust_share_1">企业共享</string>
+    <string name="cust_share_2">员工私有</string>
+    
+    <string name="cust_addbaifang">新增拜访记录</string>
+    <string name="cust_baifanglishi">历史拜访记录</string>
+    
+    <string name="cust_sel_type">选择类型</string>
+    <string name="cust_sel_area">选择区域</string>
+    
+    <string name="baifang_rizhi">拜访日志</string>
+    <string name="baifang_cust">客户</string>
+    <string name="baifang_time">拜访日期</string>
+    <string name="baifang_loc">拜访位置</string>
+    <string name="baifang_img">拜访图片</string>
+    <string name="baifang_titl">标题</string>
+    
+    <string name="baifang_baifang">客户拜访记录</string>
+    
+    <string name="set_userinfo">个人信息</string>
+    <string name="set_msg_amind">消息提醒</string>
+    <string name="set_system_para">系统参数</string>
+    <string name="set_clear_history">清除记录图片视频</string>
+    <string name="set_help">引导页</string>
+    <string name="set_daily">日志上传</string>
+    <string name="set_version">版本更新</string>
+    <string name="set_about">关于</string>
+    
+    <string name="set_msg_title">通知设置</string>
+    <string name="set_title">系统参数</string>
+    <string name="set_person">个人信息</string>
+    <string name="set_msg">消息通知</string>
+    <string name="set_shock">振动</string>
+    
+    <string name="set_ip">IP地址</string>
+    <string name="set_time">定位时间</string>
+    <string name="set_interval">时间间隔</string>
+    <string name="set_date">定位日期</string>
+    <string name="set_n_date">不定位日期</string>
+    <string name="set_ip_">IP地址：</string>
+    <string name="set_time_">定位时间：</string>
+    <string name="set_interval_">时间间隔：</string>
+    <string name="set_date_">定位日期：</string>
+    <string name="set_n_date_">不定位日期：</string>
+    <string name="set_mobile">手机号码：</string>
+    <string name="set_mobile_value">&#160;</string>
+    <string name="set_imsi">IMSI：</string>
+    <string name="set_imsi_value">&#160;</string>
+    
+    <string name="imei">IMEI</string>
+    <string name="set_ip_value">221.122.1.10</string>
+    <string name="version_desc">版本：</string>
+    <string name="about_remind">友情提醒</string>
+    <string name="about_remind_desc">使用本软件会产生一定的网络流量，请选购合适的数据套餐包，详细资费信息请咨询所在地中国联通。</string>
+    <string name="about_remind_zyy">使用本软件会产生一定的网络流量，请选购合适的数据套餐包，详细资费信息请咨询所在地运营商。</string>
+<!--     <string name="about_remind_desc">使用本软件会产生一定的网络流量，请选购合适的数据套餐包，详细资费信息请咨询客服。</string> -->
+    <string name="about_version">支持Android2.1或以上版本</string>
+    <string name="telecom_operator">中国联通</string>
+<!--     <string name="telecom_operator">&#160;</string> -->
+    <string name="technical_support">杭州东创科技股份有限公司</string>
+    <string name="checkin_tips">温馨提示:</string>
+    <string name="checkin_tips_1">本软件基于GPS精确定位，使用本软件需要开启GPS模块；</string>
+    <string name="checkin_tips_2">请开启数据网络，让定位数据得到及时上报；</string>
+    <string name="checkin_tips_3">请将手机置于室外或者窗户旁边进行签到或者签退操作；</string>
+    <string name="checkin_tips_5">不再提示</string>
+    <string name="loading_quick">努力加载中&#8230;</string>
+    
+    <string name="checkin_tips_4">定位上报时会消耗一定的数据流量</string>
+    <string name="reg_tips_1">1.初次使用请输入手机号码进行软件激活操作，如果没有进行激活，软件无法使用.</string>
+    <string name="reg_tips_2">2.在激活时，您手机上的SIM卡需要正确配置3G或者GPRS上网功能，否则无法完成激活.</string>
+    <string name="reg_tips_3">3.激活成功后，本软件会绑定本机SIM卡.</string>
+    <string name="reg_tips_4">4.软件卸载重装、更换手机、手机补卡需要重新操作进行软件激活.</string>
+    <string name="reg_tips_5">5.激活软件若提示“IMSI校验失败”，请点击按钮“解绑手机卡”.</string>
+    <string name="reg_tips_6">6.如需帮助请致电 400 636 0336 （工作日：周一至周五 9：00~17：00）.</string>
+    <string name="checkin_text">点击进行考勤签到</string>
+    <string name="checkout_text">点击进行考勤签退</string>
+    <string name="null_value"></string>
+    <string name="net_error">无法连接网络，请检查网络设置！</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_tab_reg">TabRegActivity</string>
+	
+    <string name="reg_text">确认</string>
+    <string name="reg_text_cancle">取消</string>
+    <string name="reg_edit_def">输入手机号码</string>
+    <string name="reg_edit_def2">请输入验证码</string>
+    <string name="reg_unbundling">解绑手机卡</string>
+    <string name="reg_resend">重新获取(60)</string>
+    <string name="reg_unbundling_next">下一步</string>
+    <string name="reg_unbundling_tip1">请输入本机号码，点击下一步"获取验证码".</string>
+    <string name="reg_unbundling_tip2">我们给你发送了一条短信，请将短信中的数字作为验证码填写在下面，然后点击"解绑手机卡".</string>
+    <string name="reg_unbundling_tip3">您的手机号是：18657100261</string>
+    <string name="reg_unbundling_tip4">如需人工帮助请致电 400 636 0336 （工作日：周一至周五 9：00~17：00）</string>
+    
+    <string name="reg_edit_error">请输入正确的手机号码！</string>
+    <string name="reg_error">激活失败，请重新激活！</string>
+    <string name="reg_error1">您输入的号码未开户，请联系管理员！</string>
+    <string name="reg_error2">您的账号已停用，请联系管理员！</string>
+    <string name="reg_error3">激活失败，请使用开户号码的SIM卡！</string>
+    <string name="reg_error4">您无权使用客户端，请联系管理员！</string>
+    <string name="login_error1">登录失败，请重试！</string>
+    <string name="login_error11">您输入的号码未开户，请联系管理员！</string>
+    <string name="login_error12">您的账号已停用，请联系管理员！</string>
+    <string name="login_error13">激活失败，请使用开户号码的SIM卡！</string>
+    <string name="login_error14">您无权使用客户端，请联系管理员！</string>
+    <string name="login_error2">登录认证失败，请重试！</string>
+    
+    <string name="authc_error">登录认证中心失败，请重新登录！</string>
+    <string name="authc_error1">数据出错，请联系管理员！</string>
+    <string name="authc_error2">没找到认证服务器的信息，请联系管理员！</string>
+    
+    
+    <string name="checkin_succ">位置签到成功</string>
+    <string name="checkout_succ">位置签退成功</string>
+    
+    <string name="gps_error">请先开启GPS模块</string>
+    <string name="location_error">网络不稳定，请重签</string>
+    <string name="checkin_error">签到失败，请重签</string>
+    <string name="checkout_error">签退失败，请重签</string>
+    <string name="socketnotready">网络不稳定，请稍后再试</string>
+    
+     <string name="set_refrcesh_succ">参数刷新成功</string>
+     <string name="set_refresh_error">参数刷新失败</string>
+     <string name="set_refresh_req_error">请求失败</string>
+     
+     <string name="check_error_login">认证失败，请退出重新启动</string>
+     
+     <string name="loading">数据处理中，请稍候&#8230;</string>
+     <string name="loading_set">参数获取中，请稍候&#8230;</string>
+     <string name="loading_infoadd">信息上报中，请稍候&#8230;</string>
+     <string name="loading_plansubmit">任务提交中，请稍候&#8230;</string>
+     <string name="loading_reg">用户激活中，请稍候&#8230;</string>
+     <string name="loading_gengxibanben">检测新版本中，请稍候&#8230;</string>
+     <string name="loading_custadd">客户信息上报中，请稍候&#8230;</string>
+     <string name="loading_baifangadd">拜访记录上报中，请稍候&#8230;</string>
+     <string name="loading_foot">数据正在加载&#8230;</string>
+     <string name="loading_send_msg">短信发送中，请稍候&#8230;</string>
+     <!-- 销量上报 -->
+     <string name="loading_salesreportadd">销量上报中，请稍候&#8230;</string>
+     <string name="salesreport_upload_succ">销量上报成功</string>
+     <string name="salesreport_upload_err">销量上报失败，请重试</string>
+     
+     <string name="loading_allocationadd">销量任务分配上报中，请稍候&#8230;</string>
+     <string name="allocation_upload_err">销量任务分配上报失败，请重试</string>
+     <string name="allocation_upload_succ">销量任务分配上报成功</string>
+     
+     <string name="service_start">service start</string>
+ 	 <string name="service_stop">service stop</string>
+     <string name="service_pause">service pause</string>
+     <string name="gps_find">位置信息获取中&#8230;</string>
+     <string name="gps_upload">位置信息上传中&#8230;</string>
+     
+     <string name="update_apk">检测新版本</string>
+     <string name="clear_file">清除</string>
+     <string name="app_version">版本</string>
+     <string name="app_help">帮助</string>
+     
+     <string name="video_start">&#160;&#160;开&#160;始&#160;&#160;</string>
+     <string name="video_stop">&#160;&#160;停&#160;止&#160;&#160;</string>
+     
+     <string name="loc_desc">位置</string>
+     <string name="pic_desc">图片</string>
+     <string name="video_desc">视频</string>
+     <string name="video_record">音频</string>
+     
+     <string name="data_reading">数据读取中&#8230;</string>
+     <string name="pls_input">请输入</string>
+     <string name="pls_select">请选择</string>
+     <string name="custcheck_input">请输入客户名称查询</string>
+     
+     
+     <string name="search_title">搜索关键字</string>
+     
+     
+    <string name="label">"提醒事件"</string>
+    <string name="alarm_list_title">"提醒"</string>
+    <string name="add_alarm">"添加提醒"</string>
+    <string name="desk_clock_button_description">"时钟显示"</string>
+    <string name="default_label">"提醒"</string>
+    <string name="menu_desk_clock">"座钟"</string>
+    <string name="menu_edit_alarm" >"修改提醒设置"</string>
+    <string name="enable_alarm">"启用提醒"</string>
+    <string name="delete_alarm">"删除提醒"</string>
+    <string name="disable_alarm">"停用提醒"</string>
+    <string name="delete_alarm_confirm">"将会删除此提醒。"</string>
+    <string name="alarm_notify_snooze_label">"<xliff:g id="LABEL">%s</xliff:g>（已暂停）"</string>
+    <string name="alarm_repeat">"重复"</string>
+    <string name="alarm_vibrate">"振动"</string>
+    <string name="alert">"铃声"</string>
+    <string name="time">"时间"</string>
+    <string name="set_alarm">"设置提醒"</string>
+    <string name="clearhistory_1">"一个月前记录"</string>
+    <string name="clearhistory_2">"一周前记录"</string>
+    <string name="clearhistory_3">"所有的记录"</string>
+    <string name="title_clearhistory">"清除手机本地存储历史记录图片视频"</string>
+    <string name="clearing">"正在删除中......"</string>
+    <string name="done">"完成"</string>
+    <string name="revert">"还原"</string>
+    <string name="delete">"删除事件"</string>
+    <string name="alarm_alert_dismiss_text">"关闭"</string>
+    <string name="alarm_volume_title">"铃声音量"</string>
+    <string name="alarm_volume_summary">"设置铃声音量"</string>
+    <string name="silent_alarm_summary">"静音"</string>
+    <string name="alarm_notify_text">"选择暂停或关闭此提醒。"</string>
+    <string name="alarm_alert_snooze_text">"暂停再响"</string>
+    <string name="alarm_alert_alert_silenced">"提醒时间为 <xliff:g id="MINUTES">%d</xliff:g> 分钟"</string>
+    <string name="alarm_notify_snooze_text">"已将提醒设置为从现在起 <xliff:g id="TIME">%s</xliff:g>后再提醒。选中可以取消。"</string>
+    <string name="alarm_alert_snooze_set">"暂停 <xliff:g id="MINUTES">%d</xliff:g> 分钟。"</string>
+
+    <string-array name="alarm_set">
+	    <item msgid="5163476010406761625">"已将此提醒设置为从现在起不到 1 分钟后提醒。"</item>
+	    <item msgid="7110525731259629055">"已将此提醒设置为从现在起 <xliff:g id="DAYS">%1$s</xliff:g>后再提醒。"</item>
+	    <item msgid="7003982794086186185">"已将此提醒设置为从现在起 <xliff:g id="HOURS">%2$s</xliff:g>后再提醒。"</item>
+	    <item msgid="7311021123230077742">"已将此提醒设置为从现在起 <xliff:g id="DAYS">%1$s</xliff:g> <xliff:g id="HOURS">%2$s</xliff:g>后再提醒。"</item>
+	    <item msgid="8431715191823114872">"已将此提醒设置为从现在起 <xliff:g id="MINUTES">%3$s</xliff:g>后再提醒。"</item>
+	    <item msgid="3244151088673185428">"已将此提醒设置为从现在起 <xliff:g id="DAYS">%1$s</xliff:g> <xliff:g id="MINUTES">%3$s</xliff:g>后再提醒。"</item>
+	    <item msgid="3663661342600168814">"已将此提醒设置为从现在起 <xliff:g id="HOURS">%2$s</xliff:g> <xliff:g id="MINUTES">%3$s</xliff:g>后再提醒。"</item>
+	    <item msgid="7779544127785487304">"已将该提醒设置为从现在起 <xliff:g id="DAYS">%1$s</xliff:g> <xliff:g id="HOURS">%2$s</xliff:g> <xliff:g id="MINUTES">%3$s</xliff:g>后再提醒。"</item>
+    </string-array>
+    <string name="day">"1 天"</string>
+    <string name="days">"<xliff:g id="DAYS">%s</xliff:g> 天"</string>
+    <string name="hour">"1 小时"</string>
+    <string name="hours" msgid="2071487018566991613">"<xliff:g id="HOURS">%s</xliff:g> 小时"</string>
+    <string name="minute">"1 分钟"</string>
+    <string name="minutes">"<xliff:g id="MINUTES">%s</xliff:g> 分钟"</string>
+    <string name="every_day">"每天"</string>
+    <string name="never">"一律不"</string>
+    <string name="day_concat">", "</string>
+    <string name="clock_instructions">"选择要显示的时钟。"</string>
+    <string name="analog_gadget">"模拟时钟"</string>
+    <string name="settings">"设置"</string>
+    <string name="alarm_in_silent_mode_title">"静音模式下闹钟响"</string>
+    <string name="alarm_in_silent_mode_summary">"手机处于静音模式时，闹钟仍会响"</string>
+    <string name="snooze_duration_title">"再响间隔"</string>
+  <string-array name="snooze_duration_entries">
+    <item msgid="8337408933053603125">"5 分钟"</item>
+    <item msgid="5294206441496024610">"10 分钟"</item>
+    <item msgid="2165904039211935470">"15 分钟"</item>
+    <item msgid="7248236967714374250">"20 分钟"</item>
+    <item msgid="738394723625179423">"25 分钟"</item>
+    <item msgid="1180222611308391616">"30 分钟"</item>
+  </string-array>
+  <string-array name="snooze_duration_values">
+    <item msgid="3655014754453084122">"5"</item>
+    <item msgid="8939029597449573449">"10"</item>
+    <item msgid="3922647341176353315">"15"</item>
+    <item msgid="5821804105985044459">"20"</item>
+    <item msgid="6048861883552402852">"25"</item>
+    <item msgid="2740866721232379791">"30"</item>
+  </string-array>
+  <string name="alarm_klaxon_service_desc">"设置的提醒铃声播放服务。"</string>
+</resources>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/topbg_big" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/logo_white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_status" >
+
+        <ImageView
+            android:id="@+id/online_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/stat_lineing" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <GridView
+            android:id="@+id/gv_all"
+            style="@style/GridViewMain"
+            android:columnWidth="60dip" >
+        </GridView>
+
+        <LinearLayout
+            android:id="@+id/pb_ll"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <!-- <ProgressBar -->
+            <!-- style="?android:attr/progressBarStyleLarge" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" /> -->
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/progress_small"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:gravity="center"
+                android:text="@string/loading_quick"
+                android:textColor="@color/app_text_def"
+                android:textSize="21.0sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="@drawable/shape_line" />
+
+<!--             <TextView -->
+<!--                 android:id="@+id/tv_lt" -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:gravity="center" -->
+<!--                 android:paddingTop="5.0dip" -->
+<!--                 android:text="@string/telecom_operator" -->
+<!--                 android:textColor="@color/app_text_def" -->
+<!--                 android:textSize="12.0sp" /> -->
+
+<!--             <TextView -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:gravity="center" -->
+<!--                 android:paddingBottom="10.0dip" -->
+<!--                 android:paddingTop="5.0dip" -->
+<!--                 android:text="@string/technical_support" -->
+<!--                 android:textColor="@color/app_text_def" -->
+<!--                 android:textSize="12.0sp" /> -->
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

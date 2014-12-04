@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/body_bg">
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/topbg" >
+
+        <Button
+            android:id="@+id/daily_btBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/selector_go_back_true"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/title_activity_daily"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <Button
+        android:id="@+id/daily_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:text="上传"
+        android:textColor="@android:color/white"
+        android:background="@drawable/selector_button_title_true"
+        />
+    </RelativeLayout>
+    <LinearLayout 
+        android:layout_above="@+id/daily_c2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dailycheckBox"
+        android:orientation="vertical"
+        android:layout_below="@id/layout_top"
+        >
+
+        <ListView
+            android:id="@+id/daily_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </ListView>
+    </LinearLayout>
+    
+
+    <RelativeLayout
+        android:id="@+id/daily_c2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="@drawable/shape_line" />
+
+<!--             <TextView -->
+<!--                 android:id="@+id/tv_lt" -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_marginTop="15dp" -->
+<!--                 android:gravity="center" -->
+<!--                 android:text="@string/telecom_operator" -->
+<!--                 android:textColor="@color/app_text_def" -->
+<!--                 android:textSize="14.0sp" /> -->
+
+<!--             <TextView -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_marginBottom="15dp" -->
+<!--                 android:gravity="center" -->
+<!--                 android:text="@string/technical_support" -->
+<!--                 android:textColor="@color/app_text_def" -->
+<!--                 android:textSize="14.0sp" /> -->
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="@string/title_activity_cust" />
+        
+        <ImageView
+            android:id="@+id/ivArrow"
+            style="@style/ImageViewArrowDown" 
+            android:layout_toRightOf="@id/tvTitleCust" />
+
+        <Button
+            android:id="@+id/btAddCust"
+            style="@style/ButtonNew" />
+
+        <ProgressBar
+            android:id="@+id/loadingCust"
+            style="@style/ProgressBarDef"
+            android:layout_toLeftOf="@id/btAddCust" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <include layout="@layout/focus" />
+
+            <include layout="@layout/search_left" />
+
+            <ListView
+                android:id="@+id/lvContact"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" >
+            </ListView>
+        </LinearLayout>
+
+        <com.eastelsoft.util.contact.SideBar
+            android:id="@+id/sideBar"
+            android:layout_width="20dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/mm_text_bg_trans" />
+    </FrameLayout>
+    
+    <include layout="@layout/tab_cust" />
+
+</LinearLayout>

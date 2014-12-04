@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/set_msg_amind" />
+    </RelativeLayout>
+
+    <ScrollView style="@style/ScrollViewInput" >
+
+        <LinearLayout style="@style/LinearLayoutShape" >
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_msg" />
+
+                    <ImageView
+                        android:id="@+id/set_msg_select_cb"
+                        style="@style/ImageViewOnOff" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_shock" />
+
+                    <ImageView
+                        android:id="@+id/set_shock_select_cb"
+                        style="@style/ImageViewOnOff" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

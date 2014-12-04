@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/body_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/topbg" >
+
+        <Button
+            android:id="@+id/btBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/selector_go_back_true"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/view"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btupCust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/selector_new_tr"
+            android:textColor="@android:color/white"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:isScrollContainer="true"
+            android:paddingTop="10.0dip"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <requestFocus />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:paddingTop="5.0dip" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/cust_clientName"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cust_clientName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:singleLine="false"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/cust_contacts"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cust_contacts"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+                
+                 <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/cust_job"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cust_job"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/cust_phone_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/cust_photo_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:paddingTop="5.0dip"
+                            android:singleLine="true"
+                            android:text="@string/cust_phone"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cust_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:gravity="center_vertical|left"
+                            android:paddingBottom="5.0dip"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:textColor="@color/app_text_1"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal"
+                        android:paddingRight="20.0dip" >
+
+                        <Button
+                            android:id="@+id/cust_sms_img"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|left"
+                            android:background="@drawable/selector_sms_true"
+                            android:gravity="center_vertical|left" />
+
+                        <TextView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:id="@+id/cust_phone_img"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|right"
+                            android:background="@drawable/selector_call_true"
+                            android:gravity="center_vertical|right"
+                            android:paddingLeft="30dip" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+              
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/cust_phone2_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/cust_photo2_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:paddingTop="5.0dip"
+                            android:singleLine="true"
+                            android:text="@string/cust_phone2"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cust_phone2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:gravity="center_vertical|left"
+                            android:paddingBottom="5.0dip"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:textColor="@color/app_text_1"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal"
+                        android:paddingRight="20.0dip" >
+
+                        <Button
+                            android:id="@+id/cust_sms_img2"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|left"
+                            android:background="@drawable/selector_sms_true"
+                            android:gravity="center_vertical|left" />
+
+                        <TextView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:id="@+id/cust_phone_img2"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|right"
+                            android:background="@drawable/selector_call_true"
+                            android:gravity="center_vertical|right"
+                            android:paddingLeft="30dip" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/cust_phone3_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/cust_photo3_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:paddingTop="5.0dip"
+                            android:singleLine="true"
+                            android:text="@string/cust_phone3"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cust_phone3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:gravity="center_vertical|left"
+                            android:paddingBottom="5.0dip"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:textColor="@color/app_text_1"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal"
+                        android:paddingRight="20.0dip" >
+
+                        <Button
+                            android:id="@+id/cust_sms_img3"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|left"
+                            android:background="@drawable/selector_sms_true"
+                            android:gravity="center_vertical|left" />
+
+                        <TextView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:id="@+id/cust_phone_img3"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|right"
+                            android:background="@drawable/selector_call_true"
+                            android:gravity="center_vertical|right"
+                            android:paddingLeft="30dip" />
+                    </LinearLayout>
+                </RelativeLayout>
+                
+                
+                  <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/cust_phone4_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/cust_photo4_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:paddingTop="5.0dip"
+                            android:singleLine="true"
+                            android:text="@string/cust_phone4"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cust_phone4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:gravity="center_vertical|left"
+                            android:paddingBottom="5.0dip"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:textColor="@color/app_text_1"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal"
+                        android:paddingRight="20.0dip" >
+
+                        <Button
+                            android:id="@+id/cust_sms_img4"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|left"
+                            android:background="@drawable/selector_sms_true"
+                            android:gravity="center_vertical|left" />
+
+                        <TextView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:id="@+id/cust_phone_img4"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|right"
+                            android:background="@drawable/selector_call_true"
+                            android:gravity="center_vertical|right"
+                            android:paddingLeft="30dip" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/cust_email"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cust_email"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="类型"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cust_type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="区域"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cust_area"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <!--
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+                
+                 <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="地址"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cust_address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="10.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+                -->
+
+
+                <!--
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+                
+                
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/cust_location_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/cust_location_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:paddingTop="5.0dip"
+                            android:singleLine="true"
+                            android:text="地址"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/cust_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:gravity="center_vertical|left"
+                            android:paddingBottom="5.0dip"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="10.0dip"
+                            android:textColor="@color/app_text_1"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal"
+                        android:paddingRight="20.0dip" >
+
+                        <Button
+                            android:id="@+id/cust_location_img"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical|right"
+                            android:background="@drawable/selector_location_true"
+                            android:gravity="center_vertical|right"/>
+                    </LinearLayout>
+                </RelativeLayout>
+                -->
+
+                <LinearLayout
+                    android:id="@+id/ll_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <View
+                        android:id="@+id/info_uploadDate_line"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0px"
+                        android:background="@drawable/shape_line" />
+
+                    <RelativeLayout
+                        android:id="@+id/info_location_relativeLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|left"
+                        android:gravity="center_vertical|left"
+                        android:isScrollContainer="true"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:id="@+id/info_location_img_llayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="horizontal"
+                            android:paddingRight="20.0dip" >
+
+                            <Button
+                                android:id="@+id/cust_location_img"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_gravity="center_vertical|right"
+                                android:background="@drawable/selector_location_true"
+                                android:gravity="center_vertical|right" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/info_location_llayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_toLeftOf="@id/info_location_img_llayout"
+                            android:isScrollContainer="true"
+                            android:orientation="vertical" >
+
+                            <TextView
+                                android:id="@+id/cust_location_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="20.0dip"
+                                android:paddingRight="10.0dip"
+                                android:paddingTop="5.0dip"
+                                android:singleLine="true"
+                                android:text="@string/cust_location"
+                                android:textColor="@color/app_text_def"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/cust_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|left"
+                                android:gravity="center_vertical|left"
+                                android:paddingBottom="5.0dip"
+                                android:paddingLeft="20.0dip"
+                                android:paddingRight="10.0dip"
+                                android:textColor="@color/app_text_1"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+
+<!--                 <Button -->
+<!--                     android:id="@+id/btAddkehubaifang" -->
+<!--                     android:layout_width="fill_parent" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:layout_marginLeft="20dp" -->
+<!--                     android:layout_marginRight="20dp" -->
+<!--                     android:layout_marginTop="10dp" -->
+<!--                     android:background="@drawable/selector_sign_true" -->
+<!--                     android:gravity="center" -->
+<!--                     android:text="@string/cust_addbaifang" /> -->
+
+<!--                 <Button -->
+<!--                     android:id="@+id/btbaifangjilu" -->
+<!--                     android:layout_width="fill_parent" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:layout_marginLeft="20dp" -->
+<!--                     android:layout_marginRight="20dp" -->
+<!--                     android:layout_marginTop="10dp" -->
+<!--                     android:background="@drawable/selector_sign_true" -->
+<!--                     android:gravity="center" -->
+<!--                     android:text="@string/cust_baifanglishi" /> -->
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 此布局文件用来定义listview 的显示方式 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="1dip"
+    android:paddingTop="1dip" >
+
+    <TextView
+        android:id="@+id/goodsname"
+        android:layout_width="fill_parent"
+        android:layout_height="35dip"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:textColor="@color/app_text_def"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="fill_parent"
+        android:layout_height="35dip"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:textColor="@color/app_text_def"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/goodsunit"
+        android:layout_width="fill_parent"
+        android:layout_height="35dip"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:textColor="@color/app_text_def"
+        android:textSize="13sp" />
+
+</LinearLayout>

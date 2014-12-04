@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@color/body_bg" 
+    android:id="@+id/parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/topbg" >
+
+        <Button
+            android:id="@+id/btBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/selector_go_back_true"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/title_activity_set"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/img_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/selector_refresh_true" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            android:paddingBottom="10.0dip" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginTop="3.0dip"
+                android:paddingLeft="15.0dip"
+                android:text="@string/set_msg_title"
+                android:textColor="@color/app_text_def"
+                android:textStyle="bold"
+                android:textSize="17.0sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="2.0dip"
+                android:background="@drawable/shape_bg"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|left"
+                        android:gravity="center_vertical|left"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/chkVer"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15.0dip"
+                            android:text="@string/set_msg"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16.0sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:gravity="center_vertical|right"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+<!--                         <CheckBox -->
+<!--                             android:id="@+id/set_msg_select_cb" -->
+<!--                             android:layout_width="wrap_content" -->
+<!--                             android:layout_height="wrap_content" -->
+<!--                             android:clickable="true" -->
+<!--                             android:focusable="false" -->
+<!--                             android:checked="true" -->
+<!--                             android:focusableInTouchMode="false" -->
+<!--                             android:paddingRight="10.0dip" -->
+<!--                             android:visibility="visible" /> -->
+                        <ImageView
+				            android:id="@+id/set_msg_select_cb"
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center"
+				            android:adjustViewBounds="true"
+				            android:src="@drawable/images_on"
+				            android:scaleType="centerInside" />
+                        
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dip"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical|left"
+                        android:gravity="center_vertical|left"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15.0dip"
+                            android:text="@string/set_shock"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16.0sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:gravity="center_vertical|right"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+<!--                         <CheckBox -->
+<!--                             android:id="@+id/set_shock_select_cb" -->
+<!--                             android:layout_width="wrap_content" -->
+<!--                             android:layout_height="wrap_content" -->
+<!--                             android:clickable="true" -->
+<!--                             android:focusable="false" -->
+<!--                             android:checked="true" -->
+<!--                             android:focusableInTouchMode="false" -->
+<!--                             android:paddingRight="10.0dip" -->
+<!--                             android:visibility="visible" /> -->
+						<ImageView
+				            android:id="@+id/set_shock_select_cb"
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:layout_gravity="center"
+				            android:adjustViewBounds="true"
+				            android:src="@drawable/images_on"
+				            android:scaleType="centerInside" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+			<TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginTop="3.0dip"
+                android:paddingLeft="15.0dip"
+                android:text="@string/set_title"
+                android:textStyle="bold"
+                android:textColor="@color/app_text_def"
+                android:textSize="17.0sp" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="2.0dip"
+                android:background="@drawable/shape_bg"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:isScrollContainer="true"
+                    android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:paddingTop="10.0dip"
+			        android:paddingBottom="10.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/set_ip_"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:id="@+id/set_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/set_ip_value"
+                        android:textColor="@color/app_text_1"
+                        android:textSize="14.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:isScrollContainer="true"
+                    android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:paddingTop="10.0dip"
+			        android:paddingBottom="10.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/set_time_"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:id="@+id/timePeriod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="08:00-10:00"
+                        android:textColor="@color/app_text_1"
+                        android:textSize="14.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:isScrollContainer="true"
+                    android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:paddingTop="10.0dip"
+			        android:paddingBottom="10.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/set_interval_"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:id="@+id/interval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10分钟"
+                        android:textColor="@color/app_text_1"
+                        android:textSize="14.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:isScrollContainer="true"
+                    android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:paddingTop="10.0dip"
+			        android:paddingBottom="10.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/set_date_"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:id="@+id/week"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="周一 周二 周三 周四 周五"
+                        android:textColor="@color/app_text_1"
+                        android:textSize="14.0sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:isScrollContainer="true"
+                    android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:paddingTop="10.0dip"
+			        android:paddingBottom="10.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/set_n_date_"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:id="@+id/filterDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2012-02-30"
+                        android:textColor="@color/app_text_1"
+                        android:textSize="14.0sp" />
+                </LinearLayout>
+            </LinearLayout>
+            
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginTop="3.0dip"
+                android:paddingLeft="15.0dip"
+                android:text="@string/set_person"
+                android:textStyle="bold"
+                android:textColor="@color/app_text_def"
+                android:textSize="17.0sp" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="2.0dip"
+                android:background="@drawable/shape_bg"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:isScrollContainer="true"
+                    android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:paddingTop="10.0dip"
+			        android:paddingBottom="10.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/set_mobile"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:id="@+id/set_mobile_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/set_mobile_value"
+                        android:textColor="@color/app_text_1"
+                        android:textSize="14.0sp" />
+                </LinearLayout>
+				<View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+				<LinearLayout
+                    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:isScrollContainer="true"
+                    android:layout_gravity="center_vertical|left"
+			        android:gravity="center_vertical|left"
+			        android:paddingTop="10.0dip"
+			        android:paddingBottom="10.0dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15.0dip"
+                        android:text="@string/set_imsi"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="16.0sp" />
+
+                    <TextView
+                        android:id="@+id/set_imsi_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/set_imsi_value"
+                        android:textColor="@color/app_text_1"
+                        android:textSize="14.0sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

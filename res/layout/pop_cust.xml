@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="#b5555555"
+    android:cacheColorHint="#00000000"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="10.0dip"
+    android:paddingLeft="10.0dip"
+    android:paddingRight="10.0dip"
+    android:paddingTop="10.0dip" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/comm_corner_white"
+        android:gravity="center"
+        android:orientation="vertical" >
+        
+        
+        <include layout="@layout/focus" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            android:paddingBottom="10.0dip" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:background="@drawable/comm_corner_1" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="客户"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btHidden"
+                    android:background="@drawable/selector_close_true" />
+
+                <TextView
+                    android:id="@+id/btHidden"
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
+ 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_search"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:paddingBottom="3.0dip"
+                android:paddingLeft="8.0dip"
+                android:paddingRight="8.0dip"
+                android:paddingTop="3.0dip" >
+
+                <LinearLayout style="@style/cust_input_ll" >
+
+                    <EditText
+                        android:id="@+id/search_et_area"
+                        android:hint="@string/custcheck_input"
+                        android:textSize="18sp" 
+                        android:layout_width="0dip"
+                        android:layout_height="40dip"
+                        android:layout_weight="1.0"
+                        android:background="#00000000"
+                        android:minWidth="50dip"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:id="@+id/search_bt_area"
+                        android:layout_width="32dip"
+                        android:layout_height="32dip"
+                        android:background="@drawable/search_btbt" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ListView
+                    android:id="@+id/lvContact"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:scrollbars="none" >
+                </ListView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

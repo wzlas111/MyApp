@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/info_add_title" />
+
+        <Button
+            android:id="@+id/btSaveInfo"
+            style="@style/ButtonSave" />
+    </RelativeLayout>
+
+    <ScrollView style="@style/ScrollViewInput" >
+
+        <RelativeLayout style="@style/RelativeLayoutInput" >
+
+            <include layout="@layout/focus" />
+
+            <LinearLayout style="@style/LinearLayoutInputBefore" >
+
+                <LinearLayout style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/info_title" />
+
+                    <EditText
+                        android:id="@+id/info_title"
+                        style="@style/EditTextDefault"
+                        android:hint="@string/pls_input"
+                        android:maxLength="20" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/LinearLayoutInput" >
+
+                    <TextView
+                        style="@style/TextViewBeforeInput"
+                        android:text="@string/info_content" />
+
+                    <EditText
+                        android:id="@+id/info_content"
+                        style="@style/EditTextArea"
+                        android:hint="@string/pls_input"
+                        android:maxLength="200" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/infoLocationId"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="10.0dip"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:singleLine="true"
+                        android:text="@string/info_loc"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/infoLocationTip"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingLeft="1.0dip"
+                        android:singleLine="true"
+                        android:text="@string/loaction_loading"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/infoLocationDesc"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingLeft="3.0dip"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/infoImgId"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="10.0dip" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/info_pic"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+					<com.eastelsoft.lbs.MyGridView
+                        android:id="@+id/gridPhoto"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center"
+                        android:gravity="center_vertical|center"
+                        android:numColumns="3"
+                        android:paddingTop="5dp"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="4dp" />
+                </LinearLayout>
+<!-- add new soundrecord -->
+
+                <LinearLayout
+                    android:id="@+id/infoSoundRecord"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="10.0dip" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/info_soundrecord"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/record_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="40dp"
+                        android:singleLine="true"
+                        android:text="@string/info_soundrecord_message"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/record_imageView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        android:src="@drawable/selector_play_soundrecord_true"
+                        />
+                    <!-- <ImageView -->
+                    <!-- android:id="@+id/record_imageView1" -->
+                    <!-- android:layout_width="wrap_content" -->
+                    <!-- android:layout_height="wrap_content" -->
+                    <!-- android:visibility="gone" -->
+
+                    <TextView
+                        android:id="@+id/textRecord_time"
+                        android:layout_width="24dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_weight="0.17"
+                        android:visibility="gone"
+                        />
+                </LinearLayout>
+
+             <!-- add new soundrecord -->
+                
+                
+                <LinearLayout
+                    android:id="@+id/infoVideoId"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="10.0dip"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/info_video"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <LinearLayout
+                            android:id="@+id/infoVideoLL"
+                            android:layout_width="105dip"
+                            android:layout_height="75dip"
+                            android:isScrollContainer="true"
+                            android:orientation="horizontal" >
+
+                            <ImageView
+                                android:id="@+id/infoVideo"
+                                android:layout_width="80dip"
+                                android:layout_height="60dip"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerInside"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/clearVideo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignRight="@+id/infoVideoLL"
+                            android:layout_alignTop="@+id/infoVideoLL"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="2dp"
+                            android:adjustViewBounds="true"
+                            android:paddingLeft="6.0dip"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/bt_close"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10.0dip" >
+
+                    <Button
+                        android:id="@+id/btVideo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="#00000000"
+                        android:drawableTop="@drawable/selector_info_video_true"
+                        android:padding="5dp"
+                        android:text="@string/recorder_video"
+                        android:textSize="11sp" />
+
+<!--                     <Button -->
+<!--                         android:id="@+id/btTakePhoto" -->
+<!--                         android:layout_width="wrap_content" -->
+<!--                         android:layout_height="wrap_content" -->
+<!--                         android:layout_alignBaseline="@+id/btVideo" -->
+<!--                         android:layout_alignBottom="@+id/btVideo" -->
+<!--                         android:layout_toLeftOf="@+id/btVideo" -->
+<!--                         android:background="#00000000" -->
+<!--                         android:drawableTop="@drawable/selector_info_photo_true" -->
+<!--                         android:padding="5dp" -->
+<!--                         android:text="@string/take_photo" -->
+<!--                         android:textSize="11sp" /> -->
+
+                    <Button
+                        android:id="@+id/btLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/btVideo"
+                        android:layout_alignBottom="@+id/btVideo"
+                        android:layout_toLeftOf="@+id/btVideo"
+                        android:background="#00000000"
+                        android:drawableTop="@drawable/selector_info_location_true"
+                        android:padding="5dp"
+                        android:text="@string/add_location"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/soundrecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toLeftOf="@+id/btLocation"
+                        android:background="#00000000"
+                        android:drawableTop="@drawable/selector_info_soundrecord_true"
+                        android:padding="5dp"
+                        android:text="@string/add_Soundrecord"
+                        android:textSize="11sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

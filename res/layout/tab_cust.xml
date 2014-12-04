@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/LinearLayoutTab" >
+
+        <LinearLayout
+            android:id="@+id/tabCust"
+            style="@style/LinearLayoutTab2"
+            android:background="@drawable/bg_tab" >
+
+            <Button
+                android:id="@+id/btCust"
+                style="@style/ButtonTab"
+                android:background="@drawable/bg_tab_cust"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabCustv"
+            style="@style/LinearLayoutTab2" >
+
+            <Button
+                android:id="@+id/btCustv"
+                style="@style/ButtonTab"
+                android:background="@drawable/bg_tab_custv" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabSalesv"
+            style="@style/LinearLayoutTab2" >
+
+            <Button
+                android:id="@+id/btSalesv"
+                style="@style/ButtonTab"
+                android:background="@drawable/bg_tab_salesv" />
+        </LinearLayout>
+    </LinearLayout>

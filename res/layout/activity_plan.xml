@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@color/body_bg" 
+    android:id="@+id/parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/topbg" >
+		
+        <Button
+            android:id="@+id/btBack"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="@android:color/white" 
+	        android:background="@drawable/selector_go_back_true"
+	        />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/title_activity_task"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" 
+            android:layout_centerHorizontal="true" />
+        
+        <ProgressBar
+			android:id="@+id/loadingPlan"
+			android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+			android:layout_width="20dp"
+			android:layout_height="20dp" />
+        
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/layout_title_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/group_bg_2"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/layout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/tv_title_bar_not_do"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:background="@drawable/plan_no_nor"
+                     />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/tv_title_bar_has_do"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/app_text_2"
+                    android:textSize="14sp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/plan_has_pre"
+                     />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" 
+        android:background="@color/body_bg_1">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:isScrollContainer="true"
+            android:orientation="vertical" >
+
+            <ListView android:id="@android:id/list" 
+                android:layout_width="fill_parent"   
+            	android:layout_height="wrap_content" 
+            	android:cacheColorHint="#00000000"
+            	/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

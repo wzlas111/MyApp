@@ -1,0 +1,466 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.eastelsoft.lbs"
+    android:versionCode="7"
+    android:versionName="2.0730">
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19"/>  
+    
+	<uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />    
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />     
+	<uses-permission android:name="android.permission.ACCES_MOCK_LOCATION" />    
+	<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />       
+	<uses-permission android:name="android.permission.ACCESS_GPS" />     
+	<uses-permission android:name="android.permission.GET_TASKS" />      
+	<uses-permission android:name="android.permission.BROADCAST_STICKY" />    
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />    
+	<uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />     
+	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> 
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_COARES_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATTON_MOCK_LOCATION"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <!-- 
+    <uses-library android:name="com.google.android.maps" />  
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+     -->
+    <application
+        android:name="com.eastelsoft.util.GlobalVar"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:persistent="true"
+        android:theme="@android:style/Theme.Light.NoTitleBar">
+        <meta-data
+        android:name="com.baidu.lbsapi.API_KEY"
+        android:value="Tm4dUmuUXLGo6Q52lWEBqBNG"/>
+		<!-- |debug|Tm4dUmuUXLGo6Q52lWEBqBNG -->
+		<!-- |正式|bkXGesQGycgQH7LqHsqzpGxk -->
+        <activity
+            android:name=".WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".WaitActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".GpsLocationBootReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".RepeatBotReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.eastelsoft.lbs.service.repeating" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.eastelsoft.lbs.service.LocationService"
+            android:enabled="true"
+            android:persistent="true" >
+            <intent-filter android:priority="998" >
+                <action android:name="com.eastelsoft.lbs.service.LocationService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.eastelsoft.lbs.service.BaiFangService"
+            android:enabled="true"
+            android:persistent="true" >
+            <intent-filter android:priority="998" >
+                <action android:name="com.eastelsoft.lbs.service.BaiFangService" />
+            </intent-filter>
+        </service>
+        
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.9" >
+                </action>
+            </intent-filter>
+        </service>
+        
+<!--         <service -->
+<!--             android:name="com.eastelsoft.lbs.service.DeleteDailyService" -->
+<!--             android:enabled="true"> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.daily.delete.service"> -->
+<!--                 </action> -->
+<!--             </intent-filter> -->
+<!--         </service> -->
+        
+        <service android:name="com.baidu.navi.location.f" 
+             android:enabled="true"/>
+        <service
+            android:name="com.eastelsoft.lbs.service.ProcessService"
+            android:enabled="true"
+            android:persistent="true"
+            android:process=":remote" >
+        </service>
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CheckinActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CheckinOnMapActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CheckinOnBaiduMapActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CheckinHistoryActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CheckinStatisticsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eastelsoft.lbs.activity.PoiSearchDemo"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.baidu.mapapi.search.PlaceCaterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.eastelsoft.lbs.activity.RoutePlanDemo"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ItemizedOverlayBaiduActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AboutActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InfoActivity"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InfoAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InfoViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PlanActivity"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PlanViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GridMapActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ItemizedOverlayActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CustActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CustViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CustAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CustEditActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BaifangAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BaifangjiluActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BaifangViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BaifangEditActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PhotoViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HelpActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VideoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalesvMainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalestaskAllocationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalestaskAllocationAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalestaskAllocationDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalestaskAllocationUpActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalestaskQueryActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalesReportActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalesReportAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalesReportDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SalesReportUpActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetallActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserinfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MsgAmindActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SystemParaActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".photo.GalleryActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+        <!-- 事务提醒 -->
+        <activity
+            android:name="com.eastelsoft.lbs.clock.DeskClockMainActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <provider
+            android:name="com.eastelsoft.lbs.clock.AlarmProvider"
+            android:authorities="com.cn.daming.deskclock"
+            android:exported="false" />
+        <activity
+            android:name="com.eastelsoft.lbs.clock.SetAlarm"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:label="@string/set_alarm" />
+        <activity
+            android:name="com.eastelsoft.lbs.clock.DeSetAlarmActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:label="@string/set_alarm" />
+        <activity
+            android:name="com.eastelsoft.lbs.clock.SettingsActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/settings"
+            android:taskAffinity="" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.eastelsoft.lbs.clock.AlarmAlertFullScreen"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" />
+
+        <receiver android:name="com.eastelsoft.lbs.clock.AlarmReceiver" >
+            <intent-filter>
+                <action android:name="com.cn.daming.deskclock.ALARM_ALERT" />
+                <action android:name="alarm_killed" />
+                <action android:name="cancel_snooze" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".MyTimeReceiver" >
+            <intent-filter>
+                <action android:name="com.eastelsoft.lbs.MyTimeReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.eastelsoft.lbs.clock.AlarmAlert"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@style/alarm_alert" />
+        <activity
+            android:name="com.eastelsoft.lbs.clock.HandleSetAlarm"
+            android:excludeFromRecents="true"
+            android:permission="com.android.alarm.permission.SET_ALARM"
+            android:theme="@android:style/Theme.NoDisplay" >
+            <intent-filter>
+                <action android:name="android.intent.action.SET_ALARM" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.eastelsoft.lbs.clock.AlarmKlaxon"
+            android:description="@string/alarm_klaxon_service_desc" >
+            <intent-filter>
+                <action android:name="com.cn.daming.deskclock.ALARM_ALERT" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.eastelsoft.lbs.clock.AlarmInitReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <!-- 公告通知 -->
+        <activity
+            android:name=".BulletinListActivity"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BulletinviewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <!-- 知识库 -->
+        <activity
+            android:name=".KnowledgeBaseListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".KnowledgeViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".navi.BNavigatorActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"/>
+        <activity
+            android:name=".DailyActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ClearHistoryActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.reg.UnboundlingStep1Activity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.reg.UnboundlingStep2Activity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.dealer.DealerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.dealer.DealerDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

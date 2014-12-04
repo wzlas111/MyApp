@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/set_system_para"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/img_refresh"
+            style="@style/ButtonRefresh" />
+    </RelativeLayout>
+
+    <ScrollView style="@style/ScrollViewInput" >
+
+        <LinearLayout style="@style/LinearLayoutShape" >
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <TextView
+                    style="@style/TextViewItemLeft"
+                    android:text="@string/set_ip_" />
+
+                <TextView
+                    android:id="@+id/set_ip"
+                    style="@style/TextViewItemRight"
+                    android:text="@string/set_ip_value" />
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <TextView
+                    style="@style/TextViewItemLeft"
+                    android:text="@string/set_time_" />
+
+                <TextView
+                    android:id="@+id/timePeriod"
+                    style="@style/TextViewItemRight"
+                    android:text="08:00-10:00" />
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <TextView
+                    style="@style/TextViewItemLeft"
+                    android:text="@string/set_interval_" />
+
+                <TextView
+                    android:id="@+id/interval"
+                    style="@style/TextViewItemRight"
+                    android:text="300" />
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <TextView
+                    style="@style/TextViewItemLeft"
+                    android:text="@string/set_date_" />
+
+                <TextView
+                    android:id="@+id/week"
+                    style="@style/TextViewItemRight"
+                    android:text="周一 周二 周三 周四 周五" />
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <TextView
+                    style="@style/TextViewItemLeft"
+                    android:text="@string/set_n_date_" />
+
+                <TextView
+                    android:id="@+id/filterDate"
+                    style="@style/TextViewItemRight"
+                    android:text="2012-02-30" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

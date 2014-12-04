@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop"
+        android:layout_alignParentTop="true" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="@string/dealer_detail_title" />
+    </RelativeLayout>
+
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_top">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_fragment_bk_color"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/user_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/tt_page_item_bk"
+            android:padding="15dp" >
+
+            <ImageView
+                android:id="@+id/user_portrait"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/tt_default_user_portrait_corner"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/user_portrait"
+                android:gravity="center" >
+
+                <TextView
+                    android:id="@+id/dealer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dealer_name"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/default_light_grey_color"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/tt_page_item_bk"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:shrinkColumns="1" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+
+            <TableRow>
+
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="归属上级"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/parent_dealer_name"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+
+            <TableRow
+                android:id="@+id/phoneArea"
+                android:clickable="true" >
+
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="经销商编码 "
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/dealer_code"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+
+            <TableRow>
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="所属区域"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+
+            <TableRow>
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="经销商类型"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/typename"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+
+            <TableRow>
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="联系人"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/contact_person"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+
+            <TableRow>
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="电话"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/contact_phone"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+            
+            <TableRow>
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="传真"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/fax"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+            
+            <TableRow>
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="地址"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/default_line_color" />
+            
+            <TableRow>
+                <TextView
+                    android:layout_height="45dp"
+                    android:layout_column="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text="备注"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/remark"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:id="@+id/chat_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="53dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/tt_default_btn_bk"
+            android:text="电话联系"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/circle_progressbar"
+        android:indeterminateDuration="4000"
+        android:visibility="visible" />
+
+</RelativeLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/title_activity_reg" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            android:paddingBottom="10.0dip" >
+
+            <LinearLayout style="@style/LinearLayoutReg" >
+
+                <include layout="@layout/focus" />
+
+                <EditText
+                    android:id="@+id/editReg"
+                    style="@style/EditTextDefault"
+                    android:digits="1234567890"
+                    android:hint="@string/reg_edit_def"
+                    android:maxLength="13" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearLayoutReg"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btReg"
+                    android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:background="@drawable/selector_sign_true"
+                    android:text="@string/reg_text" />
+                
+                <Button
+                    android:id="@+id/btUnbundling"
+                    android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:background="@drawable/selector_sign_true"
+					android:layout_marginLeft="50.0dp"
+                    android:text="@string/reg_unbundling" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextViewIntroTitle"
+                android:paddingTop="20.0dip"
+                android:text="@string/checkin_tips" />
+
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_tips_1" />
+
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_tips_2" />
+
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_tips_3" />
+            
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_tips_4" />
+            
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_tips_5" />
+            
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_tips_6" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

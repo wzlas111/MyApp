@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/body_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/topbg" >
+
+        <Button
+            android:id="@+id/btBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/selector_go_back_true"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="新增"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btAddInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/selector_new_true"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:isScrollContainer="true"
+            android:paddingLeft="5.0dip"
+            android:paddingRight="5.0dip"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <requestFocus />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
+                android:paddingTop="10.0dip" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="1.0dip"
+                    android:singleLine="true"
+                    android:text="提醒内容："
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/info_title"
+                    style="@style/EditTextDefault"
+                    android:hint="@string/pls_input" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="1.0dip"
+                    android:singleLine="true"
+                    android:text="提醒时间："
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/info_time"
+                    style="@style/EditTextSel"
+                    android:hint="@string/pls_select" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="1.0dip"
+                    android:singleLine="true"
+                    android:text="提醒日期："
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/info_date"
+                    style="@style/EditTextSel"
+                    android:hint="@string/pls_select" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="1.0dip"
+                    android:singleLine="true"
+                    android:text="每周重复："
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <CheckBox
+                            android:id="@+id/week1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dip"
+                            android:button="@drawable/selector_checkbox_one"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:text="周一" />
+
+                        <CheckBox
+                            android:id="@+id/week2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dip"
+                            android:button="@drawable/selector_checkbox_one"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:text="周二" />
+
+                        <CheckBox
+                            android:id="@+id/week3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dip"
+                            android:button="@drawable/selector_checkbox_one"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:text="周三" />
+
+                        <CheckBox
+                            android:id="@+id/week4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dip"
+                            android:button="@drawable/selector_checkbox_one"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:text="周四" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <CheckBox
+                            android:id="@+id/week5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dip"
+                            android:button="@drawable/selector_checkbox_one"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:text="周五" />
+
+                        <CheckBox
+                            android:id="@+id/week6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dip"
+                            android:button="@drawable/selector_checkbox_one"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:text="周六" />
+
+                        <CheckBox
+                            android:id="@+id/week7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dip"
+                            android:button="@drawable/selector_checkbox_one"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:text="周日" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout  
+  xmlns:android="http://schemas.android.com/apk/res/android"  
+  android:orientation="vertical"  
+  android:layout_width="80dp"  
+  android:layout_height="80dp">  
+   <ImageView   
+     android:layout_width="70dp"  
+     android:layout_height="70dp"  
+     android:layout_gravity="center_horizontal"  
+     android:id="@+id/main_gv_iv"  
+   />  
+   <TextView   
+    android:layout_width="wrap_content"  
+     android:layout_height="wrap_content"  
+     android:layout_gravity="center_horizontal"  
+     android:textSize="14dp"  
+     android:textColor="@color/app_text_def"  
+     android:id="@+id/main_gv_tv"  
+   />  
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/body_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/topbg" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvCheckTitle"
+            style="@style/TextViewTopTitle"
+            android:text="@string/title_activity_checkinsta" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/yearmonthselect"
+        android:layout_height="45dip" >
+
+        <TextView
+            android:id="@+id/year_month_tv"
+            style="@style/TextViewTopTitle"
+            android:text=""
+            android:textColor="@color/app_text_def" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/te_c"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</LinearLayout>

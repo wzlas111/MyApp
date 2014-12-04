@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- 自定义数组，通过name调用该数组 -->
+    <string-array name="infoarrcontent">
+        <item>新增</item>
+        <item>查看</item>
+        <item>删除</item>
+    </string-array>
+    
+    <string-array name="planarrcontent">
+        <item>查看</item>
+        <item>删除</item>
+    </string-array>
+    
+    <string-array name="custarrcontent">
+        <item>删除</item>
+    </string-array>
+    
+    
+</resources>

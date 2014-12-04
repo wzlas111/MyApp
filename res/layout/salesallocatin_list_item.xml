@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 此布局文件用来定义listview 的显示方式 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="10dip"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip"
+    android:paddingTop="10dip" >
+
+    <ImageView
+        android:id="@+id/info_imgFile"
+        android:layout_width="5dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="left"
+         >
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+             
+            <TextView
+                android:id="@+id/info_cust"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:paddingRight="5dip"
+                android:singleLine="true"
+                android:textColor="@color/app_text_def"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/info_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dip"
+                android:singleLine="true"
+                android:textColor="@color/app_text_def"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/info_istijiao"
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+        android:layout_gravity="center_vertical"
+        android:gravity="left"
+        android:paddingRight="10dip" >
+    </ImageView>
+
+</LinearLayout>

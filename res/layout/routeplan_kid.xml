@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	 android:layout_width="fill_parent"
+	 android:layout_height="fill_parent"
+	 android:gravity="center_vertical"
+	 android:orientation="vertical">
+<LinearLayout
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginLeft="10dp"
+     android:layout_marginRight="10dp"
+     android:background="@drawable/linearlayout"
+     android:orientation="vertical">
+   	<RelativeLayout 
+         android:layout_width="match_parent"
+         android:layout_height="25dp"
+         android:layout_marginLeft="10dp">
+         <TextView 
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/taxi_time"
+             android:textSize="15dp"
+             android:text="正在计算路线中......">
+         </TextView> 
+    </RelativeLayout>
+     
+     <RelativeLayout 
+         android:layout_width="match_parent"
+         android:layout_height="25dp"
+         android:layout_marginLeft="10dp">
+         <TextView 
+            android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/taxi_cost"
+             android:textSize="15dp"> 
+         </TextView>
+     </RelativeLayout>
+     
+     <LinearLayout 
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:gravity="center_horizontal|center_vertical"
+         android:orientation="horizontal">
+         <Button
+            android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/disjunction_skim"
+             android:textSize="15dp"
+            android:layout_weight="1"
+             android:text="分断浏览">
+         </Button>
+        <Button
+            android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/navigation"
+             android:textSize="15dp"
+             android:layout_weight="1"
+             android:text="导航">
+         </Button>
+     </LinearLayout>
+     </LinearLayout>
+</LinearLayout>

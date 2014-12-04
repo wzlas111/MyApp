@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 此布局文件用来定义listview 的显示方式 -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:paddingBottom="1dip"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip"
+    android:paddingTop="1dip" >
+
+    <TextView
+        android:id="@+id/planId"
+        android:layout_width="1dp"
+        android:layout_height="50dp"
+        android:singleLine="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/planRemark"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical|left"
+        android:gravity="center_vertical|left"
+        android:singleLine="true"
+        android:textColor="@color/app_text_def"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/planDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="center_vertical|right"
+            android:paddingRight="15dip"
+            android:textColor="@color/app_text_def"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/plan_imgFile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="center_horizontal|right" >
+        </ImageView>
+    </LinearLayout>
+
+</RelativeLayout>

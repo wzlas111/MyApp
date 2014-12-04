@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/body_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/topbg" >
+
+        <Button
+            android:id="@+id/btBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/selector_go_back_true"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tvHeadTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/view"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btSavePlan"
+            style="@style/ButtonSave" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:isScrollContainer="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <requestFocus />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:paddingTop="5.0dip" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/plan_date"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/plan_date"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:singleLine="true"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/plan_releasedate"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/plan_releasedate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:singleLine="true"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/plan_title"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/plan_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:singleLine="true"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/plan_remark"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/plan_remark"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/plan_location_id"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:isScrollContainer="true"
+                        
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/plan_location_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="20.0dip"
+                            android:paddingTop="5.0dip"
+                            android:singleLine="true"
+                            android:text="@string/plan_location"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/plan_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:gravity="center_vertical|left"
+                            android:paddingBottom="5.0dip"
+                            android:paddingLeft="20.0dip"
+                            android:paddingRight="20.0dip"
+                            android:textColor="@color/app_text_1"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/plan_location_img"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:background="@drawable/selector_location_true"
+                         />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/plan_lon"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/plan_lon"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/plan_lat"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/plan_lat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@drawable/shape_line" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:singleLine="true"
+                    android:text="@string/plan_text"
+                    android:textColor="@color/app_text_def"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/plan_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:paddingBottom="5.0dip"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:textColor="@color/app_text_1"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <!--
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20.0dip" >
+
+                    <ImageView
+                        android:id="@+id/plan_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="40dip"
+                        android:maxWidth="50dip"
+                        android:paddingLeft="3.0dip"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/logo_red"/>
+                </LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip" >
+
+                    <EditText
+                        android:id="@+id/plan_text_input"
+                        style="@style/EditTextArea"
+                        android:hint="@string/pls_input"
+                        android:maxLength="200" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="true"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:paddingTop="5.0dip"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:id="@+id/infoLocationId"
+                        android:layout_width="0dip"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal" 
+                        android:isScrollContainer="true"
+                        android:visibility="gone" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:singleLine="true"
+                            android:text="@string/info_loc"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/infoLocationTip"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:paddingLeft="1.0dip"
+                            android:singleLine="true"
+                            android:text="@string/loaction_loading"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="13sp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/infoLocationDesc"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:paddingLeft="3.0dip"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/app_text_def"
+                            android:textSize="13sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                    <Button
+                        android:id="@+id/up_location_img"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center_vertical|right"
+                        android:background="@drawable/selector_location_true"
+                         />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip" >
+
+                    <ImageView
+                        android:id="@+id/planImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="40dip"
+                        android:maxWidth="50dip"
+                        android:paddingLeft="3.0dip"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/planUploadDate_ll"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_weight="1.0"
+                    android:gravity="center_vertical|left"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20.0dip"
+                    android:paddingRight="20.0dip"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingLeft="1.0dip"
+                        android:singleLine="true"
+                        android:text="完成时间："
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/planUploadDate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingLeft="1.0dip"
+                        android:singleLine="true"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10.0dip" >
+                    <Button
+                        android:id="@+id/btTakePhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="#00000000"
+                        android:drawableTop="@drawable/selector_info_photo_true"
+                        android:padding="5dp"
+                        android:text="@string/take_photo"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/btTakePhoto"
+                        android:layout_alignBottom="@+id/btTakePhoto"
+                        android:layout_toLeftOf="@+id/btTakePhoto"
+                        android:background="#00000000"
+                        android:drawableTop="@drawable/selector_info_location_true"
+                        android:padding="5dp"
+                        android:text="@string/add_location"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btShortCutreply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignTop="@+id/btTakePhoto"
+                        android:layout_marginLeft="30dp"
+                        android:text="@string/ShortCut_reply" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

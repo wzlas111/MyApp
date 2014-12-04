@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0" >
+        
+      <com.baidu.mapapi.map.MapView
+             android:id="@+id/bmapView"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:clickable="true" />
+<!--          <fragment -->
+<!--              android:id="@+id/bmapView" -->
+<!--              android:layout_width="fill_parent" -->
+<!--              android:layout_height="fill_parent" -->
+<!--              android:clickable="true" -->
+<!--              class="com.baidu.mapapi.map.SupportMapFragment"/> -->
+
+        <RelativeLayout
+            android:id="@+id/layout_top"
+            style="@style/RelativeLayoutTop" >
+
+            <Button
+                android:id="@+id/btBack"
+                style="@style/ButtonBack" />
+
+            <TextView
+                android:id="@+id/tvCheckTitle"
+                style="@style/TextViewTopTitle"
+                android:text="@string/title_activity_checkin" />
+
+            <Button
+                android:id="@+id/btOK"
+                style="@style/ButtonCheckin"
+                android:layout_marginRight="10dip" />
+
+            <Button
+                android:id="@+id/btOutOK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/selector_checkout_true"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/z_checkbottombg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/img_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_refresh_true" />
+
+        <View
+            android:layout_width="2dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/z_checkbottomline" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/bt_checkhistroy"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/selector_checkinbottom_true"
+                    android:padding="5dip"
+                    android:text="@string/title_activity_inhistroy"
+                    android:textColor="@color/app_text_def" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="wrap_content"
+                android:background="@drawable/z_checkbottomline" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/bt_lookaround"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/selector_checkinbottom_true"
+                    android:padding="5dip"
+                    android:text="@string/title_activity_lookaround"
+                    android:textColor="@color/app_text_def" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="wrap_content"
+                android:background="@drawable/z_checkbottomline" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/bt_pathplanning"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/selector_checkinbottom_true"
+                    android:padding="5dip"
+                    android:text="@string/title_activity_pathplanning"
+                    android:textColor="@color/app_text_def" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

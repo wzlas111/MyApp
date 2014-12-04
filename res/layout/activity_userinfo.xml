@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/set_userinfo" />
+    </RelativeLayout>
+
+    <ScrollView style="@style/ScrollViewInput" >
+
+        <LinearLayout style="@style/LinearLayoutShape" >
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <TextView
+                    style="@style/TextViewItemLeft"
+                    android:text="@string/set_mobile" />
+
+                <TextView
+                    android:id="@+id/set_mobile_value"
+                    style="@style/TextViewItemRight"
+                    android:text="@string/set_mobile_value" />
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout style="@style/LinearLayoutShapeItem" >
+
+                <TextView
+                   style="@style/TextViewItemLeft"
+                    android:text="@string/set_imsi"/>
+
+                <TextView
+                    android:id="@+id/set_imsi_value"
+                    style="@style/TextViewItemRight"
+                    android:text="@string/set_imsi_value" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

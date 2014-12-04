@@ -1,0 +1,15 @@
+<resources>
+
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    
+    <dimen name="size_small">12dp</dimen>
+    <dimen name="size_medium">8dp</dimen>
+    <dimen name="size_def">14dp</dimen>
+    <dimen name="size_large">16dp</dimen>
+    <dimen name="size_huge">20dp</dimen>
+    
+    <dimen name="dip_def">80dip</dimen>
+
+</resources>

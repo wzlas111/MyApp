@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <Button
+            android:id="@+id/btDel"
+            style="@style/ButtonDel" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:padding="1dip" >
+
+        <com.eastelsoft.lbs.photo.GalleryExt
+            android:id="@+id/ga"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:spacing="16dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+</LinearLayout>

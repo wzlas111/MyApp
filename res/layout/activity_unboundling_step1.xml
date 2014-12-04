@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearLayoutApp" >
+    
+	<RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+        
+	    <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/title_activity_unboundlind_step1" />
+    </RelativeLayout>
+    
+	<LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10.0dip" >
+
+            <LinearLayout style="@style/LinearLayoutReg" >
+
+                <include layout="@layout/focus" />
+
+                <EditText
+                    android:id="@+id/telephone"
+                    style="@style/EditTextDefault"
+                    android:digits="1234567890"
+                    android:hint="@string/reg_edit_def"
+                    android:maxLength="13" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearLayoutReg"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btNext"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:background="@drawable/selector_sign_true"
+                    android:text="@string/reg_unbundling_next" />
+                
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextViewIntroTitle"
+                android:paddingTop="20.0dip"
+                android:text="@string/checkin_tips" />
+
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_unbundling_tip1" />
+
+        </LinearLayout>
+</LinearLayout>

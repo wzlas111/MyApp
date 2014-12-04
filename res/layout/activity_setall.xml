@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/title_activity_set" />
+    </RelativeLayout>
+
+    <ScrollView style="@style/ScrollViewInput" >
+
+        <LinearLayout style="@style/LinearLayoutShape" >
+
+            <LinearLayout
+                android:id="@+id/set_userinfo"
+                style="@style/LinearLayoutShapeItemTop" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_userinfo" />
+
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout
+                android:id="@+id/set_msg_amind"
+                style="@style/LinearLayoutShapeItemMiddle" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_msg_amind" />
+
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout
+                android:id="@+id/set_system_para"
+                style="@style/LinearLayoutShapeItemMiddle" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_system_para" />
+
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                style="@style/ViewLine"/>
+
+            <LinearLayout
+                android:id="@+id/set_clear_history"
+                style="@style/LinearLayoutShapeItemMiddle">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_clear_history" />
+
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout
+                android:id="@+id/set_version"
+                style="@style/LinearLayoutShapeItemMiddle" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_version" />
+
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View style="@style/ViewLine" />
+
+            <LinearLayout
+                android:id="@+id/set_help"
+                style="@style/LinearLayoutShapeItemMiddle" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_help" />
+
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+            <View style="@style/ViewLine" />
+
+            <LinearLayout
+                android:id="@+id/set_daily "
+                style="@style/LinearLayoutShapeItemMiddle" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_daily" />
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+            <View style="@style/ViewLine" />
+
+            <LinearLayout
+                android:id="@+id/set_about"
+                style="@style/LinearLayoutShapeItemBottom" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/TextViewItem"
+                        android:text="@string/set_about" />
+                    <ImageView style="@style/ImageViewArrowRight" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

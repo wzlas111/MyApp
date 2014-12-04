@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    style="@style/LinearLayoutApp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/view" />
+
+        <Button
+            android:id="@+id/btupCust"
+            android:visibility="gone"
+            style="@style/ButtonUp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:isScrollContainer="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <requestFocus />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
+                android:paddingTop="10.0dip" >
+
+                <!-- android:layout_weight="1.0" -->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dip"
+                        android:layout_marginTop="2dp"
+                        android:singleLine="true"
+                        android:text="@string/sta_cust"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/info_cust"
+                        style="@style/EditTextDefault"
+                        android:textColor="@android:color/black"
+                        android:hint="@string/pls_input"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5.0dip"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dip"
+                        android:layout_marginTop="2dp"
+                        android:singleLine="true"
+                        android:text="@string/sta_month"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/info_date"
+                        style="@style/EditTextDefault"                       
+                        android:hint="@string/pls_input"
+                        android:textColor="@android:color/black"
+                        android:maxLength="20" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5.0dip"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/shapewhite_bg"
+                    android:isScrollContainer="true"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5.0dip"
+                        android:layout_marginLeft="5.0dip"
+                        android:layout_marginRight="5.0dip"
+                        android:layout_marginTop="10.0dip"
+                        android:singleLine="true"
+                        android:text="@string/salesreport_goodslist"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/goods_title_bg"
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dip"
+                        android:paddingTop="5dip" >
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:text="商品"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:text="数量"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:text="单位"
+                            android:textColor="@color/app_text_def"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:isScrollContainer="true"
+                        android:orientation="vertical" >
+
+                        <ListView
+                            android:id="@+id/goodslist"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:cacheColorHint="#00000000"
+                            android:listSelector="@android:color/transparent" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="5.0dip" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dip"
+                        android:layout_marginTop="2dp"
+                        android:singleLine="true"
+                        android:text="@string/salesreport_remark"
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/info_remark"
+                        style="@style/EditTextArea"
+                        android:hint="@string/pls_input"
+                        android:textColor="@android:color/black"
+                        android:maxLength="50" />
+                </LinearLayout>
+                
+                
+               <!--  android:visibility="gone" -->
+                
+               <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="5.0dip" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dip"
+                        android:layout_marginTop="2dp"
+                        android:singleLine="true"
+                        android:text="位置："
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/info_location"
+                        android:textColor="@android:color/black"
+                        style="@style/EditTextDefaultNosingle"
+                        />
+                </LinearLayout>
+                <!-- android:visibility="gone" -->
+
+                <LinearLayout
+                    android:id="@+id/ll_photo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:isScrollContainer="true"
+                    android:orientation="horizontal"
+                    android:paddingTop="5.0dip"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dip"
+                        android:layout_marginTop="2dp"
+                        android:singleLine="true"
+                        android:text="图片："
+                        android:textColor="@color/app_text_def"
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:id="@+id/info_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="80dip"
+                        android:maxWidth="100dip"
+                        android:paddingLeft="20.0dip"
+                        android:paddingRight="20.0dip"
+                         />
+                 </LinearLayout>
+                
+                
+                
+                
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

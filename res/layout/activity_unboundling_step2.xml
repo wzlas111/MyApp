@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearLayoutApp" >
+    
+	<RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+        
+	    <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            style="@style/TextViewTopTitle"
+            android:text="@string/title_activity_unboundlind_step2" />
+    </RelativeLayout>
+    
+	<LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10.0dip" >
+        
+	    	<TextView
+	    	    android:id="@+id/tv_tip"
+                style="@style/TextViewIntroTitle"
+                android:paddingTop="20.0dip"
+                android:text="@string/reg_unbundling_tip3" />
+
+            <TextView
+                style="@style/TextViewIntro"
+                android:layout_marginTop="3.0dp"
+                android:text="@string/reg_unbundling_tip2" />
+
+            <LinearLayout style="@style/LinearLayoutReg"
+                android:orientation="horizontal" >
+
+                <include layout="@layout/focus" />
+
+                <EditText
+                    android:id="@+id/valid_code"
+                    style="@style/EditTextDefault"
+                    android:digits="1234567890"
+                    android:hint="@string/reg_edit_def2"
+                    android:maxLength="6" />
+                
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearLayoutReg"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btConfirm"
+                    android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:background="@drawable/selector_sign_true"
+                    android:text="@string/reg_unbundling" />
+                
+                <Button
+                    android:id="@+id/btResend"
+                    android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:layout_marginLeft="50.0dp"
+					android:enabled="false"
+					android:background="@drawable/selector_sign_true"
+                    android:text="@string/reg_resend" />
+                
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextViewIntroTitle"
+                android:paddingTop="20.0dip"
+                android:text="@string/checkin_tips" />
+
+            <TextView
+                style="@style/TextViewIntro"
+                android:text="@string/reg_unbundling_tip4" />
+
+        </LinearLayout>
+</LinearLayout>
