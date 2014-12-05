@@ -46,7 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
             android:gravity="center_vertical" >
@@ -55,8 +55,19 @@
                 android:id="@+id/full_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="测试人员"
+                android:textSize="14.0sp"
                 android:textStyle="bold" />
+            
+            <TextView
+                android:id="@+id/is_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15.0dp"
+                android:layout_marginLeft="10.0dp"
+                android:text="未同步"
+                android:textColor="#f88b97" />
 
         </LinearLayout>
 

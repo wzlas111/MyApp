@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="is_upload_blue">#469cf1</color>
+	<color name="is_upload_red">#f88b97</color>
 	
+	<color name="frame_button_text_nor">#033a5c</color>
+    <color name="frame_button_text_select">#FFFFFF</color>
+    
     <color name="top_bg">#990000</color>
     <color name="top_bg_1">#f9560b</color>
     <color name="body_bg">#f1f1f1</color>

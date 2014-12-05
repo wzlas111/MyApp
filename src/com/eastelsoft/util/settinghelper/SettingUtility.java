@@ -7,6 +7,7 @@ import android.content.Context;
 public class SettingUtility {
 
     public static final String DEALER_UPDATECODE = "dealer_updatecode";
+    public static final String CLIENT_UPDATECODE = "client_updatecode";
 
     private SettingUtility() {}
 

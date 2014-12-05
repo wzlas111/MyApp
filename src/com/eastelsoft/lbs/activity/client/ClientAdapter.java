@@ -23,10 +23,15 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 	
 	private Context mContext;
 	private List<ClientBean> mList;
+	private int mBlueColor;
+	private int mRedClolor;
 	
 	public ClientAdapter(Context context, List<ClientBean> list) {
 		mContext = context;
 		mList = list;
+		
+		mBlueColor = context.getResources().getColor(R.color.is_upload_blue);
+		mRedClolor = context.getResources().getColor(R.color.is_upload_red);
 		
 		initPosition();
 	}
@@ -40,7 +45,7 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 			String py = bean.py;
 			String py_index = "#";
 			if (py != null && !"".equals(py)) {
-				py_index = py.substring(0, 1);
+				py_index = py.substring(0, 1).toUpperCase();
 			}
 			int sectionIndex = Arrays.binarySearch(mSections, py_index);
 			if (sectionIndex < 0 || sectionIndex > mSections.length) {
@@ -92,6 +97,7 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 			convertView = LayoutInflater.from(mContext).inflate(R.layout.client_listview_item, null);
 			viewHolder.sectionTv = (TextView)convertView.findViewById(R.id.sectionTextView);
 			viewHolder.fullNameTv = (TextView)convertView.findViewById(R.id.full_name);
+			viewHolder.isUploadTv = (TextView)convertView.findViewById(R.id.is_upload);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder)convertView.getTag();
@@ -105,12 +111,18 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 				py_index = py.substring(0, 1);
 			}
 			viewHolder.sectionTv.setText(py_index);
-			System.out.println("getView : "+position);
 		} else {
 			viewHolder.sectionTv.setVisibility(View.GONE);
 		}
 		
-		viewHolder.fullNameTv.setText(bean.client_name);
+		if ("0".equals(bean.is_upload)) {
+			viewHolder.isUploadTv.setText("未同步");
+			viewHolder.isUploadTv.setTextColor(mRedClolor);
+		} else {
+			viewHolder.isUploadTv.setText("已同步");
+			viewHolder.isUploadTv.setTextColor(mBlueColor);
+		}
+		viewHolder.fullNameTv.setText(bean.name);
 		return convertView;
 	}
 
@@ -133,6 +145,7 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 	public class ViewHolder {
 		public TextView sectionTv;
 		public TextView fullNameTv;
+		public TextView isUploadTv;
 	}
 
 }

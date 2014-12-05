@@ -67,10 +67,10 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (mHandleThread != null) {
+		if (mDataThread != null) {
 			System.out.println("dealer list interrupt");
-			mHandleThread.interrupt();
-			mHandleThread = null;
+			mDataThread.interrupt();
+			mDataThread = null;
 		}
 	}
 	
@@ -146,7 +146,7 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 	}
 	
 	private DealerDto dealerDto;
-	private HandleThread mHandleThread;
+	private DataThread mDataThread;
 	private void initDataTask() {
 		String url = "http://58.240.63.104/test/dealer_list.json";
 		HttpRestClient.get(url, null, new TextHttpResponseHandler() {
@@ -177,9 +177,9 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 		});
 	}
 	
-	private class HandleThread extends Thread {
+	private class DataThread extends Thread {
 		private String responseString;
-		public HandleThread(String param) {
+		public DataThread(String param) {
 			responseString = param;
 		}
 		@Override
@@ -206,10 +206,12 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0: //handle net data
-				mHandleThread = new HandleThread((String)msg.obj);
-				mHandleThread.start();
+				mDataThread = new DataThread((String)msg.obj);
+				mDataThread.start();
 				break;
 			case 1: //handle success,hide londing.
+				mAdapter = new DealerAdapter(DealerActivity.this, mList);
+				mListView.setAdapter(mAdapter);
 				mLoadingView.setVisibility(View.GONE);
 				break;
 			}

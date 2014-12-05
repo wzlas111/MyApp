@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop"
+        android:layout_alignParentTop="true" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="@string/dealer_detail_title" />
+    </RelativeLayout>
+    
+    <LinearLayout 
+        android:id="@+id/detail_tabs"
+		android:layout_width="fill_parent" 
+		android:layout_height="35.0dip"
+		android:orientation="horizontal" 
+		android:gravity="center_vertical"
+		android:layout_below="@id/layout_top">
+     	<Button 
+     		android:id="@+id/frame_btn_client"
+     		style="@style/frame_button"
+         	android:text="基本信息"/>
+     	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+     	<Button 
+     		android:id="@+id/frame_btn_contacts"
+     		style="@style/frame_button"
+         	android:text="联系人"/>
+     	<ImageView android:layout_width="wrap_content" android:layout_height="fill_parent" android:background="@drawable/frame_button_cutline"/>
+     	<Button 
+     		android:id="@+id/frame_btn_mechanics"
+     		style="@style/frame_button"
+         	android:text="机修人员"/>
+    </LinearLayout>
+
+    <FrameLayout 
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/detail_tabs" >
+        
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/circle_progressbar"
+        android:indeterminateDuration="4000"
+        android:visibility="gone" />
+
+</RelativeLayout>

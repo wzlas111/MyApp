@@ -4,6 +4,7 @@
  */
 package com.eastelsoft.lbs.db;
 
+import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.GlobalVar;
@@ -25,7 +26,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "location.db";
 	
-	static final String CREATE_DEALER_TABLE_SQL = "create table " + DealerTable.TABLE_NAME
+	static final String CREATE_DEALER_TABLE_SQL = "create table if not exists " + DealerTable.TABLE_NAME
             + "("
             + DealerTable.UID + " integer primary key autoincrement,"
             + DealerTable.ID + " text,"
@@ -37,11 +38,34 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + DealerTable.PY_NAME + " text,"
             + DealerTable.REMARK + " text"
             + ");";
+	
+	static final String CREATE_CLIENT_TABLE_SQL = "create table if not exists " + ClientTable.TABLE_NAME
+            + "("
+            + ClientTable.UID + " integer primary key autoincrement,"
+            + ClientTable.ID + " text,"
+            + ClientTable.CLIENT_NAME + " text,"
+            + ClientTable.CLIENT_CODE + " text,"
+            + ClientTable.PY + " text,"
+            + ClientTable.DEALER_ID + " text,"
+            + ClientTable.DEALER_NAME + " text,"
+            + ClientTable.TYPE + " text,"
+            + ClientTable.TYPE_ID + " text"
+            + ClientTable.TYPENAME + " text" 
+            + ClientTable.REGION_ID + " text" 
+            + ClientTable.REGION_NAME + " text" 
+            + ClientTable.CONTACT_PHONE + " text" 
+            + ClientTable.LON + " text" 
+            + ClientTable.LAT + " text" 
+            + ClientTable.EMAIL + " text" 
+            + ClientTable.ADDRESS + " text" 
+            + ClientTable.REMARK + " text" 
+            + ClientTable.IS_UPLOAD + " text" 
+            + ");";
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		// 2013-5-17,version 升为6
-		super(context, DATABASE_NAME, null, 16);
+		super(context, DATABASE_NAME, null, 18);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -174,7 +198,9 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 		
 		try {
 			db.execSQL(CREATE_DEALER_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_TABLE_SQL);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -275,6 +301,11 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 		} catch (SQLException e) {
 		}
 		// 2013/5/17结束
+		
+		try {
+			db.execSQL("ALTER TABLE client_table ADD COLUMN is_upload text");
+		} catch (SQLException e) {
+		}
 		onCreate(db);
 
 	}

@@ -40,12 +40,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
 //import com.baidu.mapapi.BMapManager;
 import com.eastelsoft.lbs.CheckinOnMapActivity.MyReceiver;
 import com.eastelsoft.lbs.CheckinOnMapActivity.OverItemT;
 import com.eastelsoft.lbs.CustActivity.DataThread;
 import com.eastelsoft.lbs.CustActivity.InitThread;
 import com.eastelsoft.lbs.activity.BaseActivity;
+import com.eastelsoft.lbs.activity.client.ClientActivity;
 import com.eastelsoft.lbs.activity.dealer.DealerActivity;
 import com.eastelsoft.lbs.adapter.MainGridViewAdapter;
 import com.eastelsoft.lbs.clock.DeskClockMainActivity;
@@ -287,6 +289,10 @@ public class MainActivity extends BaseActivity {
 			// intent = new Intent(MainActivity.this,
 			// DeskClockMainActivity.class);
 			// }
+			if (Contant.MENUS_MAP.get("24").equalsIgnoreCase(
+					tv.getText().toString())) {
+				intent = new Intent(MainActivity.this, ClientActivity.class);
+			}
 			if (Contant.MENUS_MAP.get("25").equalsIgnoreCase(
 					tv.getText().toString())) {
 				intent = new Intent(MainActivity.this, DealerActivity.class);
