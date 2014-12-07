@@ -244,9 +244,7 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 	 */
 	private void insertDB() {
 		DealerDBTask.deleteAll();
-		for (DealerBean bean : mList) {
-			DealerDBTask.addBean(bean);
-		}
+		DealerDBTask.addBeanList(mList);
 	}
 	
 	private class SearchTask extends AsyncTask<String, Integer, Boolean> {

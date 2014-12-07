@@ -23,18 +23,27 @@ public class DealerDBTask {
 		return LocationSQLiteHelper.getInstance().getReadableDatabase();
 	}
 	
-	public static DBResult addBean(DealerBean bean) {
-		ContentValues values = new ContentValues();
-		values.put(DealerTable.ID, bean.id);
-		values.put(DealerTable.NAME, bean.name);
-		values.put(DealerTable.TELEPHONE, bean.telephone);
-		values.put(DealerTable.GROUP_ID, bean.group_id);
-		values.put(DealerTable.GROUP_NAME, bean.group_name);
-		values.put(DealerTable.REMARK, bean.remark);
-		values.put(DealerTable.PY_INDEX, bean.py_index);
-		values.put(DealerTable.PY_NAME, bean.py_name);
-		
-		getWsd().insert(DealerTable.TABLE_NAME, DealerTable.ID, values);
+	public static DBResult addBeanList(List<DealerBean> pList) {
+		getWsd().beginTransaction();
+		try {
+			for (DealerBean bean : pList) {
+				ContentValues values = new ContentValues();
+				values.put(DealerTable.ID, bean.id);
+				values.put(DealerTable.NAME, bean.name);
+				values.put(DealerTable.TELEPHONE, bean.telephone);
+				values.put(DealerTable.GROUP_ID, bean.group_id);
+				values.put(DealerTable.GROUP_NAME, bean.group_name);
+				values.put(DealerTable.REMARK, bean.remark);
+				values.put(DealerTable.PY_INDEX, bean.py_index);
+				values.put(DealerTable.PY_NAME, bean.py_name);
+				
+				getWsd().insert(DealerTable.TABLE_NAME, DealerTable.ID, values);
+			}
+			getWsd().setTransactionSuccessful();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		getWsd().endTransaction();
 		return DBResult.add_successfully;
 	}
 	

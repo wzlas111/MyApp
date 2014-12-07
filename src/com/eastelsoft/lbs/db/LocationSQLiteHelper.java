@@ -4,6 +4,8 @@
  */
 package com.eastelsoft.lbs.db;
 
+import com.eastelsoft.lbs.db.table.ClientContactsTable;
+import com.eastelsoft.lbs.db.table.ClientMechanicsTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
 import com.eastelsoft.util.FileLog;
@@ -24,7 +26,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 	
 	private static LocationSQLiteHelper instance = null;
 
-	private static final String DATABASE_NAME = "location.db";
+	private static final String DATABASE_NAME = "exing.db";
 	
 	static final String CREATE_DEALER_TABLE_SQL = "create table if not exists " + DealerTable.TABLE_NAME
             + "("
@@ -49,23 +51,48 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + ClientTable.DEALER_ID + " text,"
             + ClientTable.DEALER_NAME + " text,"
             + ClientTable.TYPE + " text,"
-            + ClientTable.TYPE_ID + " text"
-            + ClientTable.TYPENAME + " text" 
-            + ClientTable.REGION_ID + " text" 
-            + ClientTable.REGION_NAME + " text" 
-            + ClientTable.CONTACT_PHONE + " text" 
-            + ClientTable.LON + " text" 
-            + ClientTable.LAT + " text" 
-            + ClientTable.EMAIL + " text" 
-            + ClientTable.ADDRESS + " text" 
-            + ClientTable.REMARK + " text" 
+            + ClientTable.TYPE_ID + " text,"
+            + ClientTable.TYPENAME + " text," 
+            + ClientTable.REGION_ID + " text," 
+            + ClientTable.REGION_NAME + " text," 
+            + ClientTable.CONTACT_PHONE + " text," 
+            + ClientTable.FAX + " text," 
+            + ClientTable.LON + " text," 
+            + ClientTable.LAT + " text," 
+            + ClientTable.EMAIL + " text," 
+            + ClientTable.ADDRESS + " text," 
+            + ClientTable.REMARK + " text," 
             + ClientTable.IS_UPLOAD + " text" 
+            + ");";
+	
+	static final String CREATE_CLIENT_CONATCTS_TABLE_SQL = "create table if not exists " + ClientContactsTable.TABLE_NAME
+            + "("
+            + ClientContactsTable.UID + " integer primary key autoincrement,"
+            + ClientContactsTable.ID + " text,"
+            + ClientContactsTable.CLIENT_ID + " text,"
+            + ClientContactsTable.NAME + " text,"
+            + ClientContactsTable.tel_1 + " text,"
+            + ClientContactsTable.tel_2 + " text,"
+            + ClientContactsTable.tel_3 + " text,"
+            + ClientContactsTable.POSITION + " text,"
+            + DealerTable.REMARK + " text"
+            + ");";
+	
+	static final String CREATE_CLIENT_MECHANICS_TABLE_SQL = "create table if not exists " + ClientMechanicsTable.TABLE_NAME
+            + "("
+            + ClientMechanicsTable.UID + " integer primary key autoincrement,"
+            + ClientMechanicsTable.ID + " text,"
+            + ClientMechanicsTable.CLIENT_ID + " text,"
+            + ClientMechanicsTable.NAME + " text,"
+            + ClientMechanicsTable.tel_1 + " text,"
+            + ClientMechanicsTable.tel_2 + " text,"
+            + ClientMechanicsTable.REMARK + " text"
             + ");";
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		// 2013-5-17,version 升为6
-		super(context, DATABASE_NAME, null, 18);
+		super(context, DATABASE_NAME, null, 23);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -199,6 +226,8 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 		try {
 			db.execSQL(CREATE_DEALER_TABLE_SQL);
 			db.execSQL(CREATE_CLIENT_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_CONATCTS_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_MECHANICS_TABLE_SQL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

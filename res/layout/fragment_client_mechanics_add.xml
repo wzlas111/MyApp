@@ -21,6 +21,16 @@
                 android:orientation="vertical" >
             </LinearLayout>
 
+            <Button
+                android:id="@+id/add_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="45.0dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/tt_default_btn_bk"
+                android:text="继续添加"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 
@@ -28,6 +38,7 @@
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:indeterminateDrawable="@drawable/circle_progressbar"
         android:indeterminateDuration="4000"
         android:visibility="gone" />
