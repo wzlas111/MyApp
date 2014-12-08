@@ -1,12 +1,14 @@
 package com.eastelsoft.lbs.activity.client;
 
 import com.eastelsoft.lbs.R;
+import com.eastelsoft.lbs.activity.select.ClientDealerActivity;
 import com.eastelsoft.lbs.activity.select.ClientRegionActivity;
 import com.eastelsoft.lbs.activity.select.ClientTypeActivity;
 import com.eastelsoft.lbs.activity.select.ClientTypenameActivity;
 import com.eastelsoft.lbs.bean.ClientDetailBean;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +31,7 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 	private String mChecked_typename;
 	private ClientDetailBean mBean;
 	
+	private View mRow_dealer;
 	private View mRow_type;
 	private View mRow_region;
 	private View mRow_typename;
@@ -71,12 +75,27 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 		address = (EditText)view.findViewById(R.id.address);
 		remark = (EditText)view.findViewById(R.id.remark);
 		
+		mRow_dealer = view.findViewById(R.id.row_dealer_name);
+		mRow_dealer.setOnClickListener(this);
 		mRow_type = view.findViewById(R.id.row_type);
 		mRow_type.setOnClickListener(this);
 		mRow_region = view.findViewById(R.id.row_region_name);
 		mRow_region.setOnClickListener(this);
 		mRow_typename = view.findViewById(R.id.row_typename);
 		mRow_typename.setOnClickListener(this);
+		
+		InputMethodManager input = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		boolean isActive = input.isActive();
+		System.out.println("input : "+isActive);
+		if (isActive) {
+			input.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		hideInput();
 	}
 	
 	@Override
@@ -84,12 +103,17 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 		super.onPause();
 	}
 	
+	private void hideInput() {
+	}
+	
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent();
 		switch (v.getId()) {
 		case R.id.row_dealer_name:
-			
+			intent.setClass(getActivity(), ClientDealerActivity.class);
+			intent.putExtra("id", mChecked_dealer);
+			startActivityForResult(intent, 1);
 			break;
 		case R.id.row_type:
 			intent.setClass(getActivity(), ClientTypeActivity.class);

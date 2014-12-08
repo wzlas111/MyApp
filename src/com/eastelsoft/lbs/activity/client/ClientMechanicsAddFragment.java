@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,12 +49,12 @@ public class ClientMechanicsAddFragment extends Fragment implements OnClickListe
 	
 	int i = 0;
 	private void addTableRow(int row) {
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.widget_mechanics_table, null);
-		((TextView)view.findViewById(R.id.name)).setText("姓名_"+row);
-		((TextView)view.findViewById(R.id.tel_1)).setText("电话_"+row);
-		((TextView)view.findViewById(R.id.tel_2)).setText("电话_"+row);
-		((TextView)view.findViewById(R.id.tel_3)).setText("电话_"+row);
-		((TextView)view.findViewById(R.id.remark)).setText("备注_"+row);
+		View view = LayoutInflater.from(getActivity()).inflate(R.layout.widget_mechanics_add_table, null);
+		((EditText)view.findViewById(R.id.name)).setText("");
+		((EditText)view.findViewById(R.id.tel_1)).setText("");
+		((EditText)view.findViewById(R.id.tel_2)).setText("");
+		((EditText)view.findViewById(R.id.tel_3)).setText("");
+		((EditText)view.findViewById(R.id.remark)).setText("");
 		
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
 		layoutParams.topMargin = 15;

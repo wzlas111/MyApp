@@ -814,21 +814,21 @@ public class LocationService extends Service {
 
 			while (!isstoptcp) {
 
-				FileLog.i(TAG, "循环等待接收数据");
+//				FileLog.i(TAG, "循环等待接收数据");
 
-				FileLog.i(TAG, "isNetworkAvailable==>" + isNetworkAvailable());
+//				FileLog.i(TAG, "isNetworkAvailable==>" + isNetworkAvailable());
 
 				if (isNetworkAvailable()) {
 					networkState = LocationService.this.getNetworkState();
 				}
 				if (socket != null && socket.isConnected()
 						&& !socket.isClosed()) {
-					FileLog.i(TAG, "huilocalport" + socket.getLocalPort());
-					FileLog.i(TAG, "huiport" + socket.getPort());
+//					FileLog.i(TAG, "huilocalport" + socket.getLocalPort());
+//					FileLog.i(TAG, "huiport" + socket.getPort());
 					try {
 						int length = 0;
 						byte[] buffer = new byte[1024];
-						FileLog.i(TAG, "in数据");
+//						FileLog.i(TAG, "in数据");
 						length = in.read(buffer);
 						FileLog.i(TAG, "length==>" + length);
 						if (length > 0) {

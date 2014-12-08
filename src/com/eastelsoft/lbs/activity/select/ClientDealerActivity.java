@@ -62,7 +62,7 @@ public class ClientDealerActivity extends BaseActivity implements TextWatcher {
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
 		
-		setContentView(R.layout.activity_dealer);
+		setContentView(R.layout.widget_select_client_dealer);
 		
 		initViews();
 		new InitDBDataTask().execute("");
@@ -100,15 +100,17 @@ public class ClientDealerActivity extends BaseActivity implements TextWatcher {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(ClientDealerActivity.this, DealerDetailActivity.class);
+				Intent intent = new Intent(ClientDealerActivity.this, ClientAddActivity.class);
 				DealerBean bean = null;
 				if (!isSearchMode) {
 					bean = mList.get(position);
 				} else {
 					bean = mFilterList.get(position);
 				}
-				intent.putExtra("id", bean.id);
-				startActivity(intent);
+				intent.putExtra("checked_id", bean.id);
+				intent.putExtra("checked_name", bean.name);
+				setResult(1, intent);
+				finish();
 			}
 		});
 	}

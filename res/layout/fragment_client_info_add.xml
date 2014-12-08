@@ -12,7 +12,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:focusable="true" >
 
             <TableLayout
                 android:layout_width="fill_parent"
@@ -28,15 +29,8 @@
                         android:text="客户名称" />
                     <EditText
                         android:id="@+id/client_name"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="left|center_vertical"
-                        android:padding="3dip"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:text=""
-                        android:textColor="@color/default_value_color"
-                        android:textSize="15sp" />
+                        style="@style/table_edit_style"
+                        android:imeOptions="actionNext" />
                 </TableRow>
  				<View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
                 <TableRow>
@@ -45,15 +39,8 @@
                         style="@style/table_text_style"/>
                     <EditText
                         android:id="@+id/client_code"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="left|center_vertical"
-                        android:padding="3dip"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:text=""
-                        android:textColor="@color/default_value_color"
-                        android:textSize="15sp" />
+                        style="@style/table_edit_style"
+                        android:imeOptions="actionNext" />
                 </TableRow>
  				<View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
                 <TableRow
@@ -154,15 +141,8 @@
                         android:text="电话"/>
                     <EditText
                         android:id="@+id/contact_phone"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="left|center_vertical"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:padding="3dip"
-                        android:text=""
-                        android:textColor="@color/default_value_color"
-                        android:textSize="15sp" />
+                        style="@style/table_edit_style"
+                        android:imeOptions="actionNext" />
                 </TableRow>
  				<View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
                 <TableRow>
@@ -171,15 +151,8 @@
                         android:text="传真" />
                     <EditText
                         android:id="@+id/fax"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="left|center_vertical"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:padding="3dip"
-                        android:text=""
-                        android:textColor="@color/default_value_color"
-                        android:textSize="15sp" />
+                        style="@style/table_edit_style"
+                        android:imeOptions="actionNext" />
                 </TableRow>
                 <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
                 <TableRow>
@@ -188,15 +161,8 @@
                         android:text="地址" />
                     <EditText
                         android:id="@+id/address"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="left|center_vertical"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:padding="3dip"
-                        android:text=""
-                        android:textColor="@color/default_value_color"
-                        android:textSize="15sp" />
+                        style="@style/table_edit_style"
+                        android:imeOptions="actionNext" />
                 </TableRow>
                 <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
                 <TableRow>
@@ -205,15 +171,8 @@
                         android:text="备注" />
                     <EditText
                         android:id="@+id/remark"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:gravity="left|center_vertical"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:padding="3dip"
-                        android:text=""
-                        android:textColor="@color/default_value_color"
-                        android:textSize="15sp" />
+                        style="@style/table_edit_style"
+                        android:imeOptions="actionNext" />
                 </TableRow>
             </TableLayout>
 
@@ -234,7 +193,6 @@
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:indeterminateDrawable="@drawable/circle_progressbar"
         android:indeterminateDuration="4000"
         android:visibility="gone" />
