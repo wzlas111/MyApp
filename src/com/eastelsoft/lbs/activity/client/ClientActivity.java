@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
-import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -44,6 +43,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 	private EditText mSearchEt;
 	private View mLoadingView;
 	private View mBackBtn;
+	private View mAddBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +59,20 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 		mSearchEt = (EditText)findViewById(R.id.search_text);
 		mLoadingView = findViewById(R.id.circle_progress_bar);
 		mBackBtn = findViewById(R.id.btBack);
+		mAddBtn = findViewById(R.id.btAdd);
 		
 		mBackBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				finish();
+			}
+		});
+		
+		mAddBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(ClientActivity.this, ClientAddActivity.class);
+				startActivity(intent);
 			}
 		});
 		

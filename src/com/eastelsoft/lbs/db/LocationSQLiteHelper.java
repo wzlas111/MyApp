@@ -6,7 +6,9 @@ package com.eastelsoft.lbs.db;
 
 import com.eastelsoft.lbs.db.table.ClientContactsTable;
 import com.eastelsoft.lbs.db.table.ClientMechanicsTable;
+import com.eastelsoft.lbs.db.table.ClientRegionTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
+import com.eastelsoft.lbs.db.table.ClientTypeTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.GlobalVar;
@@ -88,11 +90,27 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + ClientMechanicsTable.tel_2 + " text,"
             + ClientMechanicsTable.REMARK + " text"
             + ");";
+	
+	static final String CREATE_CLIENT_TYPE_TABLE_SQL = "create table if not exists " + ClientTypeTable.TABLE_NAME
+            + "("
+            + ClientTypeTable.UID + " integer primary key autoincrement,"
+            + ClientTypeTable.ID + " text,"
+            + ClientTypeTable.NAME + " text"
+            + ");";
+	
+	static final String CREATE_CLIENT_REGION_TABLE_SQL = "create table if not exists " + ClientRegionTable.TABLE_NAME
+            + "("
+            + ClientRegionTable.UID + " integer primary key autoincrement,"
+            + ClientRegionTable.ID + " text,"
+            + ClientRegionTable.PID + " text,"
+            + ClientRegionTable.LEVEL + " text,"
+            + ClientRegionTable.NAME + " text"
+            + ");";
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		// 2013-5-17,version 升为6
-		super(context, DATABASE_NAME, null, 23);
+		super(context, DATABASE_NAME, null, 25);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -228,6 +246,8 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_CLIENT_TABLE_SQL);
 			db.execSQL(CREATE_CLIENT_CONATCTS_TABLE_SQL);
 			db.execSQL(CREATE_CLIENT_MECHANICS_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_TYPE_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_REGION_TABLE_SQL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

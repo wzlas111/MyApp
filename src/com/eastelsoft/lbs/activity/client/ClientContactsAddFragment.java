@@ -33,7 +33,7 @@ public class ClientContactsAddFragment extends Fragment implements OnClickListen
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_client_contacts, null);
+		return inflater.inflate(R.layout.fragment_client_contacts_add, null);
 	}
 	
 	@Override

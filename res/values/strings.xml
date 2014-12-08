@@ -4,6 +4,7 @@
 	
     <string name="dealer_title">经销商</string>
     <string name="dealer_detail_title">详细资料</string>
+    <string name="client_add_title">客户新增</string>
     
     <string name="client_title">客户信息</string>
     

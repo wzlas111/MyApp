@@ -33,7 +33,7 @@ public class ClientMechanicsAddFragment extends Fragment implements OnClickListe
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_client_mechanics, null);
+		return inflater.inflate(R.layout.fragment_client_mechanics_add, null);
 	}
 	
 	@Override

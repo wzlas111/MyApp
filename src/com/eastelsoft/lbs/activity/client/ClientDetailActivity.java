@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.eastelsoft.lbs.R;
-import com.eastelsoft.lbs.activity.BaseActivity;
 
 public class ClientDetailActivity extends FragmentActivity implements OnClickListener{
 	

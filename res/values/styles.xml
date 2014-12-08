@@ -9,6 +9,15 @@
        	<item name="android:background">@drawable/frame_button_bg</item>
        	<item name="android:textColor">@color/frame_button_text_light</item>
     </style>
+    
+    <style name="table_text_style">
+        <item name="android:layout_width">100.0dp</item>
+   		<item name="android:layout_height">45.0dp</item>
+   		<item name="android:gravity">left|center_vertical</item>
+   		<item name="android:padding">3.0dp</item>
+   		<item name="android:textColor">@color/default_key_color</item>
+   		<item name="android:textSize">15sp</item>
+    </style>
 
     <style name="PhotoTheme" parent="android:Theme.Light">
         <item name="android:textSize">16.0dip</item>

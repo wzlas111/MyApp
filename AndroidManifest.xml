@@ -471,6 +471,26 @@
             android:name=".activity.client.ClientDetailActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.client.ClientAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.ClientTypeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.ClientTypenameActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.ClientRegionActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

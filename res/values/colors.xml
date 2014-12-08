@@ -2,6 +2,8 @@
 <resources>
 	<color name="is_upload_blue">#469cf1</color>
 	<color name="is_upload_red">#f88b97</color>
+	<color name="select_bg_pressed">#e1e1e0</color>
+	<color name="select_bg">#ffffff</color>
 	
 	<color name="frame_button_text_nor">#033a5c</color>
     <color name="frame_button_text_select">#FFFFFF</color>

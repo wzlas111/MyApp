@@ -16,22 +16,8 @@
         <TextView
             android:id="@+id/tvTitleCust"
             style="@style/TextViewTopTitle"
-            android:text="@string/client_title" />
+            android:text="选择经销商" />
         
-        <Button
-            android:id="@+id/btAdd"
-            style="@style/ButtonNew" />
-        
-        <ProgressBar
-	        android:id="@+id/circle_progress_bar"
-	        android:layout_width="20.0dp"
-	        android:layout_height="20.0dp"
-			android:layout_centerVertical="true"
-			android:layout_toLeftOf="@id/btAdd"
-			android:layout_marginRight="1.0dp"
-	        android:indeterminateDrawable="@drawable/circle_progressbar"
-	        android:indeterminateDuration="4000"
-	        android:visibility="visible" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -73,7 +59,7 @@
         android:layout_below="@+id/search_container"
         android:background="#ffffff" >
 
-        <com.eastelsoft.lbs.widget.ClientListView
+        <com.eastelsoft.lbs.widget.DealerListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

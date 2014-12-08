@@ -8,9 +8,16 @@ import com.eastelsoft.lbs.bean.ClientDetailBean;
 import com.eastelsoft.lbs.bean.ClientDto;
 import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
 import com.eastelsoft.lbs.bean.ClientMechanicsBean;
+import com.eastelsoft.lbs.bean.ClientRegionDto;
+import com.eastelsoft.lbs.bean.ClientRegionDto.RegionBean;
+import com.eastelsoft.lbs.bean.ClientTypeDto;
+import com.eastelsoft.lbs.bean.ClientTypeDto.TypeBean;
+import com.eastelsoft.lbs.bean.SelectBean;
 import com.eastelsoft.lbs.db.table.ClientContactsTable;
 import com.eastelsoft.lbs.db.table.ClientMechanicsTable;
+import com.eastelsoft.lbs.db.table.ClientRegionTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
+import com.eastelsoft.lbs.db.table.ClientTypeTable;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -124,6 +131,11 @@ public class ClientDBTask {
 		return null;
 	}
 	
+	/**
+	 * 客户联系人
+	 * @param client_id
+	 * @return
+	 */
 	public static DBResult deleteContactsAll(String client_id) {
 		String sql = "delete from "+ClientContactsTable.TABLE_NAME+" where client_id=?";
 		getWsd().execSQL(sql,new String[]{client_id});
@@ -173,6 +185,11 @@ public class ClientDBTask {
 		return DBResult.add_successfully;
 	}
 	
+	/**
+	 * 客户维修人员
+	 * @param client_id
+	 * @return
+	 */
 	public static DBResult deleteMechanicsAll(String client_id) {
 		String sql = "delete from "+ClientMechanicsTable.TABLE_NAME+" where client_id=?";
 		getWsd().execSQL(sql,new String[]{client_id});
@@ -216,6 +233,108 @@ public class ClientDBTask {
 		}
 		getWsd().endTransaction();
 		return DBResult.add_successfully;
+	}
+	
+	/**
+	 * 客户类型
+	 * @param pList
+	 * @return
+	 */
+	public static DBResult addType(List<TypeBean> pList) {
+		getWsd().beginTransaction();
+		try {
+			for (TypeBean bean : pList) {
+				ContentValues values = new ContentValues();
+				values.put(ClientTypeTable.ID, bean.id);
+				values.put(ClientTypeTable.NAME, bean.name);
+				
+				getWsd().insert(ClientTypeTable.TABLE_NAME, null, values);
+			}
+			getWsd().setTransactionSuccessful();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		getWsd().endTransaction();
+		return DBResult.add_successfully;
+	}
+	
+	public static DBResult deleteType() {
+		String sql = "delete from "+ClientTypeTable.TABLE_NAME;
+		getWsd().execSQL(sql);
+		
+		return DBResult.delete_successfully;
+	}
+	
+	public static List<SelectBean> getTypeList() {
+		List<SelectBean> plist = new ArrayList<SelectBean>();
+		String sql = "select * from " + ClientTypeTable.TABLE_NAME;
+		Cursor c = getRsd().rawQuery(sql, null);
+		while (c.moveToNext()) {
+			SelectBean bean = new SelectBean();
+			bean.id = c.getString(c.getColumnIndex(ClientTypeTable.ID));
+			bean.name = c.getString(c.getColumnIndex(ClientTypeTable.NAME));
+			plist.add(bean);
+		}
+		return plist;
+	}
+	
+	/**
+	 * 客户区域
+	 * @param pList
+	 * @return
+	 */
+	public static DBResult addRegion(List<RegionBean> pList) {
+		getWsd().beginTransaction();
+		try {
+			for (RegionBean bean : pList) {
+				ContentValues values = new ContentValues();
+				values.put(ClientRegionTable.ID, bean.id);
+				values.put(ClientRegionTable.NAME, bean.name);
+				values.put(ClientRegionTable.PID, bean.pid);
+				values.put(ClientRegionTable.LEVEL, bean.level);
+				
+				getWsd().insert(ClientRegionTable.TABLE_NAME, null, values);
+			}
+			getWsd().setTransactionSuccessful();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		getWsd().endTransaction();
+		return DBResult.add_successfully;
+	}
+	
+	public static DBResult deleteRegion() {
+		String sql = "delete from "+ClientRegionTable.TABLE_NAME;
+		getWsd().execSQL(sql);
+		
+		return DBResult.delete_successfully;
+	}
+	
+	public static List<SelectBean> getRegionList(String pid) {
+		List<SelectBean> plist = new ArrayList<SelectBean>();
+		String sql = "select * from " + ClientRegionTable.TABLE_NAME;
+		if ("1".equals(pid)) {
+			sql += " where level=?";
+		} else {
+			sql += " where pid=?";
+			SelectBean bean = new SelectBean();
+			bean.id = pid;
+			bean.name = "全部";
+			plist.add(bean);
+		}
+		Cursor c = getRsd().rawQuery(sql, new String[]{pid});
+		while (c.moveToNext()) {
+			SelectBean bean = new SelectBean();
+			bean.id = c.getString(c.getColumnIndex(ClientRegionTable.ID));
+			bean.name = c.getString(c.getColumnIndex(ClientRegionTable.NAME));
+			bean.pid = c.getString(c.getColumnIndex(ClientRegionTable.PID));
+			bean.level = c.getString(c.getColumnIndex(ClientRegionTable.LEVEL));
+			plist.add(bean);
+		}
+		if (plist.size() == 1) {
+			return new ArrayList<SelectBean>();
+		}
+		return plist;
 	}
 	
 }
