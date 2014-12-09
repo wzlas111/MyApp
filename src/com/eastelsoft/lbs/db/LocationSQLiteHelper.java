@@ -10,6 +10,7 @@ import com.eastelsoft.lbs.db.table.ClientRegionTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.ClientTypeTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
+import com.eastelsoft.lbs.db.table.VisitTable;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.GlobalVar;
 
@@ -105,6 +106,28 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + ClientRegionTable.PID + " text,"
             + ClientRegionTable.LEVEL + " text,"
             + ClientRegionTable.NAME + " text"
+            + ");";
+	
+	static final String CREATE_VISIT_TABLE_SQL = "create table if not exists " + VisitTable.TABLE_NAME
+            + "("
+            + VisitTable.UID + " integer primary key autoincrement,"
+            + VisitTable.ID + " text,"
+            + VisitTable.STATUS + " text,"
+            + VisitTable.DEALER_ID + " text,"
+            + VisitTable.DEALER_NAME + " text,"
+            + VisitTable.PLAN_ID + " text,"
+            + VisitTable.PLAN_NAME + " text,"
+            + VisitTable.START_TIME + " text,"
+            + VisitTable.START_LOCATION + " text,"
+            + VisitTable.START_LON + " text,"
+            + VisitTable.START_LAT + " text,"
+            + VisitTable.ARRIVE_TIME + " text,"
+            + VisitTable.ARRIVE_LOCATION + " text,"
+            + VisitTable.ARRIVE_LON + " text,"
+            + VisitTable.ARRIVE_LAT + " text,"
+            + VisitTable.SERVICE_BEGIN_TIME + " text,"
+            + VisitTable.SERVICE_END_TIME + " text,"
+            + VisitTable.VISIT_IMG + " text"
             + ");";
 
 	public LocationSQLiteHelper(Context context, String name,
@@ -248,6 +271,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_CLIENT_MECHANICS_TABLE_SQL);
 			db.execSQL(CREATE_CLIENT_TYPE_TABLE_SQL);
 			db.execSQL(CREATE_CLIENT_REGION_TABLE_SQL);
+			db.execSQL(CREATE_VISIT_TABLE_SQL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

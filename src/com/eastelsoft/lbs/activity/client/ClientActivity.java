@@ -51,7 +51,25 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 		setContentView(R.layout.activity_client);
 		
 		initViews();
-		new InitDBDataTask().execute("");
+		new InitDBDataTask(true).execute("");
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		System.out.println("ClientActivity -> onStart");
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case 0:
+			if (data != null) {
+				new InitDBDataTask(false).execute("");
+			}
+			break;
+		}
 	}
 	
 	private void initViews() {
@@ -72,7 +90,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 			public void onClick(View v) {
 				Intent intent = new Intent();
 				intent.setClass(ClientActivity.this, ClientAddActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 			}
 		});
 		
@@ -101,6 +119,10 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 	}
 	
 	private class InitDBDataTask extends AsyncTask<String, Integer, Boolean> { 
+		private boolean loadingNetData;
+		public InitDBDataTask(boolean fromNet) {
+			loadingNetData = fromNet;
+		}
 		
 		@Override
 		protected void onPreExecute() {
@@ -118,7 +140,6 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 				System.out.println("客户信息加载失败....");
 				mList = new ArrayList<ClientBean>();
 			}
-			
 			return true;
 		}
 		
@@ -126,12 +147,12 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			mLoadingView.setVisibility(View.GONE);
-			
 			isSearchMode = false;
 			mAdapter = new ClientAdapter(ClientActivity.this, mList);
 			mListView.setAdapter(mAdapter);
-			
-			initDataTask();
+			if (loadingNetData) {
+				initDataTask();
+			}
 		}
 	}
 	
@@ -181,6 +202,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 					System.out.println("load from net");
 					mList = clientDto.data;
 					insertDB();
+					mList = ClientDBTask.getBeanList();
 					SettingUtility.setValue(SettingUtility.DEALER_UPDATECODE, clientDto.updatecode);
 				} 
 			} catch (Exception e) {
@@ -202,6 +224,9 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 				mAdapter = new ClientAdapter(ClientActivity.this, mList);
 				mListView.setAdapter(mAdapter);
 				mLoadingView.setVisibility(View.GONE);
+				break;
+			case 2: //handle new add data
+				mAdapter.notifyDataSetChanged();
 				break;
 			}
 		};

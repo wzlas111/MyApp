@@ -6,6 +6,7 @@ import com.eastelsoft.lbs.activity.select.ClientRegionActivity;
 import com.eastelsoft.lbs.activity.select.ClientTypeActivity;
 import com.eastelsoft.lbs.activity.select.ClientTypenameActivity;
 import com.eastelsoft.lbs.bean.ClientDetailBean;
+import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class ClientInfoAddFragment extends Fragment implements OnClickListener{
@@ -29,7 +29,8 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 	private String mChecked_type;
 	private String mChecked_region;
 	private String mChecked_typename;
-	private ClientDetailBean mBean;
+	private String mLon = "";
+	private String mLat = "";
 	
 	private View mRow_dealer;
 	private View mRow_type;
@@ -95,15 +96,11 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 	@Override
 	public void onResume() {
 		super.onResume();
-		hideInput();
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-	}
-	
-	private void hideInput() {
 	}
 	
 	@Override
@@ -113,6 +110,7 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 		case R.id.row_dealer_name:
 			intent.setClass(getActivity(), ClientDealerActivity.class);
 			intent.putExtra("id", mChecked_dealer);
+			intent.putExtra("type", "1");
 			startActivityForResult(intent, 1);
 			break;
 		case R.id.row_type:
@@ -166,6 +164,28 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 			}
 			break;
 		}
+	}
+	
+	public String getJSON() {
+		ClientDetailBean mBean = new ClientDetailBean();
+		mBean.id = mId;
+		mBean.client_name = client_name.getText().toString();
+		mBean.client_code = client_code.getText().toString();
+		mBean.dealer_id = mChecked_dealer;
+		mBean.type = mChecked_type;
+		mBean.region_id = mChecked_region;
+		mBean.typename = mChecked_typename;
+		mBean.contact_phone = contact_phone.getText().toString();
+		mBean.fax = fax.getText().toString();
+		mBean.address = address.getText().toString();
+		mBean.remark = remark.getText().toString();
+		mBean.lon = mLon;
+		mBean.lat = mLat;
+		
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(mBean, ClientDetailBean.class);
+		
+		return jsonString;
 	}
 	
 }

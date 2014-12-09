@@ -3,6 +3,7 @@ package com.eastelsoft.lbs.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.eastelsoft.lbs.ClearHistoryActivity;
 import com.eastelsoft.lbs.bean.ClientContactsBean;
 import com.eastelsoft.lbs.bean.ClientDetailBean;
 import com.eastelsoft.lbs.bean.ClientDto;
@@ -37,7 +38,7 @@ public class ClientDBTask {
 	
 	public static List<ClientBean> getBeanList() {
 		List<ClientBean> plist = new ArrayList<ClientBean>();
-		String sql = "select * from " + ClientTable.TABLE_NAME;
+		String sql = "select * from " + ClientTable.TABLE_NAME + " order by py ";
 		Cursor c = getRsd().rawQuery(sql, null);
 		while (c.moveToNext()) {
 			ClientBean bean = new ClientDto().new ClientBean();
@@ -70,9 +71,13 @@ public class ClientDBTask {
 		return DBResult.add_successfully;
 	}
 	
+	/**
+	 * delete is_upload = 1
+	 * @return
+	 */
 	public static DBResult deleteAll() {
-		String sql = "delete from "+ClientTable.TABLE_NAME;
-		getWsd().execSQL(sql);
+		String sql = "delete from "+ClientTable.TABLE_NAME + " where is_upload=?";
+		getWsd().execSQL(sql,new String[]{"1"});
 		
 		return DBResult.delete_successfully;
 	}
@@ -82,6 +87,33 @@ public class ClientDBTask {
 		getWsd().execSQL(sql, new String[]{id});
 		
 		return DBResult.delete_successfully;
+	}
+	
+	public static DBResult addBean(ClientDetailBean bean) {
+		try {
+			ContentValues values = new ContentValues();
+			values.put(ClientTable.ID, bean.id);
+			values.put(ClientTable.CLIENT_NAME, bean.client_name);
+			values.put(ClientTable.PY, bean.py);
+			values.put(ClientTable.IS_UPLOAD, bean.is_upload);
+			values.put(ClientTable.CLIENT_NAME, bean.client_name);
+			values.put(ClientTable.CLIENT_CODE, bean.client_code);
+			values.put(ClientTable.DEALER_NAME, bean.dealer_name);
+			values.put(ClientTable.TYPE, bean.type);
+			values.put(ClientTable.REGION_NAME, bean.region_name);
+			values.put(ClientTable.TYPENAME, bean.typename);
+			values.put(ClientTable.CONTACT_PHONE, bean.contact_phone);
+			values.put(ClientTable.FAX, bean.fax);
+			values.put(ClientTable.ADDRESS, bean.address);
+			values.put(ClientTable.REMARK, bean.remark);
+			values.put(ClientTable.LON, bean.lon);
+			values.put(ClientTable.LAT, bean.lat);
+			
+			getWsd().insert(ClientTable.TABLE_NAME, null, values);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return DBResult.add_successfully;
 	}
 	
 	public static DBResult updateBean(ClientDetailBean bean) {

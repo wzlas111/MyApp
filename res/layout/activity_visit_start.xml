@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_fragment_bk_color"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="新增拜访记录" />
+        
+        <Button
+            android:id="@+id/btSave"
+            style="@style/ButtonSave" />
+        
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:layout_marginTop="10.0dp"
+        android:background="@drawable/tt_page_item_bk"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="任务名称" />
+
+        <EditText
+            android:id="@+id/plan_name"
+            style="@style/table_edit_style"
+            android:imeOptions="actionNext" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/row_dealer"
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:layout_marginTop="10.0dp"
+        android:background="@drawable/tt_page_item_bk"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="经销商名称" />
+
+        <TextView
+            android:id="@+id/dealer_name"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginRight="25.0dp"
+            android:src="@drawable/tt_default_arrow" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:layout_marginTop="10.0dp"
+        android:background="@drawable/tt_page_item_bk"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="出发时间" />
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:background="@drawable/tt_page_item_bk"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="出发位置" />
+
+        <TextView
+            android:id="@+id/start_location"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="40.0dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/tt_default_btn_bk"
+        android:drawableRight="@drawable/icon_st"
+        android:paddingRight="30.0dp"
+        android:text="拜访出发时间(签到)"
+        android:textColor="@android:color/white"
+        android:textSize="17.0sp"
+        android:textStyle="bold" />
+
+    <TextView
+        style="@style/TextViewIntroTitle"
+        android:paddingTop="20.0dip"
+        android:text="@string/checkin_tips" />
+
+    <TextView
+        style="@style/TextViewIntro"
+        android:text="@string/visit_start_tips" />
+
+</LinearLayout>

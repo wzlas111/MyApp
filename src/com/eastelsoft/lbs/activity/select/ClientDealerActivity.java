@@ -1,50 +1,32 @@
 package com.eastelsoft.lbs.activity.select;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import org.apache.http.Header;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.client.ClientAddActivity;
-import com.eastelsoft.lbs.activity.dealer.DealerActivity;
 import com.eastelsoft.lbs.activity.dealer.DealerAdapter;
-import com.eastelsoft.lbs.activity.dealer.DealerDetailActivity;
-import com.eastelsoft.lbs.bean.DealerDto;
-import com.eastelsoft.lbs.bean.SelectBean;
+import com.eastelsoft.lbs.activity.visit.VisitStartActivity;
 import com.eastelsoft.lbs.bean.DealerDto.DealerBean;
-import com.eastelsoft.lbs.db.ClientDBTask;
 import com.eastelsoft.lbs.db.DealerDBTask;
 import com.eastelsoft.lbs.widget.DealerListView;
-import com.eastelsoft.util.http.HttpRestClient;
-import com.eastelsoft.util.pinyin.PinYinComparator;
-import com.eastelsoft.util.pinyin.PinyinUtil;
-import com.eastelsoft.util.settinghelper.SettingUtility;
-import com.google.gson.Gson;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 public class ClientDealerActivity extends BaseActivity implements TextWatcher {
 	
 	private String mId;
+	private String mType;
 	private List<DealerBean> mList;
 	private List<DealerBean> mFilterList;
 	private DealerListView mListView;
@@ -61,6 +43,7 @@ public class ClientDealerActivity extends BaseActivity implements TextWatcher {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
+		mType = intent.getStringExtra("type");
 		
 		setContentView(R.layout.widget_select_client_dealer);
 		
@@ -100,7 +83,13 @@ public class ClientDealerActivity extends BaseActivity implements TextWatcher {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(ClientDealerActivity.this, ClientAddActivity.class);
+				Intent intent;
+				if ("1".equals(mType)) {
+					intent = new Intent(ClientDealerActivity.this, ClientAddActivity.class);
+				} else {
+					intent = new Intent(ClientDealerActivity.this, VisitStartActivity.class);
+				}
+				
 				DealerBean bean = null;
 				if (!isSearchMode) {
 					bean = mList.get(position);

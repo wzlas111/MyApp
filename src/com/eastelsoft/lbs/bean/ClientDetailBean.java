@@ -20,4 +20,5 @@ public class ClientDetailBean {
 	public String email;
 	public String address;
 	public String remark;
+	public String is_upload;
 }

@@ -14,6 +14,8 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             android:focusable="true" >
+            
+            <include layout="@layout/focus" />
 
             <TableLayout
                 android:layout_width="fill_parent"
@@ -142,6 +144,7 @@
                     <EditText
                         android:id="@+id/contact_phone"
                         style="@style/table_edit_style"
+                        android:inputType="phone"
                         android:imeOptions="actionNext" />
                 </TableRow>
  				<View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />

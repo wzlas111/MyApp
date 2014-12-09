@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10.0dp"
+        android:paddingBottom="10.0dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/selector_listview_item_bg" >
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp" >
+
+            <ImageView
+                android:id="@+id/visit_img"
+                android:layout_width="30.0dp"
+                android:layout_height="30.0dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/tt_album_img_selected" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:gravity="center_vertical" >
+            
+            <LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                
+                <TextView
+	                android:id="@+id/visit_title"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="测试人员"
+	                android:textSize="14.0sp"
+	                android:textStyle="bold" />
+            
+            	<TextView
+	                android:id="@+id/start_time"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginTop="3.0dp"
+	                android:textColor="#7d7f82"
+	                android:text="2014-12-09 15:00:00"
+	                android:textSize="12.0sp" />
+                
+            </LinearLayout>
+            
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15.0dp"
+                android:layout_marginLeft="10.0dp"
+                android:text="进行中"
+                android:textColor="#f88b97" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    <View
+	    android:layout_width="fill_parent"
+	    android:layout_height="0.5dp"
+	    android:layout_marginLeft="10.0dp"
+	    android:background="#cccccc" />
+
+</LinearLayout>

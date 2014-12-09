@@ -37,17 +37,6 @@
             style="@style/table_edit_style"
             android:imeOptions="actionNext" />
     </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-    <TableRow>
-        <TextView
-            style="@style/table_text_style"
-            android:text="电话" />
-        <EditText
-            android:id="@+id/tel_3"
-            style="@style/table_edit_style"
-            android:imeOptions="actionNext" />
-    </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
     
     <TableRow>
         <TextView

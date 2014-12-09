@@ -1,32 +1,50 @@
 package com.eastelsoft.lbs.activity.client;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.http.Header;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
+import com.eastelsoft.lbs.bean.ClientContactsBean;
+import com.eastelsoft.lbs.bean.ClientDetailBean;
+import com.eastelsoft.lbs.bean.ClientMechanicsBean;
 import com.eastelsoft.lbs.bean.ClientRegionDto;
 import com.eastelsoft.lbs.bean.ClientTypeDto;
 import com.eastelsoft.lbs.bean.ClientRegionDto.RegionBean;
 import com.eastelsoft.lbs.bean.ClientTypeDto.TypeBean;
 import com.eastelsoft.lbs.db.ClientDBTask;
+import com.eastelsoft.lbs.db.DBUtil;
 import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.pinyin.PinyinUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 public class ClientAddActivity extends FragmentActivity implements OnClickListener{
 	
 	private String mId;
+	private String info_data = "";
+	private String contacts_data = "";
+	private String mechanics_data = "";
 	private FragmentManager mFragmentManager;
 	private ClientInfoAddFragment mInfoFragment;
 	private ClientContactsAddFragment mContactsFragment;
@@ -36,13 +54,19 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 	private Button mContactsBtn;
 	private Button mMechanicsBtn;
 	private Button mBackBtn;
+	private Button mSaveBtn;
+	
+	private PopupWindow popupWindow;
+	private Button mPopClose;
+	private Button mPopYes;
+	private Button mPopNo;
+	private TextView mPopTitle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Intent intent = getIntent();
-		mId = intent.getStringExtra("id");
+		mId = UUID.randomUUID().toString();
 		
 		setContentView(R.layout.activity_client_add);
 		initViews();
@@ -58,9 +82,13 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 		mBackBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(ClientAddActivity.this, ClientActivity.class);
+				setResult(0, intent);
 				finish();
 			}
 		});
+		mSaveBtn = (Button)findViewById(R.id.btSave);
+		mSaveBtn.setOnClickListener(this);
 		
 		mClientBtn.setOnClickListener(this);
 		mContactsBtn.setOnClickListener(this);
@@ -71,6 +99,9 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 		InitDataTask();
 	}
 	
+	/**
+	 * update type and region from net
+	 */
 	private void InitDataTask() {
 		String type_url = "http://58.240.63.104/mobile.do?reqCode=ClientTypeUpdateAction&gpsid=8610818980382688&pin=1&actiontype=2";
 		String region_url = "http://58.240.63.104/mobile.do?reqCode=ClientRegionUpdateAction&gpsid=8610818980382688&pin=1&actiontype=2";
@@ -105,7 +136,7 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 	}
 	
 	/**
-	 * 类型数据处理
+	 * handler type data
 	 * @author wangzl
 	 *
 	 */
@@ -132,7 +163,7 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 	}
 	
 	/**
-	 * 类型数据处理
+	 * handler region data
 	 * @author wangzl
 	 *
 	 */
@@ -202,6 +233,31 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 		}
 	}
 	
+	protected void openPopConfirm(String msg) {
+		try {
+			LayoutInflater mLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+			ViewGroup menuView = (ViewGroup) mLayoutInflater.inflate(
+					R.layout.pop_commax, null, true);
+			mPopClose = (Button) menuView.findViewById(R.id.btClose);
+			mPopClose.setOnClickListener(this);
+			mPopYes = (Button) menuView.findViewById(R.id.btClose1);
+			mPopYes.setOnClickListener(this);
+			mPopNo = (Button) menuView.findViewById(R.id.btClose2);
+			mPopNo.setOnClickListener(this);
+			mPopTitle = (TextView) menuView.findViewById(R.id.btPopText);
+			mPopTitle.setText(msg);
+			popupWindow = new PopupWindow(menuView, LayoutParams.FILL_PARENT,
+					LayoutParams.FILL_PARENT, true); // 背景
+			popupWindow.setBackgroundDrawable(new BitmapDrawable());
+			popupWindow.setAnimationStyle(R.style.PopupAnimation);
+			popupWindow.showAtLocation(findViewById(R.id.parent),
+					Gravity.CENTER | Gravity.CENTER, 0, 0);
+			popupWindow.update();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -222,6 +278,58 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			mContactsBtn.setEnabled(true);
 			mMechanicsBtn.setEnabled(false);
 			setTabSection(2);
+			break;
+		case R.id.btSave:
+			openPopConfirm("是否同步客户信息到平台");
+			if (mInfoFragment != null) {
+				info_data = mInfoFragment.getJSON();
+			} 
+			if (mContactsFragment != null) {
+				contacts_data = mContactsFragment.getJSON();
+			} 
+			if (mMechanicsFragment != null) {
+				mechanics_data = mMechanicsFragment.getJSON();
+			} 
+			System.out.println("info_data : "+info_data);
+			System.out.println("contacts_data : "+contacts_data);
+			System.out.println("mechanics_data : "+mechanics_data);
+			break;
+		case R.id.btClose: //pop close
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+			}
+			break;
+		case R.id.btClose1: //pop yes,upload data
+			
+			break;
+		case R.id.btClose2: //pop no,insert to DB
+			Gson gson = new Gson();
+			if (!TextUtils.isEmpty(info_data)) { //insert info
+				ClientDetailBean bean = gson.fromJson(info_data, ClientDetailBean.class);
+				bean.is_upload = "0";
+				String name = bean.client_name;
+				String py = PinyinUtil.getPinYin(name);
+				bean.py = py;
+				ClientDBTask.addBean(bean);
+			}
+			if (!TextUtils.isEmpty(contacts_data)) {
+				List<ClientContactsBean> list = gson.fromJson(contacts_data, new TypeToken<List<ClientContactsBean>>(){}.getType());
+				ClientDBTask.addContacts(list);
+			}
+			if (!TextUtils.isEmpty(mechanics_data)) {
+				List<ClientMechanicsBean> list = gson.fromJson(contacts_data, new TypeToken<List<ClientMechanicsBean>>(){}.getType());
+				ClientDBTask.addMechanics(list);
+			}
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+			}
+			
+			Intent intent = new Intent(ClientAddActivity.this, ClientActivity.class);
+			intent.putExtra("id", mId);
+			setResult(0, intent);
+			finish();
 			break;
 		}
 	}
