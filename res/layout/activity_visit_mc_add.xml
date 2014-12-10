@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_fragment_bk_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="添加机修记录" />
+
+        <TextView
+            android:id="@+id/save_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10.0dp"
+            android:gravity="center_vertical"
+            android:text="提交"
+            android:textColor="#f6f7f8"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/row_client_name"
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/table_text_style"
+                    android:text="客户名称" />
+
+                <TextView
+                    android:id="@+id/client_name"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginRight="25.0dp"
+                    android:src="@drawable/tt_default_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/table_text_style"
+                    android:text="在途开始时间" />
+
+                <TextView
+                    android:id="@+id/start_time"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/table_text_style"
+                    android:text="在途结束时间" />
+
+                <TextView
+                    android:id="@+id/start_location"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/table_text_style"
+                    android:text="维修开始时间" />
+
+                <TextView
+                    android:id="@+id/arrive_time"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/table_text_style"
+                    android:text="维修结束时间" />
+
+                <TextView
+                    android:id="@+id/arrive_location"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:padding="3dip"
+                    android:text=""
+                    android:textColor="@color/default_value_color"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/row_mc_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_select_bg"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/table_text_style"
+                        android:layout_width="wrap_content"
+                        android:text="机修记录登记" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="25.0dp"
+                        android:src="@drawable/tt_default_arrow" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/row_mc_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_select_bg"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/table_text_style"
+                        android:layout_width="wrap_content"
+                        android:text="客户性质、产品及订单类型" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="25.0dp"
+                        android:src="@drawable/tt_default_arrow" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/row_mc_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_select_bg"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/table_text_style"
+                        android:layout_width="wrap_content"
+                        android:text="客户机修人员情况" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="25.0dp"
+                        android:src="@drawable/tt_default_arrow" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45.0dp"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/row_mc_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_select_bg"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/table_text_style"
+                        android:layout_width="wrap_content"
+                        android:text="客户机器情况" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="25.0dp"
+                        android:src="@drawable/tt_default_arrow" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="100.0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dp"
+                    android:gravity="center_vertical"
+                    android:padding="3.0dp"
+                    android:text="客户签字:"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15.0sp" />
+
+                <ImageView
+                    android:layout_width="50.0dp"
+                    android:layout_height="50.0dp"
+                    android:src="@drawable/addphoto_button_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dp"
+                    android:gravity="center_vertical"
+                    android:padding="3.0dp"
+                    android:text="图片上传:"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15.0sp" />
+
+                <com.eastelsoft.lbs.MyGridView
+                    android:id="@+id/gridPhoto"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center"
+                    android:gravity="center_vertical|center"
+                    android:numColumns="3"
+                    android:paddingTop="5dp"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

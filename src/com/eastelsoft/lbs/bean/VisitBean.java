@@ -20,4 +20,8 @@ public class VisitBean {
 	public String service_end_time;
 	public String visit_img;
 	
+	public String is_upload;
+	public String mechanic_count;
+	public String is_evaluate;
+	
 }

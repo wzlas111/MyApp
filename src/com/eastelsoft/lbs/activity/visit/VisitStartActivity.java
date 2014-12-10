@@ -1,5 +1,7 @@
 package com.eastelsoft.lbs.activity.visit;
 
+import java.util.UUID;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,9 +12,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.select.ClientDealerActivity;
+import com.eastelsoft.lbs.bean.VisitBean;
+import com.eastelsoft.lbs.db.VisitDBTask;
 import com.eastelsoft.lbs.location.BaiduMapAction;
 import com.eastelsoft.util.CallBack;
 import com.eastelsoft.util.Util;
@@ -20,6 +25,7 @@ import com.eastelsoft.util.Util;
 public class VisitStartActivity extends BaseActivity implements OnClickListener{
 	
 	private String mDealer_id;
+	private String mPlan_id = "";
 	private String mlon;
 	private String mlat;
 	
@@ -104,6 +110,27 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 			}
 		}
 	};
+	
+	/**
+	 * upload to server,now just save to DB.
+	 */
+	private void save() {
+		VisitBean bean = new VisitBean();
+		bean.id = UUID.randomUUID().toString();
+		bean.plan_id = mPlan_id;
+		bean.plan_name = plan_name.getText().toString();
+		bean.dealer_id = mDealer_id;
+		bean.dealer_name = dealer_name.getText().toString();
+		bean.start_time = start_time.getText().toString();
+		bean.start_location = start_location.getText().toString();
+		bean.start_lon = mlon;
+		bean.start_lat = mlat;
+		bean.status = "0";
+		
+		VisitDBTask.addStartBean(bean);
+		
+		finish();
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -113,10 +140,10 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 			finish();
 			break;
 		case R.id.btSave:
-			
+			save();
 			break;
 		case R.id.start_btn:
-			String now = Util.getLocaleTime();
+			String now = Util.getLocaleTime("yyyy-MM-dd hh:mm:ss");
 			start_time.setText(now);
 			start_location.setText("正在获取中...");
 			new BaiduMapAction(this, mapCallback, "2").startListener();

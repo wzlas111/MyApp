@@ -6,11 +6,16 @@ package com.eastelsoft.util;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+
 import com.baidu.mapapi.SDKInitializer;
+
+import android.app.Activity;
 import android.app.Application;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 
 /**
  * 全局变量
@@ -76,8 +81,6 @@ public class GlobalVar extends Application {
 				+ imgFileName3 + ", imgs=" + Arrays.toString(imgs) + ", idle="
 				+ idle + ", video1=" + video1 +", reSoundName"+reSoundName+"]";
 	}
-
-	
 
 	public long getLocationtime() {
 		return locationtime;
@@ -235,7 +238,7 @@ public class GlobalVar extends Application {
 			Log.i(TAG," onTrimMemory ... level:" + level);
 		System.gc();
 		}
-		super.onTrimMemory(level);
+//		super.onTrimMemory(level);
 	}
 	public static GlobalVar getInstance() {
 		return mInstance;

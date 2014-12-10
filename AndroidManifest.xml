@@ -506,6 +506,26 @@
             android:name=".activity.visit.VisitStartActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitArriveActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitFinishActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcRegisterAddActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

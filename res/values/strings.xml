@@ -8,6 +8,7 @@
     <string name="client_title">客户信息</string>
     
     <string name="visit_start_tips">说明：点击“出发签到”自动获取当前位置和时间，提交成功后执行下一步操作流程。</string>
+    <string name="visit_arrvie_tips">说明：点击“抵达签到”自动获取当前位置和时间，提交成功后执行下一步操作流程。</string>
     
     <string name="app_name">杰克</string>
     <string name="menu_settings">退出</string>

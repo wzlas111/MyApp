@@ -133,7 +133,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		// 2013-5-17,version 升为6
-		super(context, DATABASE_NAME, null, 25);
+		super(context, DATABASE_NAME, null, 26);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
