@@ -39,5 +39,12 @@ public class VisitTable {
     public static final String SERVICE_END_TIME = "service_end_time";
     
     public static final String VISIT_IMG = "visit_img";
+    
+
+    public static final String IS_UPLOAD = "is_upload";
+    
+    public static final String MECHANIC_COUNT = "mechanic_count";
+    
+    public static final String IS_EVALUATE = "is_evaluate";
 	
 }

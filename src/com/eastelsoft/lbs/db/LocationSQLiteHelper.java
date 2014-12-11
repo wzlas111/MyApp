@@ -10,6 +10,7 @@ import com.eastelsoft.lbs.db.table.ClientRegionTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.ClientTypeTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
+import com.eastelsoft.lbs.db.table.VisitMcTable;
 import com.eastelsoft.lbs.db.table.VisitTable;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.GlobalVar;
@@ -127,13 +128,36 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + VisitTable.ARRIVE_LAT + " text,"
             + VisitTable.SERVICE_BEGIN_TIME + " text,"
             + VisitTable.SERVICE_END_TIME + " text,"
-            + VisitTable.VISIT_IMG + " text"
+            + VisitTable.VISIT_IMG + " text,"
+            + VisitTable.IS_UPLOAD + " text,"
+            + VisitTable.MECHANIC_COUNT + " text,"
+            + VisitTable.IS_EVALUATE + " text"
+            + ");";
+	
+	static final String CREATE_VISIT_MC_TABLE_SQL = "create table if not exists " + VisitMcTable.TABLE_NAME
+            + "("
+            + VisitMcTable.UID + " integer primary key autoincrement,"
+            + VisitMcTable.ID + " text,"
+            + VisitMcTable.VISIT_ID + " text,"
+            + VisitMcTable.CLIENT_ID + " text,"
+            + VisitMcTable.CLIENT_NAME + " text,"
+            + VisitMcTable.START_TIME + " text,"
+            + VisitMcTable.END_TIME + " text,"
+            + VisitMcTable.SERVICE_START_TIME + " text,"
+            + VisitMcTable.SERVICE_END_TIME + " text,"
+            + VisitMcTable.MC_REGISTER_JSON + " text,"
+            + VisitMcTable.MC_TYPE_JSON + " text,"
+            + VisitMcTable.MC_PERSON_JSON + " text,"
+            + VisitMcTable.MC_INFO_JSON + " text,"
+            + VisitMcTable.CLIENT_SIGN + " text,"
+            + VisitMcTable.UPLOAD_IMG + " text,"
+            + VisitMcTable.IS_UPLOAD + " text"
             + ");";
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		// 2013-5-17,version 升为6
-		super(context, DATABASE_NAME, null, 26);
+		super(context, DATABASE_NAME, null, 30);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -272,6 +296,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_CLIENT_TYPE_TABLE_SQL);
 			db.execSQL(CREATE_CLIENT_REGION_TABLE_SQL);
 			db.execSQL(CREATE_VISIT_TABLE_SQL);
+			db.execSQL(CREATE_VISIT_MC_TABLE_SQL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

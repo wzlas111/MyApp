@@ -169,50 +169,78 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/row_service_start_time"
                 android:layout_width="match_parent"
                 android:layout_height="45.0dp"
                 android:layout_marginTop="10.0dp"
-                android:background="@drawable/tt_page_item_bk"
+                android:background="@drawable/selector_select_bg"
                 android:orientation="horizontal" >
 
-                <TextView
-                    style="@style/table_text_style"
-                    android:text="服务开始时间" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:background="@drawable/tt_page_item_bk" >
 
-                <TextView
-                    android:id="@+id/service_start_time"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:gravity="left|center_vertical"
-                    android:padding="3dip"
-                    android:text=""
-                    android:textColor="@color/default_value_color"
-                    android:textSize="15sp" />
+                    <TextView
+                        style="@style/table_text_style"
+                        android:text="服务开始时间" />
+
+                    <TextView
+                        android:id="@+id/service_start_time"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="25.0dp"
+                        android:src="@drawable/tt_default_arrow" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/row_service_end_time"
                 android:layout_width="match_parent"
                 android:layout_height="45.0dp"
-                android:background="@drawable/tt_page_item_bk"
+                android:background="@drawable/selector_select_bg"
                 android:orientation="horizontal" >
 
-                <TextView
-                    style="@style/table_text_style"
-                    android:text="服务结束时间" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:background="@drawable/tt_page_item_bk" >
 
-                <TextView
-                    android:id="@+id/service_end_time"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:gravity="left|center_vertical"
-                    android:padding="3dip"
-                    android:text=""
-                    android:textColor="@color/default_value_color"
-                    android:textSize="15sp" />
+                    <TextView
+                        style="@style/table_text_style"
+                        android:text="服务结束时间" />
+
+                    <TextView
+                        android:id="@+id/service_end_time"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="25.0dp"
+                        android:src="@drawable/tt_default_arrow" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -286,23 +314,23 @@
                     android:id="@+id/mechanic_btn"
                     android:layout_width="0dp"
                     android:layout_height="40.0dp"
-                    android:layout_weight="1"
                     android:layout_margin="20dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:background="@drawable/tt_default_btn_bk"
+                    android:gravity="center"
                     android:text="添加机修记录"
                     android:textColor="@android:color/white"
                     android:textSize="17.0sp"
                     android:textStyle="bold" />
-                
+
                 <Button
                     android:id="@+id/evaluate_btn"
                     android:layout_width="0dp"
                     android:layout_height="40.0dp"
-                    android:layout_weight="1"
                     android:layout_margin="20dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:background="@drawable/tt_default_btn_bk"
+                    android:gravity="center"
                     android:text="服务评价"
                     android:textColor="@android:color/white"
                     android:textSize="17.0sp"

@@ -106,5 +106,18 @@ public class VisitDBTask {
 		
 		return DBResult.update_successfully;
 	}
+	
+	public static DBResult updateFinishBean(VisitBean bean) {
+		ContentValues values = new ContentValues();
+		values.put(VisitTable.SERVICE_BEGIN_TIME, bean.service_begin_time);
+		values.put(VisitTable.SERVICE_END_TIME, bean.service_end_time);
+		values.put(VisitTable.VISIT_IMG, bean.visit_img);
+		values.put(VisitTable.IS_UPLOAD, bean.is_upload);
+		values.put(VisitTable.STATUS, bean.status);
+		
+		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
+		
+		return DBResult.update_successfully;
+	}
 
 }

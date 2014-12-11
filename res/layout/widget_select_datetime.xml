@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent" 
+    android:orientation="vertical" 
+    android:padding="10dip"
+    android:gravity="center"> 
+    
+    <include layout="@layout/focus" />
+   
+    <TextView 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:singleLine="true" 
+        android:text="请选择 年-月-日: " 
+        android:textColor="#ffffff" 
+        android:textSize="16sp" /> 
+   
+    <DatePicker 
+        android:id="@+id/date_picker" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false" /> 
+   
+    <TextView 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="10dip" 
+        android:singleLine="true" 
+        android:text="请选择 时-分: " 
+        android:textColor="#ffffff" 
+        android:textSize="16sp" /> 
+   
+    <TimePicker 
+        android:id="@+id/time_picker" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5dip"
+        android:focusable="false"
+        android:focusableInTouchMode="false" /> 
+   
+</LinearLayout>

@@ -8,12 +8,20 @@
     android:paddingLeft="20dp"
     android:shrinkColumns="1" >
 
-    <TableRow>
+    <TableRow
+        android:layout_marginTop="1.0dp"
+        android:id="@+id/row_model"
+        android:background="@drawable/selector_select_bg">
 
         <TextView
             style="@style/table_text_style"
             android:text="机器型号" />
 
+        <TextView
+            android:id="@+id/mc_model_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+        
         <TextView
             android:id="@+id/mc_model"
             style="@style/table_edit_style" />
