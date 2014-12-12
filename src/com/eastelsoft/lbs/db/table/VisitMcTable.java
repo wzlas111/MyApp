@@ -22,6 +22,8 @@ public class VisitMcTable {
     
     public static final String SERVICE_END_TIME = "service_end_time";
     
+    public static final String IS_REPAIR = "is_repair";
+    
     public static final String MC_REGISTER_JSON = "mc_register_json";
     
     public static final String MC_TYPE_JSON = "mc_type_json";

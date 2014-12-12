@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10.0dp"
+    android:background="@drawable/tt_page_item_bk"
+    android:gravity="center_vertical"
+    android:paddingLeft="20dp"
+    android:shrinkColumns="1" >
+
+    <TableRow
+        android:layout_marginTop="1.0dp"
+        android:background="@drawable/selector_select_bg" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="姓名" />
+
+        <EditText
+            android:id="@+id/mc_person_name"
+            style="@style/table_edit_style"
+            android:imeOptions="actionNext"
+            android:hint="手动输入" />
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <TableRow
+        android:layout_marginTop="1.0dp"
+        android:background="@drawable/selector_select_bg" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="电话" />
+
+        <EditText
+            android:id="@+id/mc_person_tel"
+            style="@style/table_edit_style"
+            android:imeOptions="actionNext"
+            android:hint="手动输入" />
+    </TableRow>
+
+</TableLayout>

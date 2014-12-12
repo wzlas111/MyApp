@@ -145,6 +145,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + VisitMcTable.END_TIME + " text,"
             + VisitMcTable.SERVICE_START_TIME + " text,"
             + VisitMcTable.SERVICE_END_TIME + " text,"
+            + VisitMcTable.IS_REPAIR + " text,"
             + VisitMcTable.MC_REGISTER_JSON + " text,"
             + VisitMcTable.MC_TYPE_JSON + " text,"
             + VisitMcTable.MC_PERSON_JSON + " text,"

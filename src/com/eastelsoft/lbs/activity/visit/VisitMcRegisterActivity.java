@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
+import com.eastelsoft.lbs.activity.select.McModelActivity;
+import com.eastelsoft.lbs.activity.select.McReasonActivity;
+import com.eastelsoft.lbs.activity.select.McSolverActivity;
 import com.eastelsoft.lbs.bean.VisitMcRegisterBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,6 +30,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 	private String mJson;
 	private List<VisitMcRegisterBean> mList;
 	private String mBrand_id = "";
+	private List<ViewHolder> mViewList;
 	
 	private LinearLayout mFrameTable;
 	private Button mBackBtn;
@@ -58,6 +62,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 		mAddBtn.setOnClickListener(this);
 		mSaveBtn.setOnClickListener(this);
 		
+		mViewList = new ArrayList<ViewHolder>();
 		if (TextUtils.isEmpty(mJson)) {//add new row
 			addTableRow();
 		} else {//fill data
@@ -72,19 +77,29 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 			for (int i = 0; i < mList.size(); i++) {
 				VisitMcRegisterBean bean = mList.get(i);
 				View view = LayoutInflater.from(this).inflate(R.layout.widget_mc_register_add_table, null);
-				((TextView)view.findViewById(R.id.mc_model_id)).setText(bean.model_id);
-				((TextView)view.findViewById(R.id.mc_model)).setText(bean.model_name);
-				((EditText)view.findViewById(R.id.mc_code)).setText(bean.code);
-				((EditText)view.findViewById(R.id.mc_reason)).setText(bean.reason);
-				((EditText)view.findViewById(R.id.mc_solver)).setText(bean.solver);
 				
-				//选择机型
-				view.findViewById(R.id.row_model).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						
-					}
-				});
+				TextView mc_model_id = ((TextView)view.findViewById(R.id.mc_model_id));
+				mc_model_id.setText(bean.model_id);
+				TextView mc_model = ((TextView)view.findViewById(R.id.mc_model));
+				mc_model.setText(bean.model_name);
+				EditText mc_code = ((EditText)view.findViewById(R.id.mc_code));
+				mc_code.setText(bean.code);
+				EditText mc_reason = ((EditText)view.findViewById(R.id.mc_reason));
+				mc_reason.setText(bean.reason);
+				EditText mc_solver = ((EditText)view.findViewById(R.id.mc_solver));
+				mc_solver.setText(bean.solver);
+				
+				ViewHolder holder = new ViewHolder();
+				holder.mc_model_id = mc_model_id;
+				holder.mc_model = mc_model;
+				holder.mc_code = mc_code;
+				holder.mc_reason = mc_reason;
+				holder.mc_solver = mc_solver;
+				mViewList.add(holder);
+				
+				view.findViewById(R.id.row_model).setOnClickListener(new McModelOnClickListener(i));
+				view.findViewById(R.id.row_reason).setOnClickListener(new McReasonOnClickListener(i));
+				view.findViewById(R.id.row_solver).setOnClickListener(new McSolverOnClickListener(i));
 				
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
 				layoutParams.topMargin = 15;
@@ -95,18 +110,83 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 		}
 	}
 
+	private int i = 0;
 	private void addTableRow() {
 		View view = LayoutInflater.from(this).inflate(R.layout.widget_mc_register_add_table, null);
-		((TextView)view.findViewById(R.id.mc_model_id)).setText("");
-		((TextView)view.findViewById(R.id.mc_model)).setText("");
-		((EditText)view.findViewById(R.id.mc_code)).setText("");
-		((EditText)view.findViewById(R.id.mc_reason)).setText("");
-		((EditText)view.findViewById(R.id.mc_solver)).setText("");
+		
+		TextView mc_model_id = ((TextView)view.findViewById(R.id.mc_model_id));
+		mc_model_id.setText("");
+		TextView mc_model = ((TextView)view.findViewById(R.id.mc_model));
+		mc_model.setText("");
+		EditText mc_code = ((EditText)view.findViewById(R.id.mc_code));
+		mc_code.setText("");
+		EditText mc_reason = ((EditText)view.findViewById(R.id.mc_reason));
+		mc_reason.setText("");
+		EditText mc_solver = ((EditText)view.findViewById(R.id.mc_solver));
+		mc_solver.setText("");
+		
+		ViewHolder holder = new ViewHolder();
+		holder.mc_model_id = mc_model_id;
+		holder.mc_model = mc_model;
+		holder.mc_code = mc_code;
+		holder.mc_reason = mc_reason;
+		holder.mc_solver = mc_solver;
+		mViewList.add(holder);
+		
+		//选择机型
+		view.findViewById(R.id.row_model).setOnClickListener(new McModelOnClickListener(i));
+		view.findViewById(R.id.row_reason).setOnClickListener(new McReasonOnClickListener(i));
+		view.findViewById(R.id.row_solver).setOnClickListener(new McSolverOnClickListener(i));
 		
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
 		layoutParams.topMargin = 15;
 		mFrameTable.addView(view, layoutParams);
-		
+		i++;
+	}
+	
+	private class McModelOnClickListener implements OnClickListener {
+		private int mIndex;
+		public McModelOnClickListener(int index){
+			mIndex = index;
+		}
+		@Override
+		public void onClick(View v) {
+			ViewHolder holder = mViewList.get(mIndex);
+			Intent intent = new Intent(VisitMcRegisterActivity.this, McModelActivity.class);
+			intent.putExtra("id", holder.mc_model_id.getText().toString());
+			intent.putExtra("index", mIndex);
+			startActivityForResult(intent, 1);
+		}
+	}
+	
+	private class McReasonOnClickListener implements OnClickListener {
+		private int mIndex;
+		public McReasonOnClickListener(int index){
+			mIndex = index;
+		}
+		@Override
+		public void onClick(View v) {
+			ViewHolder holder = mViewList.get(mIndex);
+			Intent intent = new Intent(VisitMcRegisterActivity.this, McReasonActivity.class);
+			intent.putExtra("id", holder.mc_reason.getText().toString());
+			intent.putExtra("index", mIndex);
+			startActivityForResult(intent, 3);
+		}
+	}
+	
+	private class McSolverOnClickListener implements OnClickListener {
+		private int mIndex;
+		public McSolverOnClickListener(int index){
+			mIndex = index;
+		}
+		@Override
+		public void onClick(View v) {
+			ViewHolder holder = mViewList.get(mIndex);
+			Intent intent = new Intent(VisitMcRegisterActivity.this, McSolverActivity.class);
+			intent.putExtra("id", holder.mc_solver.getText().toString());
+			intent.putExtra("index", mIndex);
+			startActivityForResult(intent, 4);
+		}
 	}
 	
 	private void save() {
@@ -116,7 +196,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 			View view = mFrameTable.getChildAt(i);
 			VisitMcRegisterBean bean = new VisitMcRegisterBean();
 			bean.id = UUID.randomUUID().toString();
-			bean.model_id = mBrand_id;
+			bean.model_id = ((TextView)view.findViewById(R.id.mc_model_id)).getText().toString();
 			bean.model_name = ((TextView)view.findViewById(R.id.mc_model)).getText().toString();
 			bean.code = ((EditText)view.findViewById(R.id.mc_code)).getText().toString();
 			bean.reason = ((EditText)view.findViewById(R.id.mc_reason)).getText().toString();
@@ -135,6 +215,41 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 		
 		finish();
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case 1: //mc model
+			if (data != null) {
+				int index = data.getIntExtra("index", 0);
+				String id = data.getStringExtra("checked_id");
+				String name = data.getStringExtra("checked_name");
+				ViewHolder holder = mViewList.get(index);
+				holder.mc_model_id.setText(id);
+				holder.mc_model.setText(name);
+			}
+			break;
+		case 3: //mc reason
+			if (data != null) {
+				int index = data.getIntExtra("index", 0);
+				String id = data.getStringExtra("checked_id");
+				String name = data.getStringExtra("checked_name");
+				ViewHolder holder = mViewList.get(index);
+				holder.mc_reason.setText(name);
+			}
+			break;
+		case 4: //mc solver
+			if (data != null) {
+				int index = data.getIntExtra("index", 0);
+				String id = data.getStringExtra("checked_id");
+				String name = data.getStringExtra("checked_name");
+				ViewHolder holder = mViewList.get(index);
+				holder.mc_solver.setText(name);
+			}
+			break;
+		}
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -150,5 +265,13 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 			save();
 			break;
 		}
+	}
+	
+	class ViewHolder {
+		TextView mc_model_id;
+		TextView mc_model;
+		EditText mc_code;
+		EditText mc_reason;
+		EditText mc_solver;
 	}
 }

@@ -10,6 +10,7 @@ public class VisitMcBean {
 	public String end_time;
 	public String service_start_time;
 	public String service_end_time;
+	public String is_repair;
 	public String client_sign;
 	public String upload_img;
 	public String is_upload;

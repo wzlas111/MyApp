@@ -119,13 +119,20 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 			startActivityForResult(intent, 1);
 			break;
 		case R.id.row_mc_type:
-
+			
 			break;
 		case R.id.row_mc_person:
-
+			intent = new Intent(this, VisitMcPersonActivity.class);
+			intent.putExtra("id", mBean.id);
+			intent.putExtra("json", mBean.mc_person_json);
+			intent.putExtra("is_repair", mBean.is_repair);
+			startActivityForResult(intent, 3);
 			break;
 		case R.id.row_mc_info:
-
+			intent = new Intent(this, VisitMcInfoActivity.class);
+			intent.putExtra("id", mBean.id);
+			intent.putExtra("json", mBean.mc_info_json);
+			startActivityForResult(intent, 4);
 			break;
 		}
 	}
@@ -139,7 +146,25 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 				mc_register_write.setText("已填");
 				String jsonString = data.getStringExtra("json");
 				mBean.mc_register_json = jsonString;
-				System.out.println("mc_register_json"+jsonString);
+				System.out.println("mc_register_json: "+jsonString);
+			}
+			break;
+		case 3: // handler VisitMcPersonAddActivity
+			if (data != null) {
+				mc_person_write.setText("已填");
+				String jsonString = data.getStringExtra("json");
+				String is_repair = data.getStringExtra("is_repair");
+				mBean.mc_person_json = jsonString;
+				System.out.println("is_repair : "+is_repair);
+				System.out.println("mc_person_json: "+jsonString);
+			}
+			break;
+		case 4: // handler VisitMcInfoAddActivity
+			if (data != null) {
+				mc_person_write.setText("已填");
+				String jsonString = data.getStringExtra("json");
+				mBean.mc_info_json = jsonString;
+				System.out.println("mc_info_json: "+jsonString);
 			}
 			break;
 		default:
