@@ -16,7 +16,7 @@ public class GridPhotoAdapter extends BaseAdapter {
 	private Bitmap[] mBitmaps;
 	private int mWidth;
 	private int mHeight;
-	String img_num;
+	private String img_num = "5";
 
 	public GridPhotoAdapter(Context context, Bitmap[] bitmaps, int width, int height) {
 		mContext = context;

@@ -43,7 +43,7 @@ public class VisitMcInfoActivity extends BaseActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		parseIntent();
 		
-		setContentView(R.layout.visit_mc_register_add);
+		setContentView(R.layout.visit_mc_info_add);
 		initView();
 	}
 	

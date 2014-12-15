@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_fragment_bk_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="客户签名" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10.0dp"
+            android:gravity="center_vertical"
+            android:text="保存"
+            android:textColor="#f6f7f8"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/resign"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10.0dp"
+			android:layout_toLeftOf="@id/save"
+            android:gravity="center_vertical"
+            android:text="重签"
+            android:textColor="#f6f7f8"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/tablet_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white" >
+        
+        <com.eastelsoft.lbs.widget.PaintView
+            android:id="@+id/paint_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        
+    </FrameLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80.0dp"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/TextViewIntroTitle"
+            android:paddingTop="20.0dip"
+            android:text="@string/checkin_tips" />
+
+        <TextView
+            style="@style/TextViewIntro"
+            android:text="@string/visit_sign_tips" />
+    </LinearLayout>
+
+</LinearLayout>
