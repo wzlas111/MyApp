@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.eastelsoft.lbs.R;
+import com.eastelsoft.lbs.activity.visit.VisitEvaluateActivity;
+import com.eastelsoft.lbs.activity.visit.VisitFinishActivity;
 import com.eastelsoft.lbs.activity.visit.VisitMcAddActivity;
 import com.eastelsoft.lbs.widget.PaintView;
 
@@ -17,7 +19,6 @@ import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class SignImgActivity extends Activity implements OnClickListener {
 			+ File.separator + "DCIM" + File.separator + "eastelsoft" + File.separator + "sign" ;
 	private Bitmap mSignBitmap;
 	private String mSignName;
+	private String mType;
 	
 	private Button mBackBtn;
 	private TextView mSaveBtn;
@@ -37,6 +39,9 @@ public class SignImgActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Intent intent = getIntent();
+		mType = intent.getStringExtra("type");
+		
 		setContentView(R.layout.activity_visit_mc_sign);
 		
 		System.out.println("onCreate");
@@ -84,7 +89,15 @@ public class SignImgActivity extends Activity implements OnClickListener {
 			options.inSampleSize = 15;
 			options.inTempStorage = new byte[5 * 1024];
 			Bitmap zoombm = BitmapFactory.decodeFile(signPath, options);*/	
-			Intent intent = new Intent(this, VisitMcAddActivity.class);
+			Intent intent;
+			if ("1".equals(mType)) {
+				intent = new Intent(this, VisitMcAddActivity.class);
+			} else if("2".equals(mType)) {
+				intent = new Intent(this, VisitEvaluateActivity.class);
+			} else {
+				intent = new Intent();
+			}
+			
 			intent.putExtra("sign_path", mBasePath + File.separator + mSignName);
 			intent.putExtra("sign_name", mSignName);
 			setResult(1, intent);

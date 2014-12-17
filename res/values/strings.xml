@@ -6,6 +6,10 @@
     <string name="dealer_detail_title">详细资料</string>
     <string name="client_add_title">客户新增</string>
     <string name="client_title">客户信息</string>
+    <string name="level3">优秀</string>
+    <string name="level2">良好</string>
+    <string name="level1">一般</string>
+    <string name="level0">差</string>
     
     <string name="visit_start_tips">说明：点击“出发签到”自动获取当前位置和时间，提交成功后执行下一步操作流程。</string>
     <string name="visit_arrvie_tips">说明：点击“抵达签到”自动获取当前位置和时间，提交成功后执行下一步操作流程。</string>

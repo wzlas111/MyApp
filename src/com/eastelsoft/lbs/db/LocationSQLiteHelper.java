@@ -11,6 +11,7 @@ import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.ClientTypeTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
 import com.eastelsoft.lbs.db.table.UploadImgTable;
+import com.eastelsoft.lbs.db.table.VisitEvaluateTable;
 import com.eastelsoft.lbs.db.table.VisitMcTable;
 import com.eastelsoft.lbs.db.table.VisitTable;
 import com.eastelsoft.util.FileLog;
@@ -156,6 +157,20 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + VisitMcTable.IS_UPLOAD + " text"
             + ");";
 	
+	static final String CREATE_VISIT_EVALUATE_TABLE_SQL = "create table if not exists " + VisitEvaluateTable.TABLE_NAME
+            + "("
+            + VisitEvaluateTable.UID + " integer primary key autoincrement,"
+            + VisitEvaluateTable.ID + " text,"
+            + VisitEvaluateTable.VISIT_ID + " text,"
+            + VisitEvaluateTable.VISIT_NUM + " text,"
+            + VisitEvaluateTable.SERVICE_VALUE + " text,"
+            + VisitEvaluateTable.SERVICE_NAME + " text,"
+            + VisitEvaluateTable.OTHER_JOB + " text,"
+            + VisitEvaluateTable.ADVISE + " text,"
+            + VisitEvaluateTable.CLIENT_SIGN + " text,"
+            + VisitEvaluateTable.IS_UPLOAD + " text"
+            + ");";
+	
 	static final String CREATE_UPLOAD_IMG_TABLE_SQL = "create table if not exists " + UploadImgTable.TABLE_NAME
             + "("
             + UploadImgTable.UID + " integer primary key autoincrement,"
@@ -167,7 +182,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
-		super(context, DATABASE_NAME, null, 30);
+		super(context, DATABASE_NAME, null, 32);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -181,6 +196,21 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		FileLog.i("LocationSQLiteHelper", "onCreate");
 		
+		try {
+			db.execSQL(CREATE_DEALER_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_CONATCTS_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_MECHANICS_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_TYPE_TABLE_SQL);
+			db.execSQL(CREATE_CLIENT_REGION_TABLE_SQL);
+			db.execSQL(CREATE_VISIT_TABLE_SQL);
+			db.execSQL(CREATE_VISIT_MC_TABLE_SQL);
+			db.execSQL(CREATE_UPLOAD_IMG_TABLE_SQL);
+			db.execSQL(CREATE_VISIT_EVALUATE_TABLE_SQL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		db.execSQL("create table if not exists audio_info(" +
 				"id NTEXT PRIMARY KEY," +"gpsid NTEXT,"+
 				"type NTEXT,"+"istijiao NTEXT"+
@@ -191,14 +221,6 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 				+ "title NTEXT," + "imgFile NTEXT," + "remark NTEXT,"
 				+ "location NTEXT," + "lon NTEXT," + "lat NTEXT,"
 				+ "istijiao NTEXT,"+"setLongtime NTEXT)");
-		
-		// db.execSQL("create table if not exists l_timinglocation("
-		// +"tl_id NTEXT PRIMARY KEY,"
-		// +"tl_uploadDate NTEXT,"
-		// +"tl_lon NTEXT,"
-		// +"tl_lat NTEXT,"
-		// +"tl_accuracy NTEXT)"
-		// );
 		
 		db.execSQL("create table if not exists l_timinglocation("
 				+ "tl_id NTEXT PRIMARY KEY," + "tl_uploadDate NTEXT,"
@@ -298,20 +320,6 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 				+ "b_appendix_title NTEXT," + "b_appendix_size NTEXT,"
 				+ "is_read NTEXT)");
 		
-		try {
-			db.execSQL(CREATE_DEALER_TABLE_SQL);
-			db.execSQL(CREATE_CLIENT_TABLE_SQL);
-			db.execSQL(CREATE_CLIENT_CONATCTS_TABLE_SQL);
-			db.execSQL(CREATE_CLIENT_MECHANICS_TABLE_SQL);
-			db.execSQL(CREATE_CLIENT_TYPE_TABLE_SQL);
-			db.execSQL(CREATE_CLIENT_REGION_TABLE_SQL);
-			db.execSQL(CREATE_VISIT_TABLE_SQL);
-			db.execSQL(CREATE_VISIT_MC_TABLE_SQL);
-			db.execSQL(CREATE_UPLOAD_IMG_TABLE_SQL);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	// 当打开数据库时传入的版本号与当前的版本号不同时会调用该方法

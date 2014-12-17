@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_fragment_bk_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="查看服务评价" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="vertical" >
+
+                <include layout="@layout/focus" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45.0dp"
+                    android:background="@drawable/selector_select_bg"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/table_text_style"
+                        android:text="走访工厂数量: " />
+
+                    <TextView
+                        android:id="@+id/visit_num"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/services_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="65.0dp"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_select_bg"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/table_text_style"
+                        android:layout_width="wrap_content"
+                        android:text="其他工作安排: " />
+
+                    <TextView
+                        android:id="@+id/other_job"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="65.0dp"
+                android:layout_marginTop="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_select_bg"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/table_text_style"
+                        android:layout_width="wrap_content"
+                        android:text="建议及评价: " />
+
+                    <TextView
+                        android:id="@+id/advise"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="left|center_vertical"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/default_value_color"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dp"
+                android:layout_marginBottom="10.0dp"
+                android:background="@drawable/tt_page_item_bk"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="100.0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dp"
+                    android:gravity="center_vertical"
+                    android:padding="3.0dp"
+                    android:text="客户签字:"
+                    android:textColor="@color/default_key_color"
+                    android:textSize="15.0sp" />
+
+                <ImageView
+                    android:id="@+id/sign_img"
+                    android:layout_width="50.0dp"
+                    android:layout_height="50.0dp"
+                    android:layout_marginBottom="5.0dp"
+                    android:layout_marginTop="5.0dp"
+                    android:src="@drawable/addphoto_button_normal" />
+
+                <TextView
+                    android:id="@+id/sign_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="40.0dp"
+                    android:gravity="center_vertical"
+                    android:text="查看"
+                    android:textColor="@color/default_value_color"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

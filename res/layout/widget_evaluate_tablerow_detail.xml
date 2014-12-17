@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/service_name"
+            android:layout_width="100.0dp"
+            android:layout_height="45.0dp"
+            android:gravity="center"
+            android:text="退货/零配件清退"
+            android:textColor="@color/default_key_color"
+            android:textSize="12.0sp" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="#aeb0b2" />
+
+        <TextView 
+            android:id="@+id/service_value"
+            android:layout_width="0dp"
+            android:layout_height="45.0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#0c0c0c"
+            android:textSize="12.0sp"
+            android:text="优秀" />
+        
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+</LinearLayout>

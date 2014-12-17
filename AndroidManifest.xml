@@ -543,7 +543,23 @@
             android:name=".activity.visit.VisitMcInfoActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitEvaluateActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitEvaluateDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
             
+        
         <!-- select activity -->
         <activity 
             android:name=".activity.select.McModelActivity"

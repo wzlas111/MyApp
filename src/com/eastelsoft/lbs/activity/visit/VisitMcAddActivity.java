@@ -31,7 +31,9 @@ import com.eastelsoft.lbs.activity.select.SignImgActivity;
 import com.eastelsoft.lbs.activity.select.SignImgDetailActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
 import com.eastelsoft.lbs.bean.VisitMcBean;
+import com.eastelsoft.lbs.db.VisitMcDBTask;
 import com.eastelsoft.util.ImageUtil;
+import com.google.gson.Gson;
 
 public class VisitMcAddActivity extends BaseActivity implements OnClickListener {
 
@@ -145,16 +147,38 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 		mGridAdapter = new GridPhotoAdapter(this, mBitmaps, mScreenWidth, mScreenHeight);
 		grid_photo.setAdapter(mGridAdapter);
 	}
+	
+	private void save() {
+		mBean.start_time = start_time.getText().toString();
+		mBean.end_time = end_time.getText().toString();
+		mBean.service_start_time = repair_start_time.getText().toString();
+		mBean.service_end_time = repair_end_time.getText().toString();
+		mBean.is_upload = "0";
+		
+		int success = 0;
+		try {
+			VisitMcDBTask.addBean(mBean);
+			System.out.println(mBean.toString());
+			success = 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Intent intent = new Intent(this, VisitFinishActivity.class);
+		intent.putExtra("success", success);
+		setResult(1, intent);
+		finish();
+	}
 
 	@Override
 	public void onClick(View v) {
 		Intent intent;
 		switch (v.getId()) {
 		case R.id.btBack:
+			setResult(1);
 			finish();
 			break;
 		case R.id.save_upload:
-			
+			save();
 			break;
 		case R.id.row_start_time:
 			showDatetimeDialog(1);
@@ -200,6 +224,7 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 			break;
 		case R.id.sign_img:
 			intent = new Intent(this, SignImgActivity.class);
+			intent.putExtra("type", "1");
 			startActivityForResult(intent, 5);
 			break;
 		case R.id.sign_show:

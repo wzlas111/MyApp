@@ -56,6 +56,9 @@ public class VisitDBTask {
 			bean.arrive_lon = c.getString(c.getColumnIndex(VisitTable.ARRIVE_LON));
 			bean.arrive_lat = c.getString(c.getColumnIndex(VisitTable.ARRIVE_LAT));
 			bean.status = c.getString(c.getColumnIndex(VisitTable.STATUS));
+			bean.is_upload = c.getString(c.getColumnIndex(VisitTable.IS_UPLOAD));
+			bean.mechanic_count = c.getString(c.getColumnIndex(VisitTable.MECHANIC_COUNT));
+			bean.is_evaluate = c.getString(c.getColumnIndex(VisitTable.IS_EVALUATE));
 			return bean;
 		}
 		return null;
@@ -88,6 +91,9 @@ public class VisitDBTask {
 		values.put(VisitTable.START_LON, bean.start_lon);
 		values.put(VisitTable.START_LAT, bean.start_lat);
 		values.put(VisitTable.STATUS, bean.status);
+		values.put(VisitTable.IS_UPLOAD, "0");
+		values.put(VisitTable.MECHANIC_COUNT, "0");
+		values.put(VisitTable.IS_EVALUATE, "0");
 		
 		getWsd().insert(VisitTable.TABLE_NAME, VisitTable.ID, values);
 		
@@ -114,6 +120,24 @@ public class VisitDBTask {
 		values.put(VisitTable.VISIT_IMG, bean.visit_img);
 		values.put(VisitTable.IS_UPLOAD, bean.is_upload);
 		values.put(VisitTable.STATUS, bean.status);
+		
+		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
+		
+		return DBResult.update_successfully;
+	}
+	
+	public static DBResult updateMechanicCount(VisitBean bean) {
+		ContentValues values = new ContentValues();
+		values.put(VisitTable.MECHANIC_COUNT, bean.mechanic_count);
+		
+		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
+		
+		return DBResult.update_successfully;
+	}
+	
+	public static DBResult updateEvaluate(VisitBean bean) {
+		ContentValues values = new ContentValues();
+		values.put(VisitTable.IS_EVALUATE, bean.is_evaluate);
 		
 		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
 		

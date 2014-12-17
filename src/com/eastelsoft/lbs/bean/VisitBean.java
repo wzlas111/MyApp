@@ -21,7 +21,7 @@ public class VisitBean {
 	public String visit_img;
 	
 	public String is_upload;
-	public String mechanic_count;
-	public String is_evaluate;
+	public String mechanic_count = "0";
+	public String is_evaluate = "0";
 	
 }

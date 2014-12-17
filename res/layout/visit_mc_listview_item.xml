@@ -14,26 +14,8 @@
         android:background="@drawable/selector_listview_item_bg" >
 
         <RelativeLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp" >
-
-            <ImageView
-                android:id="@+id/visit_img_red"
-                android:layout_width="30.0dp"
-                android:layout_height="30.0dp"
-                android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/tt_album_img_selected" />
-            
-            <ImageView
-                android:id="@+id/visit_img_blue"
-                android:layout_width="30.0dp"
-                android:layout_height="30.0dp"
-                android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/check"
-                android:visibility="gone" />
+            android:layout_width="10dp"
+            android:layout_height="40dp" >
 
         </RelativeLayout>
 
@@ -53,7 +35,7 @@
                 android:orientation="vertical">
                 
                 <TextView
-	                android:id="@+id/visit_title"
+	                android:id="@+id/client_name"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="测试人员"
@@ -72,12 +54,12 @@
             </LinearLayout>
             
             <TextView
-                android:id="@+id/status"
+                android:id="@+id/is_upload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15.0dp"
                 android:layout_marginLeft="10.0dp"
-                android:text="进行中"
+                android:text="提交中"
                 android:textColor="#f88b97" />
 
         </LinearLayout>

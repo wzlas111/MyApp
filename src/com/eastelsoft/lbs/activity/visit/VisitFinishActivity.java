@@ -51,6 +51,9 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	private TextView service_start_time;
 	private TextView service_end_time;
 	private MyGridView grid_photo;
+	
+	private TextView mechanic_count;
+	private TextView is_evaluate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,9 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		service_end_time = (TextView)findViewById(R.id.service_end_time);
 		grid_photo = (MyGridView)findViewById(R.id.gridPhoto);
 		
+		mechanic_count = (TextView)findViewById(R.id.mechanic_count);
+		is_evaluate = (TextView)findViewById(R.id.is_evaluate);
+		
 		initGrid();
 		
 		mBackBtn.setOnClickListener(this);
@@ -95,6 +101,8 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		mEvaluateBtn.setOnClickListener(this);
 		row_service_start_time.setOnClickListener(this);
 		row_service_end_time.setOnClickListener(this);
+		mechanic_count.setOnClickListener(this);
+		is_evaluate.setOnClickListener(this);
 	}
 	
 	private void initGrid() {
@@ -130,6 +138,13 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		start_location.setText(mBean.start_location);
 		arrive_time.setText(mBean.arrive_time);
 		arrive_location.setText(mBean.arrive_location);
+		
+		mechanic_count.setText("机修记录( "+mBean.mechanic_count+" )");
+		if ("0".equals(mBean.is_evaluate)) {
+			is_evaluate.setText("服务评价(未评)");
+		} else {
+			is_evaluate.setText("服务评价(已评)");
+		}
 	}
 	
 	private void save() {
@@ -207,11 +222,58 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		case R.id.mechanic_btn:
 			intent = new Intent(this, VisitMcAddActivity.class);
 			intent.putExtra("id", mBean.id);
-			startActivity(intent);
+			startActivityForResult(intent, 1);
 			break;
 		case R.id.evaluate_btn:
-			
+			intent = new Intent(this, VisitEvaluateActivity.class);
+			intent.putExtra("id", mBean.id);
+			startActivityForResult(intent, 2);
+			break;
+		case R.id.mechanic_count:
+			intent = new Intent(this, VisitMcListActivity.class);
+			intent.putExtra("id", mBean.id);
+			startActivity(intent);
+			break;
+		case R.id.is_evaluate:
+			if ("1".equals(mBean.is_evaluate)) {
+				intent = new Intent(this, VisitEvaluateDetailActivity.class);
+				intent.putExtra("id", mBean.id);
+				startActivity(intent);
+			}
 			break;
 		}		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case 1: // mc add 
+			if (data != null) {
+				int success = data.getIntExtra("success", 0);
+				if (success == 1) { // add success
+					int count = 0;
+					try {
+						count = Integer.parseInt(mBean.mechanic_count);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					mechanic_count.setText("机修记录( "+(count+1)+" )");
+					mBean.mechanic_count = String.valueOf(count+1);
+					VisitDBTask.updateMechanicCount(mBean);
+				}
+			}
+			break;
+		case 2: // evaluate add
+			if (data != null) {
+				int success = data.getIntExtra("success", 0);
+				if (success == 1) { // add success
+					is_evaluate.setText("服务评价(已评)");
+					mBean.is_evaluate = "1";
+					VisitDBTask.updateEvaluate(mBean);
+				}
+			}
+			break;
+		}
 	}
 }
