@@ -1,6 +1,12 @@
 package com.eastelsoft.lbs.activity.visit;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,30 +14,51 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.eastelsoft.lbs.MyGridView;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
+import com.eastelsoft.lbs.bean.UploadImgBean;
 import com.eastelsoft.lbs.bean.VisitBean;
+import com.eastelsoft.lbs.db.UploadDBTask;
 import com.eastelsoft.lbs.db.VisitDBTask;
+import com.eastelsoft.lbs.service.VisitFinishService;
+import com.eastelsoft.util.FileLog;
+import com.eastelsoft.util.FileUtil;
+import com.eastelsoft.util.ImageThumbnail;
 import com.eastelsoft.util.ImageUtil;
+import com.eastelsoft.util.Util;
+import com.eastelsoft.util.file.FileManager;
 
 public class VisitFinishActivity extends BaseActivity implements OnClickListener{
 	
 	private String mId;
-	private String[] imgs;
 	private VisitBean mBean;
 	private GridPhotoAdapter mGridAdapter;
 	private int mScreenWidth;
@@ -69,6 +96,11 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		new DBCacheTask().execute("");
 	}
 	
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+	
 	private void parseIntent() {
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
@@ -103,14 +135,6 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		row_service_end_time.setOnClickListener(this);
 		mechanic_count.setOnClickListener(this);
 		is_evaluate.setOnClickListener(this);
-	}
-	
-	private void initGrid() {
-		Resources res = getResources();
-		Bitmap bitmap = ImageUtil.drawableToBitmap(res.getDrawable(R.drawable.addphoto_button_normal));
-		Bitmap[] mBitmaps = {bitmap};
-		mGridAdapter = new GridPhotoAdapter(this, mBitmaps, mScreenWidth, mScreenHeight);
-		grid_photo.setAdapter(mGridAdapter);
 	}
 	
 	private class DBCacheTask extends AsyncTask<String, Integer, Boolean> {
@@ -154,8 +178,32 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		bean.service_end_time = service_end_time.getText().toString();
 		bean.is_upload = "0";
 		bean.status = "2";
+		bean.upload_date = Util.getLocaleTime("yyyy-MM-dd HH:mm:ss");
 		
-		VisitDBTask.updateFinishBean(bean);
+		try {//insert db
+			VisitDBTask.updateFinishBean(bean);
+			List<UploadImgBean> u_list = new ArrayList<UploadImgBean>();
+			for (int i = 0; i < photos_path.length; i++) {
+				UploadImgBean u_bean = new UploadImgBean();
+				u_bean.id = UUID.randomUUID().toString();
+				u_bean.data_id = mId;
+				u_bean.name = photos_path[i];
+				u_bean.type = "1";
+				u_bean.path = photos_path[i];
+				u_list.add(u_bean);
+			}
+			UploadDBTask.addImgBeanList(u_list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Intent intent = new Intent(this, VisitFinishService.class);
+		intent.putExtra("id", mId);
+		intent.putExtra("service_begin_time", service_start_time.getText().toString());
+		intent.putExtra("service_end_time", service_end_time.getText().toString());
+		intent.putExtra("photos_path", photos_path);
+		startService(intent);
+		
 		finish();
 	}
 	
@@ -247,6 +295,8 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode != RESULT_OK)
+			return;
 		switch (requestCode) {
 		case 1: // mc add 
 			if (data != null) {
@@ -274,6 +324,208 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 				}
 			}
 			break;
+		case CAMERA_WITH_DATA:
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+				FileLog.e("VisitFinish", e.toString());
+			}
+			
+			handlePhoto(FileManager.PHOTO_TEST);
+			break;
+		case PHOTO_PICKED_WITH_DATA:
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+				FileLog.e("VisitFinish", e.toString());
+			}
+			System.out.println(data);
+			if (data == null) {
+				Toast.makeText(this, "读取图片失败,请重试.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			Uri photo_uri = data.getData();
+			if (photo_uri == null) {
+				Toast.makeText(this, "读取图片失败,请重试.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			String photo_path = getChoosePath(photo_uri);
+			
+			handlePhoto(photo_path);
+			break;
 		}
 	}
+	
+	/**
+	 * 以下为图片处理代码
+	 */
+	// 拍照
+	public static final int CAMERA_WITH_DATA = 1001;
+	// 选择本地图片
+	public static final int PHOTO_PICKED_WITH_DATA = 1002;
+	
+	//display
+	private Bitmap[] photos;
+	//path
+	private String[] photos_path = new String[0];
+	private void initGrid() {
+		Resources res = getResources();
+		Bitmap bitmap = ImageUtil.drawableToBitmap(res.getDrawable(R.drawable.addphoto_button_normal));
+		photos = new Bitmap[1];
+		photos[0] = bitmap;
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		grid_photo.setAdapter(mGridAdapter);
+		grid_photo.setOnItemClickListener(new GridOnItemClick());
+	}
+	
+	private void displayPhoto(Bitmap bitmap) {
+		Resources res = getResources();
+		Bitmap add_photo = ImageUtil.drawableToBitmap(res.getDrawable(R.drawable.addphoto_button_normal));
+		Bitmap[] temp = photos;
+		photos = new Bitmap[temp.length+1];
+		//copy
+		for (int i = 0; i < temp.length; i++) {
+			photos[i] = temp[i];
+		}
+		photos[temp.length-1] = bitmap;
+		photos[temp.length] = add_photo;
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		grid_photo.setAdapter(mGridAdapter);
+		grid_photo.setOnItemClickListener(new GridOnItemClick());
+	}
+	
+	private void takePhoto() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		File dir = new File(FileManager.BASE_PATH);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(FileManager.PHOTO_TEST)));
+		startActivityForResult(intent, CAMERA_WITH_DATA);
+	}
+	
+	private void choosePhoto() {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction("android.intent.action.GET_CONTENT");
+		Intent chooseIntent = Intent.createChooser(intent, "选择图片");
+		startActivityForResult(chooseIntent, PHOTO_PICKED_WITH_DATA);
+	}
+	
+	Cursor cursor = null;
+	private String getChoosePath(Uri photoUri) {
+		String picPath = "";
+		String[] pojo = {MediaStore.Images.Media.DATA};  
+        cursor = managedQuery(photoUri, pojo, null, null,null);     
+        if(cursor != null )  
+        {  
+            int columnIndex = cursor.getColumnIndexOrThrow(pojo[0]);  
+            cursor.moveToFirst();  
+            picPath = cursor.getString(columnIndex);  
+        }  
+        return picPath;
+	}
+	
+	private void handlePhoto(String photo_path) {
+		Bitmap zoomBitmap = null;
+		Bitmap saveBitmap = null;
+		try {
+			String path = photo_path;
+			//zoom
+			zoomBitmap = ImageThumbnail.PicZoom(path);
+			//degree
+			int degree = FileUtil.readPictureDegree(path);
+			Matrix matrix = new Matrix();
+			matrix.postRotate(degree);
+			//save
+			saveBitmap = Bitmap.createBitmap(zoomBitmap, 0, 0, zoomBitmap.getWidth(), zoomBitmap.getHeight(), matrix, true);
+			String filename = Util.getLocaleTime("yyyyMMddHHmmss") + ".jpg";
+			String filepath = FileUtil.saveBitmapToFileForPath(saveBitmap, filename);
+			
+			String[] temp = photos_path;
+			photos_path = new String[temp.length+1];
+			for (int i = 0; i < temp.length; i++) {
+				photos_path[i] = temp[i];
+			}
+			photos_path[temp.length] = filepath;
+			
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inSampleSize = 10;// 图片的长宽都是原来的1/10
+			FileInputStream f = new FileInputStream(filepath);
+			BufferedInputStream bis = new BufferedInputStream(f);
+			Bitmap bm = BitmapFactory.decodeStream(bis, null, options);
+			displayPhoto(bm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (zoomBitmap != null) {
+				zoomBitmap.recycle();
+			}
+			if (saveBitmap != null) {
+				saveBitmap.recycle();
+			}
+		}
+	}
+	
+	private class GridOnItemClick implements OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+			if (position == photos.length-1) {
+				if (FileManager.isExternalStorageMounted()) {
+					try {
+//						takePhoto();
+//						choosePhoto();
+						openPhotoWindow();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					Toast.makeText(VisitFinishActivity.this, getString(R.string.noSDCard), Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+	}
+	
+	private void openPhotoWindow() {
+		try {
+			LayoutInflater mLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+			ViewGroup menuView = (ViewGroup) mLayoutInflater.inflate(
+					R.layout.pop_photo_select, null, true);
+			Button btClosex = (Button) menuView.findViewById(R.id.btClose);
+			btClosex.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					try {
+						popupWindow.dismiss();
+					} catch (Exception e) {
+						FileLog.e("VisitFinish", e.toString());
+					}
+				}
+			});
+			View row_take = menuView.findViewById(R.id.row_take);
+			row_take.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					takePhoto();
+				}
+			});
+			View row_choose = menuView.findViewById(R.id.row_choose);
+			row_choose.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					choosePhoto();
+				}
+			});
+			popupWindow = new PopupWindow(menuView, LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT, true); // 背景
+			popupWindow.setBackgroundDrawable(new BitmapDrawable());
+			popupWindow.setAnimationStyle(R.style.PopupAnimation);
+			popupWindow.showAtLocation(findViewById(R.id.parent),
+					Gravity.CENTER | Gravity.CENTER, 0, 0);
+			popupWindow.update();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

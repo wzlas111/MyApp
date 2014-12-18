@@ -33,7 +33,6 @@ import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
 import com.eastelsoft.lbs.bean.VisitMcBean;
 import com.eastelsoft.lbs.db.VisitMcDBTask;
 import com.eastelsoft.util.ImageUtil;
-import com.google.gson.Gson;
 
 public class VisitMcAddActivity extends BaseActivity implements OnClickListener {
 

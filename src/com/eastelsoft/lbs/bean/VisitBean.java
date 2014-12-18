@@ -19,7 +19,9 @@ public class VisitBean {
 	public String service_begin_time;
 	public String service_end_time;
 	public String visit_img;
+	public String visit_img_num;
 	
+	public String upload_date;
 	public String is_upload;
 	public String mechanic_count = "0";
 	public String is_evaluate = "0";

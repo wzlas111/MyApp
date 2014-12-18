@@ -6,6 +6,8 @@ public class UploadImgTable {
 
     public static final String UID = "uid";
     
+    public static final String ID = "id";
+    
     public static final String DATA_ID = "data_id";
 
     public static final String NAME = "name";

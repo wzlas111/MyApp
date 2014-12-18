@@ -126,6 +126,15 @@ public class VisitDBTask {
 		return DBResult.update_successfully;
 	}
 	
+	public static DBResult updateIsUploadBean(VisitBean bean) {
+		ContentValues values = new ContentValues();
+		values.put(VisitTable.IS_UPLOAD, bean.is_upload);
+		
+		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
+		
+		return DBResult.update_successfully;
+	}
+	
 	public static DBResult updateMechanicCount(VisitBean bean) {
 		ContentValues values = new ContentValues();
 		values.put(VisitTable.MECHANIC_COUNT, bean.mechanic_count);

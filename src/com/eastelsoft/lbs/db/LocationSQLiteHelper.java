@@ -131,6 +131,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + VisitTable.SERVICE_BEGIN_TIME + " text,"
             + VisitTable.SERVICE_END_TIME + " text,"
             + VisitTable.VISIT_IMG + " text,"
+            + VisitTable.VISIT_IMG_NUM + " text,"
             + VisitTable.IS_UPLOAD + " text,"
             + VisitTable.MECHANIC_COUNT + " text,"
             + VisitTable.IS_EVALUATE + " text"
@@ -174,6 +175,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 	static final String CREATE_UPLOAD_IMG_TABLE_SQL = "create table if not exists " + UploadImgTable.TABLE_NAME
             + "("
             + UploadImgTable.UID + " integer primary key autoincrement,"
+            + UploadImgTable.ID + " text,"
             + UploadImgTable.DATA_ID + " text,"
             + UploadImgTable.NAME + " text,"
             + UploadImgTable.PATH + " text,"
@@ -182,7 +184,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
-		super(context, DATABASE_NAME, null, 32);
+		super(context, DATABASE_NAME, null, 35);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -421,6 +423,16 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 		
 		try {
 			db.execSQL("ALTER TABLE client_table ADD COLUMN is_upload text");
+		} catch (SQLException e) {
+		}
+		
+		try {
+			db.execSQL("ALTER TABLE upload_img_table ADD COLUMN id text");
+		} catch (SQLException e) {
+		}
+		
+		try {
+			db.execSQL("ALTER TABLE visit_table ADD COLUMN visit_img_num text");
 		} catch (SQLException e) {
 		}
 		onCreate(db);

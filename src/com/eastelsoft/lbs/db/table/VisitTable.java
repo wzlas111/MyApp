@@ -40,6 +40,8 @@ public class VisitTable {
     
     public static final String VISIT_IMG = "visit_img";
     
+    public static final String VISIT_IMG_NUM = "visit_img_num";
+    
 
     public static final String IS_UPLOAD = "is_upload";
     
