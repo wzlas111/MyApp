@@ -32,6 +32,7 @@ import android.widget.Toast;
 public class VisitEvaluateActivity extends Activity implements OnClickListener {
 
 	private String mId;
+	private String mType;
 	private VisitEvaluateBean mBean;
 	private String mServiceName = "";
 	private String mServiceValue = "";
@@ -52,6 +53,7 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
+		mType = intent.getStringExtra("type");
 
 		intiData();
 		setContentView(R.layout.activity_visit_evaluate);
@@ -125,6 +127,9 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 			startService(serviceIntent);
 			
 			Intent intent = new Intent(this, VisitFinishActivity.class);
+			if ("2".equals(mType)) {
+				intent = new Intent(this, VisitAdditionalActivity.class);
+			}
 			intent.putExtra("success", 1);
 			setResult(RESULT_OK, intent);
 			

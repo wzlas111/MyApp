@@ -9,6 +9,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,7 +36,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 public class VisitStartActivity extends BaseActivity implements OnClickListener{
 	
-	private String mDealer_id;
+	private String mDealer_id = "";
 	private String mPlan_id = "";
 	private String mlon;
 	private String mlat;
@@ -127,11 +128,6 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 	 */
 	VisitBean bean = new VisitBean();
 	private void save() {
-		openPopupWindowPG("数据上传中...");
-		
-		sp = getSharedPreferences("userdata", 0);
-		SetInfo set = IUtil.initSetInfo(sp);
-		Gson gson = new Gson();
 		bean.id = UUID.randomUUID().toString();
 		bean.plan_id = mPlan_id;
 		bean.plan_name = plan_name.getText().toString();
@@ -144,6 +140,15 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 		bean.start_lat = mlat;
 		bean.status = "0";
 		
+		if (!canSend()) {
+			return;
+		}
+		
+		openPopupWindowPG("数据上传中...");
+		
+		sp = getSharedPreferences("userdata", 0);
+		SetInfo set = IUtil.initSetInfo(sp);
+		Gson gson = new Gson();
 		String json = gson.toJson(bean);
 		String mUrl = URLHelper.BASE_ACTION;
 		RequestParams params = new RequestParams();
@@ -183,6 +188,18 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 				}
 			}
 		});
+	}
+	
+	private boolean canSend() {
+		if (TextUtils.isEmpty(bean.dealer_id)) {
+			Toast.makeText(this, "请选择经销商.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(bean.start_time)) {
+			Toast.makeText(this, "请进行出发签到.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
 	}
 	
 	private void saveDB() {

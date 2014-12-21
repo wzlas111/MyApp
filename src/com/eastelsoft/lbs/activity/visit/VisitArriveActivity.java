@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -104,8 +105,6 @@ public class VisitArriveActivity extends BaseActivity implements OnClickListener
 	
 	VisitBean bean = new VisitBean();
 	private void save() {
-		openPopupWindowPG("数据上传中...");
-		
 		bean.id = mId;
 		bean.arrive_time = arrive_time.getText().toString();
 		bean.arrive_location = arrive_location.getText().toString();
@@ -113,6 +112,12 @@ public class VisitArriveActivity extends BaseActivity implements OnClickListener
 		bean.arrive_lat = mlat;
 		bean.arrive_accuracy = "-100";
 		bean.status = "1";
+		
+		if (!canSend()) {
+			return;
+		}
+		
+		openPopupWindowPG("数据上传中...");
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(bean);
@@ -153,6 +158,14 @@ public class VisitArriveActivity extends BaseActivity implements OnClickListener
 				}
 			}
 		});
+	}
+	
+	private boolean canSend() {
+		if (TextUtils.isEmpty(bean.arrive_time)) {
+			Toast.makeText(this, "请进行抵达签到.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
 	}
 
 	private void saveDB() {

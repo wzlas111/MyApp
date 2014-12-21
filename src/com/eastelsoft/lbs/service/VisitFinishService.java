@@ -167,6 +167,18 @@ public class VisitFinishService extends Service {
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
 			FileLog.i(TAG, TAG+"基础数据上传成功，等待上传图片...");
+			if (photos_path.length == 0) {
+				bean.is_upload = "1";
+				bean.status = "2";
+				VisitDBTask.updateIsUploadBean(bean);
+				
+				showNotificationInformation(R.drawable.notify,
+						getResources().getString(R.string.app_name),
+						getResources().getString(R.string.app_name),
+						"拜访记录上传成功.");
+				
+				stopService();
+			}
 			uploadImg();
 		}
 		@Override

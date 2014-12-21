@@ -47,7 +47,7 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		mBackBtn = (Button)findViewById(R.id.btBack);
 		mAddBtn = (TextView)findViewById(R.id.add);
-		mAddAfterBtn = (TextView)findViewById(R.id.add_after);
+		mAddAfterBtn = (TextView)findViewById(R.id.add_additional);
 		mListView = (ListView)findViewById(R.id.listview);
 		
 		mList = new ArrayList<VisitBean>();
@@ -126,8 +126,9 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent(this, VisitStartActivity.class);
 			startActivity(intent);
 			break;
-		case R.id.add_after:
-			
+		case R.id.add_additional:
+			Intent intent2 = new Intent(this, VisitAdditionalActivity.class);
+			startActivity(intent2);
 			break;
 		}
 	}

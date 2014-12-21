@@ -3,7 +3,6 @@ package com.eastelsoft.lbs.activity.visit;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +19,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -44,10 +42,9 @@ import android.widget.Toast;
 import com.eastelsoft.lbs.MyGridView;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
+import com.eastelsoft.lbs.activity.select.ClientDealerActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
-import com.eastelsoft.lbs.bean.UploadImgBean;
 import com.eastelsoft.lbs.bean.VisitBean;
-import com.eastelsoft.lbs.db.UploadDBTask;
 import com.eastelsoft.lbs.db.VisitDBTask;
 import com.eastelsoft.lbs.service.VisitFinishService;
 import com.eastelsoft.util.FileLog;
@@ -57,10 +54,9 @@ import com.eastelsoft.util.ImageUtil;
 import com.eastelsoft.util.Util;
 import com.eastelsoft.util.file.FileManager;
 
-public class VisitFinishActivity extends BaseActivity implements OnClickListener{
+public class VisitAdditionalActivity extends BaseActivity implements OnClickListener{
 	
-	private String mId;
-	private String mType;
+	private String mDealer_id = "";
 	private VisitBean mBean;
 	private GridPhotoAdapter mGridAdapter;
 	private int mScreenWidth;
@@ -71,11 +67,12 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	private TextView mSaveUploadBtn;
 	private Button mMechanicBtn;
 	private Button mEvaluateBtn;
+	private View row_dealer;
 	private TextView dealer_name;
+	private View row_start_time;
+	private View row_arrive_time;
 	private TextView start_time;
-	private TextView start_location;
 	private TextView arrive_time;
-	private TextView arrive_location;
 	private View row_service_start_time;
 	private View row_service_end_time;
 	private TextView service_start_time;
@@ -94,9 +91,11 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		mScreenWidth = dm.widthPixels;
 		mScreenHeight = dm.heightPixels;
 		
-		setContentView(R.layout.activity_visit_finish);
+		setContentView(R.layout.activity_visit_additional);
 		initView();
-		new DBCacheTask().execute("");
+		
+		mBean = new VisitBean();
+		mBean.id = UUID.randomUUID().toString();
 	}
 	
 	@Override
@@ -105,9 +104,6 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void parseIntent() {
-		Intent intent = getIntent();
-		mId = intent.getStringExtra("id");
-		mType = intent.getStringExtra("type");
 	}
 	
 	private void initView() {
@@ -116,11 +112,12 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		mSaveUploadBtn = (TextView)findViewById(R.id.save_upload);
 		mMechanicBtn = (Button)findViewById(R.id.mechanic_btn);
 		mEvaluateBtn = (Button)findViewById(R.id.evaluate_btn);
+		row_dealer = findViewById(R.id.row_dealer);
 		dealer_name = (TextView)findViewById(R.id.dealer_name);
+		row_start_time = findViewById(R.id.row_start_time);
+		row_arrive_time = findViewById(R.id.row_arrive_time);
 		start_time = (TextView)findViewById(R.id.start_time);
-		start_location = (TextView)findViewById(R.id.start_location);
 		arrive_time = (TextView)findViewById(R.id.arrive_time);
-		arrive_location = (TextView)findViewById(R.id.arrive_location);
 		row_service_start_time = findViewById(R.id.row_service_start_time);
 		row_service_end_time = findViewById(R.id.row_service_end_time);
 		service_start_time = (TextView)findViewById(R.id.service_start_time);
@@ -130,15 +127,15 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		mechanic_count = (TextView)findViewById(R.id.mechanic_count);
 		is_evaluate = (TextView)findViewById(R.id.is_evaluate);
 		
-		if ("add".equals(mType)) {
-			initAdd();
-		} else {
-			initDetail();
-		} 
+		initAdd();
 	}
 	
 	private void initAdd() {
 		initGrid();
+		
+		String now = Util.getLocaleTime("yyyy-MM-dd HH:mm:ss");
+		start_time.setText(now);
+		arrive_time.setText(now);
 		
 		mBackBtn.setOnClickListener(this);
 		mSaveDBBtn.setText("保存");
@@ -146,82 +143,34 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		mSaveUploadBtn.setOnClickListener(this);
 		mMechanicBtn.setOnClickListener(this);
 		mEvaluateBtn.setOnClickListener(this);
+		row_dealer.setOnClickListener(this);
+		row_start_time.setOnClickListener(this);
+		row_arrive_time.setOnClickListener(this);
 		row_service_start_time.setOnClickListener(this);
 		row_service_end_time.setOnClickListener(this);
 		mechanic_count.setOnClickListener(this);
 		is_evaluate.setOnClickListener(this);
 	}
 	
-	private void initDetail() {
-		mBackBtn.setOnClickListener(this);
-		mSaveDBBtn.setText("已保存");
-		mSaveUploadBtn.setOnClickListener(this);
-		mechanic_count.setOnClickListener(this);
-		is_evaluate.setOnClickListener(this);
-		mMechanicBtn.setOnClickListener(this);
-		mEvaluateBtn.setOnClickListener(this);
-	}
-	
-	private class DBCacheTask extends AsyncTask<String, Integer, Boolean> {
-		@Override
-		protected Boolean doInBackground(String... params) {
-			try {
-				mBean = VisitDBTask.getBeanById(mId);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return true;
-		}
-		@Override
-		protected void onPostExecute(Boolean result) {
-			super.onPostExecute(result);
-			if (mBean != null) {
-				fillData();
-			}
-		}
-	}
-	
-	private void fillData() {
-		dealer_name.setText(mBean.dealer_name);
-		start_time.setText(mBean.start_time);
-		start_location.setText(mBean.start_location);
-		arrive_time.setText(mBean.arrive_time);
-		arrive_location.setText(mBean.arrive_location);
-		
-		mechanic_count.setText("机修记录( "+mBean.mechanic_count+" )");
-		if ("1".equals(mBean.is_evaluate)) {
-			is_evaluate.setText("服务评价(已评)");
-		} else {
-			is_evaluate.setText("服务评价(未评)");
-		}
-		
-		if ("detail".equals(mType)) {
-			service_start_time.setText(mBean.service_begin_time);
-			service_end_time.setText(mBean.service_end_time);
-			String photos = mBean.visit_img;
-			System.out.println("photos : "+photos);
-			if (photos != null && photos.length() > 0) {
-				String[] photos_path = photos.split("\\|");
-				List<String> p_list = new ArrayList<String>();
-				for (int i = 0; i < photos_path.length; i++) {
-					if (!TextUtils.isEmpty(photos_path[i])) {
-						p_list.add(photos_path[i]);
-					}
-				}
-				initGrid(p_list);
-			}
-		}
-	}
-	
 	private boolean canSend() {
+		if (TextUtils.isEmpty(mDealer_id)) {
+			Toast.makeText(this, "请选择经销商.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(start_time.getText().toString())) {
+			Toast.makeText(this, "请填写出发时间.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(arrive_time.getText().toString())) {
+			Toast.makeText(this, "请填写抵达时间.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
 		if (TextUtils.isEmpty(service_start_time.getText().toString())) {
-			service_start_time.requestFocus();
-			Toast.makeText(this, "服务开始时间不能为空!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "请填写服务开始时间.", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		if (TextUtils.isEmpty(service_end_time.getText().toString())) {
-			service_end_time.requestFocus();
-			Toast.makeText(this, "服务结束时间不能为空!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "请填写服务结束时间.", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		return true;
@@ -230,13 +179,17 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	private void saveDB() {
 		if (canSend()) {
 			Intent intent = new Intent(this, VisitFinishService.class);
-			intent.putExtra("id", mId);
+			intent.putExtra("id", mBean.id);
+			intent.putExtra("dealer_id", mDealer_id);
+			intent.putExtra("dealer_name", dealer_name.getText().toString());
+			intent.putExtra("start_time", start_time.getText().toString());
+			intent.putExtra("arrive_time", arrive_time.getText().toString());
 			intent.putExtra("service_begin_time", service_start_time.getText().toString());
 			intent.putExtra("service_end_time", service_end_time.getText().toString());
 			intent.putExtra("photos_path", photos_path);
 			startService(intent);
 			
-			Toast.makeText(VisitFinishActivity.this, getResources().getString(R.string.upload_visit_background), Toast.LENGTH_SHORT).show();
+			Toast.makeText(VisitAdditionalActivity.this, getResources().getString(R.string.upload_visit_background), Toast.LENGTH_SHORT).show();
 			finish();
 		}
 	}
@@ -254,16 +207,28 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		case R.id.save_upload:
 			
 			break;
-		case R.id.row_service_start_time:
+		case R.id.row_dealer:
+			intent = new Intent(this, ClientDealerActivity.class);
+			intent.putExtra("id", mDealer_id);
+			intent.putExtra("type", "3");
+			startActivityForResult(intent, 0);
+			break;
+		case R.id.row_start_time:
 			showDatetimeDialog(1);
 			break;
-		case R.id.row_service_end_time:
+		case R.id.row_arrive_time:
 			showDatetimeDialog(2);
+			break;
+		case R.id.row_service_start_time:
+			showDatetimeDialog(3);
+			break;
+		case R.id.row_service_end_time:
+			showDatetimeDialog(4);
 			break;
 		case R.id.mechanic_btn:
 			intent = new Intent(this, VisitMcAddActivity.class);
 			intent.putExtra("id", mBean.id);
-			intent.putExtra("type", "1");
+			intent.putExtra("type", "2");
 			startActivityForResult(intent, 1);
 			break;
 		case R.id.evaluate_btn:
@@ -276,7 +241,7 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 //			}
 			intent = new Intent(this, VisitEvaluateActivity.class);
 			intent.putExtra("id", mBean.id);
-			intent.putExtra("type", "1");
+			intent.putExtra("type", "2");
 			startActivityForResult(intent, 2);
 			break;
 		case R.id.mechanic_count:
@@ -297,9 +262,14 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK)
-			return;
 		switch (requestCode) {
+		case 0:
+			if (data != null) {
+				mDealer_id = data.getStringExtra("checked_id");
+				String name = data.getStringExtra("checked_name");
+				dealer_name.setText(name);
+			}
+			break;
 		case 1: // mc add 
 			if (data != null) {
 				int success = data.getIntExtra("success", 0);
@@ -327,6 +297,8 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			}
 			break;
 		case CAMERA_WITH_DATA:
+			if (resultCode != RESULT_OK)
+				return;
 			try {
 				popupWindow.dismiss();
 			} catch (Exception e) {
@@ -336,6 +308,8 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			handlePhoto(FileManager.PHOTO_TEST);
 			break;
 		case PHOTO_PICKED_WITH_DATA:
+			if (resultCode != RESULT_OK)
+				return;
 			try {
 				popupWindow.dismiss();
 			} catch (Exception e) {
@@ -491,7 +465,7 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 						e.printStackTrace();
 					}
 				} else {
-					Toast.makeText(VisitFinishActivity.this, getString(R.string.noSDCard), Toast.LENGTH_SHORT).show();
+					Toast.makeText(VisitAdditionalActivity.this, getString(R.string.noSDCard), Toast.LENGTH_SHORT).show();
 				}
 			}
 		}
@@ -565,8 +539,12 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 				sb.append(String.format("%02d", timePicker.getCurrentMinute()));
 				sb.append(":00");
 				if (type == 1) {
-					service_start_time.setText(sb.toString());
+					start_time.setText(sb.toString());
 				} else if(type == 2) {
+					arrive_time.setText(sb.toString());
+				} else if(type == 3) {
+					service_start_time.setText(sb.toString());
+				} else if(type == 4) {
 					service_end_time.setText(sb.toString());
 				}
 				dialog.cancel();

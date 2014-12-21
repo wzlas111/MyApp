@@ -559,6 +559,11 @@
             android:name=".activity.visit.VisitEvaluateDetailActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitAdditionalActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
             
         
         <!-- select activity -->

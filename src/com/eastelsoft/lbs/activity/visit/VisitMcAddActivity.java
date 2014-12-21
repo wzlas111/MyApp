@@ -61,6 +61,7 @@ import com.eastelsoft.util.file.FileManager;
 public class VisitMcAddActivity extends BaseActivity implements OnClickListener {
 
 	private String mId;
+	private String mType;
 	private VisitMcBean mBean;
 	private GridPhotoAdapter mGridAdapter;
 	private int mScreenWidth;
@@ -110,6 +111,7 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 	private void parseIntent() {
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
+		mType = intent.getStringExtra("type");
 	}
 
 	private void initView() {
@@ -194,6 +196,9 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 			startService(serviceIntent);
 			
 			Intent intent = new Intent(this, VisitFinishActivity.class);
+			if ("2".equals(mType)) {
+				intent = new Intent(this, VisitAdditionalActivity.class);
+			}
 			intent.putExtra("success", 1);
 			setResult(RESULT_OK, intent);
 			
@@ -204,6 +209,22 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 	private boolean canSend() {
 		if (TextUtils.isEmpty(mBean.client_id)) {
 			Toast.makeText(this, "请填写客户信息.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(mBean.start_time)) {
+			Toast.makeText(this, "在途开始时间.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(mBean.end_time)) {
+			Toast.makeText(this, "在途结束时间.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(mBean.service_start_time)) {
+			Toast.makeText(this, "维修开始时间.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(mBean.service_end_time)) {
+			Toast.makeText(this, "维修结束时间.", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		if (TextUtils.isEmpty(mBean.mc_register_json)) {
@@ -345,7 +366,7 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 				try {
 					String sign_path = data.getStringExtra("sign_path");
 					String sign_name = data.getStringExtra("sign_name");
-					mBean.client_sign = sign_name;
+					mBean.client_sign = sign_path;
 					BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inSampleSize = 10;// 图片的长宽都是原来的1/10
 					options.inTempStorage = new byte[5 * 1024];

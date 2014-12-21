@@ -18,6 +18,8 @@ import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.client.ClientAddActivity;
 import com.eastelsoft.lbs.activity.dealer.DealerAdapter;
+import com.eastelsoft.lbs.activity.visit.VisitActivity;
+import com.eastelsoft.lbs.activity.visit.VisitAdditionalActivity;
 import com.eastelsoft.lbs.activity.visit.VisitStartActivity;
 import com.eastelsoft.lbs.bean.DealerDto.DealerBean;
 import com.eastelsoft.lbs.db.DealerDBTask;
@@ -86,8 +88,12 @@ public class ClientDealerActivity extends BaseActivity implements TextWatcher {
 				Intent intent;
 				if ("1".equals(mType)) {
 					intent = new Intent(ClientDealerActivity.this, ClientAddActivity.class);
-				} else {
+				} else if("2".equals(mType)){
 					intent = new Intent(ClientDealerActivity.this, VisitStartActivity.class);
+				} else if("3".equals(mType)) {
+					intent = new Intent(ClientDealerActivity.this, VisitAdditionalActivity.class);
+				} else {
+					intent = new Intent(ClientDealerActivity.this, VisitActivity.class);
 				}
 				
 				DealerBean bean = null;

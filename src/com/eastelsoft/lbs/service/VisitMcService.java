@@ -163,7 +163,17 @@ public class VisitMcService extends Service {
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
 			FileLog.i(TAG, TAG+"基础数据上传成功，等待上传图片...");
 			mBean.is_upload = "00";
-			VisitMcDBTask.updateIsUploadBean(mBean);
+			if (photos_path.length == 0) {
+				mBean.is_upload = "1";
+				VisitMcDBTask.updateIsUploadBean(mBean);
+				
+				showNotificationInformation(R.drawable.notify,
+						getResources().getString(R.string.app_name),
+						getResources().getString(R.string.app_name),
+						"机修记录上传成功.");
+				
+				stopService();
+			}
 			uploadImg();
 		}
 		@Override
