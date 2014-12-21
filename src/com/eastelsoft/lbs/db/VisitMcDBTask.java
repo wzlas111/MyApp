@@ -3,8 +3,10 @@ package com.eastelsoft.lbs.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.eastelsoft.lbs.bean.VisitBean;
 import com.eastelsoft.lbs.bean.VisitMcBean;
 import com.eastelsoft.lbs.db.table.VisitMcTable;
+import com.eastelsoft.lbs.db.table.VisitTable;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -61,6 +63,8 @@ public class VisitMcDBTask {
 		values.put(VisitMcTable.SERVICE_END_TIME, bean.service_end_time);
 		values.put(VisitMcTable.IS_REPAIR, bean.is_repair);
 		values.put(VisitMcTable.CLIENT_SIGN, bean.client_sign);
+		values.put(VisitMcTable.UPLOAD_IMG, bean.upload_img);
+		values.put(VisitMcTable.UPLOAD_IMG_NUM, bean.upload_img_num);
 		values.put(VisitMcTable.IS_UPLOAD, bean.is_upload);
 		
 		values.put(VisitMcTable.MC_REGISTER_JSON, bean.mc_register_json);
@@ -71,5 +75,14 @@ public class VisitMcDBTask {
 		getWsd().insert(VisitMcTable.TABLE_NAME, VisitMcTable.ID, values);
 		
 		return DBResult.add_successfully;
+	}
+	
+	public static DBResult updateIsUploadBean(VisitMcBean bean) {
+		ContentValues values = new ContentValues();
+		values.put(VisitMcTable.IS_UPLOAD, bean.is_upload);
+		
+		getWsd().update(VisitMcTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
+		
+		return DBResult.update_successfully;
 	}
 }

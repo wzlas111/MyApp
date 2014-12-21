@@ -64,7 +64,7 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			//status: 0-已出发, 1-已到达, 2-提交成功, 3-提交失败
+			//status: 0-已出发, 1-已到达, 2-提交成功, 3-提交中
 			VisitBean bean = mList.get(position);
 			String visit_id = bean.id;
 			String visit_status = bean.status;
@@ -76,6 +76,12 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 			} else if("1".equals(visit_status)) {//go to VisitFinishActivity
 				intent = new Intent(VisitActivity.this, VisitFinishActivity.class);
 				intent.putExtra("id", visit_id);
+				intent.putExtra("type", "add");
+				startActivity(intent);
+			} else {//commit,go to detail
+				intent = new Intent(VisitActivity.this, VisitFinishActivity.class);
+				intent.putExtra("id", visit_id);
+				intent.putExtra("type", "detail");
 				startActivity(intent);
 			}
 		}

@@ -9,6 +9,8 @@ import com.eastelsoft.lbs.activity.select.SignImgActivity;
 import com.eastelsoft.lbs.activity.select.SignImgDetailActivity;
 import com.eastelsoft.lbs.bean.VisitEvaluateBean;
 import com.eastelsoft.lbs.db.VisitEvaluateDBTask;
+import com.eastelsoft.lbs.service.VisitEvaluateService;
+import com.eastelsoft.lbs.service.VisitFinishService;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class VisitEvaluateActivity extends Activity implements OnClickListener {
 
@@ -110,20 +113,35 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 		mBean.is_upload = "0";
 		mBean.service_name = mServiceName;
 		mBean.service_value = mServiceValue;
-		System.out.println("mServiceName : "+mServiceName);
-		System.out.println("mServiceValue : "+mServiceValue);
 		
-		int success = 0;
-		try {
-			VisitEvaluateDBTask.addBean(mBean);
-			success = 1;
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (canSend()) {
+			Toast.makeText(this, getResources().getString(R.string.upload_visit_evaluate_background), Toast.LENGTH_SHORT).show();
+			
+			Intent serviceIntent = new Intent(this, VisitEvaluateService.class);
+			Bundle bundle = new Bundle();
+			bundle.putParcelable("bean", mBean);
+			bundle.putString("id", mBean.visit_id);
+			serviceIntent.putExtras(bundle);
+			startService(serviceIntent);
+			
+			Intent intent = new Intent(this, VisitFinishActivity.class);
+			intent.putExtra("success", 1);
+			setResult(RESULT_OK, intent);
+			
+			finish();
 		}
-		Intent intent = new Intent(this, VisitFinishActivity.class);
-		intent.putExtra("success", success);
-		setResult(2, intent);
-		finish();
+	}
+	
+	private boolean canSend() {
+		if (TextUtils.isEmpty(mBean.visit_num)) {
+			Toast.makeText(this, "走访工厂数量不能为空.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(mBean.client_sign)) {
+			Toast.makeText(this, "签名不能为空.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
 	}
 
 	private void getServices() {
@@ -137,16 +155,16 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 			int checked_id = radioGroup.getCheckedRadioButtonId();
 			switch (checked_id) {
 			case R.id.level3:
-				mServiceValue += "3|";
+				mServiceValue += "优秀|";
 				break;
 			case R.id.level2:
-				mServiceValue += "2|";
+				mServiceValue += "良好|";
 				break;
 			case R.id.level1:
-				mServiceValue += "1|";
+				mServiceValue += "一般|";
 				break;
 			case R.id.level0:
-				mServiceValue += "0|";
+				mServiceValue += "差|";
 				break;
 			}
 		}
@@ -195,7 +213,7 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 				try {
 					String sign_path = data.getStringExtra("sign_path");
 					String sign_name = data.getStringExtra("sign_name");
-					mBean.client_sign = sign_name;
+					mBean.client_sign = sign_path;
 					BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inSampleSize = 10;// 图片的长宽都是原来的1/10
 					options.inTempStorage = new byte[5 * 1024];

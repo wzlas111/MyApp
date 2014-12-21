@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,6 +60,7 @@ import com.eastelsoft.util.file.FileManager;
 public class VisitFinishActivity extends BaseActivity implements OnClickListener{
 	
 	private String mId;
+	private String mType;
 	private VisitBean mBean;
 	private GridPhotoAdapter mGridAdapter;
 	private int mScreenWidth;
@@ -66,6 +68,7 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	
 	private Button mBackBtn;
 	private TextView mSaveDBBtn;
+	private TextView mSaveUploadBtn;
 	private Button mMechanicBtn;
 	private Button mEvaluateBtn;
 	private TextView dealer_name;
@@ -104,11 +107,13 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	private void parseIntent() {
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
+		mType = intent.getStringExtra("type");
 	}
 	
 	private void initView() {
 		mBackBtn = (Button)findViewById(R.id.btBack);
 		mSaveDBBtn = (TextView)findViewById(R.id.save_db);
+		mSaveUploadBtn = (TextView)findViewById(R.id.save_upload);
 		mMechanicBtn = (Button)findViewById(R.id.mechanic_btn);
 		mEvaluateBtn = (Button)findViewById(R.id.evaluate_btn);
 		dealer_name = (TextView)findViewById(R.id.dealer_name);
@@ -125,16 +130,36 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		mechanic_count = (TextView)findViewById(R.id.mechanic_count);
 		is_evaluate = (TextView)findViewById(R.id.is_evaluate);
 		
+		if ("add".equals(mType)) {
+			initAdd();
+		} else {
+			initDetail();
+		} 
+	}
+	
+	private void initAdd() {
 		initGrid();
 		
 		mBackBtn.setOnClickListener(this);
+		mSaveDBBtn.setText("保存");
 		mSaveDBBtn.setOnClickListener(this);
+		mSaveUploadBtn.setOnClickListener(this);
 		mMechanicBtn.setOnClickListener(this);
 		mEvaluateBtn.setOnClickListener(this);
 		row_service_start_time.setOnClickListener(this);
 		row_service_end_time.setOnClickListener(this);
 		mechanic_count.setOnClickListener(this);
 		is_evaluate.setOnClickListener(this);
+	}
+	
+	private void initDetail() {
+		mBackBtn.setOnClickListener(this);
+		mSaveDBBtn.setText("已保存");
+		mSaveUploadBtn.setOnClickListener(this);
+		mechanic_count.setOnClickListener(this);
+		is_evaluate.setOnClickListener(this);
+		mMechanicBtn.setOnClickListener(this);
+		mEvaluateBtn.setOnClickListener(this);
 	}
 	
 	private class DBCacheTask extends AsyncTask<String, Integer, Boolean> {
@@ -164,91 +189,56 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		arrive_location.setText(mBean.arrive_location);
 		
 		mechanic_count.setText("机修记录( "+mBean.mechanic_count+" )");
-		if ("0".equals(mBean.is_evaluate)) {
-			is_evaluate.setText("服务评价(未评)");
-		} else {
+		if ("1".equals(mBean.is_evaluate)) {
 			is_evaluate.setText("服务评价(已评)");
-		}
-	}
-	
-	private void save() {
-		VisitBean bean = new VisitBean();
-		bean.id = mId;
-		bean.service_begin_time = service_start_time.getText().toString();
-		bean.service_end_time = service_end_time.getText().toString();
-		bean.is_upload = "0";
-		bean.status = "2";
-		bean.upload_date = Util.getLocaleTime("yyyy-MM-dd HH:mm:ss");
-		
-		try {//insert db
-			VisitDBTask.updateFinishBean(bean);
-			List<UploadImgBean> u_list = new ArrayList<UploadImgBean>();
-			for (int i = 0; i < photos_path.length; i++) {
-				UploadImgBean u_bean = new UploadImgBean();
-				u_bean.id = UUID.randomUUID().toString();
-				u_bean.data_id = mId;
-				u_bean.name = photos_path[i];
-				u_bean.type = "1";
-				u_bean.path = photos_path[i];
-				u_list.add(u_bean);
-			}
-			UploadDBTask.addImgBeanList(u_list);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			is_evaluate.setText("服务评价(未评)");
 		}
 		
-		Intent intent = new Intent(this, VisitFinishService.class);
-		intent.putExtra("id", mId);
-		intent.putExtra("service_begin_time", service_start_time.getText().toString());
-		intent.putExtra("service_end_time", service_end_time.getText().toString());
-		intent.putExtra("photos_path", photos_path);
-		startService(intent);
-		
-		finish();
-	}
-	
-	private void showDatetimeDialog(final int type) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		View view = View.inflate(this, R.layout.widget_select_datetime, null);
-		final DatePicker datePicker = (DatePicker)view.findViewById(R.id.date_picker);
-		final TimePicker timePicker = (TimePicker)view.findViewById(R.id.time_picker);
-		builder.setView(view);
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
-		timePicker.setIs24HourView(true);
-		timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-		timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-		
-		builder.setTitle("选取时间");
-		builder.setPositiveButton("确 定", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				StringBuffer sb = new StringBuffer();
-				sb.append(String.format("%d-%02d-%02d", datePicker.getYear(), datePicker.getMonth()+1, datePicker.getDayOfMonth()));
-				sb.append(" ");
-				sb.append(String.format("%02d", timePicker.getCurrentHour()));
-				sb.append(":");
-				sb.append(String.format("%02d", timePicker.getCurrentMinute()));
-				sb.append(":00");
-				if (type == 1) {
-					service_start_time.setText(sb.toString());
-				} else if(type == 2) {
-					service_end_time.setText(sb.toString());
+		if ("detail".equals(mType)) {
+			service_start_time.setText(mBean.service_begin_time);
+			service_end_time.setText(mBean.service_end_time);
+			String photos = mBean.visit_img;
+			System.out.println("photos : "+photos);
+			if (photos != null && photos.length() > 0) {
+				String[] photos_path = photos.split("\\|");
+				List<String> p_list = new ArrayList<String>();
+				for (int i = 0; i < photos_path.length; i++) {
+					if (!TextUtils.isEmpty(photos_path[i])) {
+						p_list.add(photos_path[i]);
+					}
 				}
-				dialog.cancel();
+				initGrid(p_list);
 			}
-		});
-		
-		datePicker.clearFocus();
-		timePicker.clearFocus();
-		
-		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(datePicker.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(timePicker.getWindowToken(), 0);
-		Dialog dialog = builder.create();
-		dialog.show();
+		}
+	}
+	
+	private boolean canSend() {
+		if (TextUtils.isEmpty(service_start_time.getText().toString())) {
+			service_start_time.requestFocus();
+			Toast.makeText(this, "服务开始时间不能为空!", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(service_end_time.getText().toString())) {
+			service_end_time.requestFocus();
+			Toast.makeText(this, "服务结束时间不能为空!", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
+	}
+	
+	private void saveDB() {
+		if (canSend()) {
+			Intent intent = new Intent(this, VisitFinishService.class);
+			intent.putExtra("id", mId);
+			intent.putExtra("service_begin_time", service_start_time.getText().toString());
+			intent.putExtra("service_end_time", service_end_time.getText().toString());
+			intent.putExtra("photos_path", photos_path);
+			startService(intent);
+			
+			Toast.makeText(VisitFinishActivity.this, getResources().getString(R.string.upload_visit_background), Toast.LENGTH_SHORT).show();
+			finish();
+		}
 	}
 	
 	@Override
@@ -258,8 +248,11 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		case R.id.btBack:
 			finish();
 			break;
-		case R.id.btSave:
-			save();
+		case R.id.save_db:
+			saveDB();
+			break;
+		case R.id.save_upload:
+			
 			break;
 		case R.id.row_service_start_time:
 			showDatetimeDialog(1);
@@ -273,6 +266,13 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			startActivityForResult(intent, 1);
 			break;
 		case R.id.evaluate_btn:
+//			if (!"1".equals(mBean.is_evaluate)) {
+//				intent = new Intent(this, VisitEvaluateActivity.class);
+//				intent.putExtra("id", mBean.id);
+//				startActivityForResult(intent, 2);
+//			} else {
+//				Toast.makeText(this, "服务已评.", Toast.LENGTH_SHORT).show();
+//			}
 			intent = new Intent(this, VisitEvaluateActivity.class);
 			intent.putExtra("id", mBean.id);
 			startActivityForResult(intent, 2);
@@ -283,11 +283,11 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			startActivity(intent);
 			break;
 		case R.id.is_evaluate:
-			if ("1".equals(mBean.is_evaluate)) {
-				intent = new Intent(this, VisitEvaluateDetailActivity.class);
-				intent.putExtra("id", mBean.id);
-				startActivity(intent);
-			}
+//			if ("1".equals(mBean.is_evaluate)) {
+//				intent = new Intent(this, VisitEvaluateDetailActivity.class);
+//				intent.putExtra("id", mBean.id);
+//				startActivity(intent);
+//			}
 			break;
 		}		
 	}
@@ -376,6 +376,15 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
 		grid_photo.setAdapter(mGridAdapter);
 		grid_photo.setOnItemClickListener(new GridOnItemClick());
+	}
+	
+	private void initGrid(List<String> paths){
+		photos = new Bitmap[paths.size()];
+		for (int i = 0; i < paths.size(); i++) {
+			photos[i] = BitmapFactory.decodeFile(paths.get(i));
+		}
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		grid_photo.setAdapter(mGridAdapter);
 	}
 	
 	private void displayPhoto(Bitmap bitmap) {
@@ -528,4 +537,47 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		}
 	}
 	
+	private void showDatetimeDialog(final int type) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		View view = View.inflate(this, R.layout.widget_select_datetime, null);
+		final DatePicker datePicker = (DatePicker)view.findViewById(R.id.date_picker);
+		final TimePicker timePicker = (TimePicker)view.findViewById(R.id.time_picker);
+		builder.setView(view);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
+		timePicker.setIs24HourView(true);
+		timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+		timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+		
+		builder.setTitle("选取时间");
+		builder.setPositiveButton("确 定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				StringBuffer sb = new StringBuffer();
+				sb.append(String.format("%d-%02d-%02d", datePicker.getYear(), datePicker.getMonth()+1, datePicker.getDayOfMonth()));
+				sb.append(" ");
+				sb.append(String.format("%02d", timePicker.getCurrentHour()));
+				sb.append(":");
+				sb.append(String.format("%02d", timePicker.getCurrentMinute()));
+				sb.append(":00");
+				if (type == 1) {
+					service_start_time.setText(sb.toString());
+				} else if(type == 2) {
+					service_end_time.setText(sb.toString());
+				}
+				dialog.cancel();
+			}
+		});
+		
+		datePicker.clearFocus();
+		timePicker.clearFocus();
+		
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(datePicker.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(timePicker.getWindowToken(), 0);
+		Dialog dialog = builder.create();
+		dialog.show();
+	}
 }

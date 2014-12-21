@@ -114,7 +114,7 @@ import java.util.zip.GZIPInputStream;
  * @see com.loopj.android.http.ResponseHandlerInterface
  * @see com.loopj.android.http.RequestParams
  */
-public class AsyncSingleHttpClient {
+public class AsyncHttpClientQueue {
 
     public static final String LOG_TAG = "AsyncHttpClient";
 
@@ -126,9 +126,9 @@ public class AsyncSingleHttpClient {
     public static final String ENCODING_GZIP = "gzip";
 
     public static final int DEFAULT_MAX_CONNECTIONS = 10;
-    public static final int DEFAULT_SOCKET_TIMEOUT = 60 * 1000;
-    public static final int DEFAULT_MAX_RETRIES = 1;
-    public static final int DEFAULT_RETRY_SLEEP_TIME_MILLIS = 1500;
+    public static final int DEFAULT_SOCKET_TIMEOUT = 20 * 1000;
+    public static final int DEFAULT_MAX_RETRIES = 3;
+    public static final int DEFAULT_RETRY_SLEEP_TIME_MILLIS = 5 * 1000;
     public static final int DEFAULT_SOCKET_BUFFER_SIZE = 8192;
 
     private int maxConnections = DEFAULT_MAX_CONNECTIONS;
@@ -145,7 +145,7 @@ public class AsyncSingleHttpClient {
     /**
      * Creates a new AsyncHttpClient with default constructor arguments values
      */
-    public AsyncSingleHttpClient() {
+    public AsyncHttpClientQueue() {
         this(false, 80, 443);
     }
 
@@ -154,7 +154,7 @@ public class AsyncSingleHttpClient {
      *
      * @param httpPort non-standard HTTP-only port
      */
-    public AsyncSingleHttpClient(int httpPort) {
+    public AsyncHttpClientQueue(int httpPort) {
         this(false, httpPort, 443);
     }
 
@@ -164,7 +164,7 @@ public class AsyncSingleHttpClient {
      * @param httpPort  non-standard HTTP-only port
      * @param httpsPort non-standard HTTPS-only port
      */
-    public AsyncSingleHttpClient(int httpPort, int httpsPort) {
+    public AsyncHttpClientQueue(int httpPort, int httpsPort) {
         this(false, httpPort, httpsPort);
     }
 
@@ -175,7 +175,7 @@ public class AsyncSingleHttpClient {
      * @param httpPort                   HTTP port to be used, must be greater than 0
      * @param httpsPort                  HTTPS port to be used, must be greater than 0
      */
-    public AsyncSingleHttpClient(boolean fixNoHttpResponseException, int httpPort, int httpsPort) {
+    public AsyncHttpClientQueue(boolean fixNoHttpResponseException, int httpPort, int httpsPort) {
         this(getDefaultSchemeRegistry(fixNoHttpResponseException, httpPort, httpsPort));
     }
 
@@ -222,7 +222,7 @@ public class AsyncSingleHttpClient {
      *
      * @param schemeRegistry SchemeRegistry to be used
      */
-    public AsyncSingleHttpClient(SchemeRegistry schemeRegistry) {
+    public AsyncHttpClientQueue(SchemeRegistry schemeRegistry) {
 
         BasicHttpParams httpParams = new BasicHttpParams();
 
@@ -1409,9 +1409,9 @@ public class AsyncSingleHttpClient {
 
         @Override
         public void consumeContent() throws IOException {
-            AsyncSingleHttpClient.silentCloseInputStream(wrappedStream);
-            AsyncSingleHttpClient.silentCloseInputStream(pushbackStream);
-            AsyncSingleHttpClient.silentCloseInputStream(gzippedStream);
+            AsyncHttpClientQueue.silentCloseInputStream(wrappedStream);
+            AsyncHttpClientQueue.silentCloseInputStream(pushbackStream);
+            AsyncHttpClientQueue.silentCloseInputStream(gzippedStream);
             super.consumeContent();
         }
     }

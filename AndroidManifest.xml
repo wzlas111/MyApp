@@ -75,6 +75,11 @@
         </activity>
         
         <activity
+            android:name=".RegActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity
             android:name=".WaitActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
@@ -186,10 +191,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AboutActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".RegActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -615,6 +616,12 @@
             android:name=".activity.select.SignImgDetailActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        
+        <!-- upload service -->
+        <service android:name=".service.VisitFinishService" />
+        <service android:name=".service.VisitEvaluateService" />
+        <service android:name=".service.VisitMcService" />
+        
     </application>
 
 </manifest>

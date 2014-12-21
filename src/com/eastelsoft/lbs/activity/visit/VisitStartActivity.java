@@ -2,6 +2,8 @@ package com.eastelsoft.lbs.activity.visit;
 
 import java.util.UUID;
 
+import org.apache.http.Header;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -12,15 +14,24 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.select.ClientDealerActivity;
+import com.eastelsoft.lbs.bean.ResultBean;
 import com.eastelsoft.lbs.bean.VisitBean;
 import com.eastelsoft.lbs.db.VisitDBTask;
+import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.lbs.location.BaiduMapAction;
 import com.eastelsoft.util.CallBack;
+import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.Util;
+import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 public class VisitStartActivity extends BaseActivity implements OnClickListener{
 	
@@ -114,8 +125,13 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 	/**
 	 * upload to server,now just save to DB.
 	 */
+	VisitBean bean = new VisitBean();
 	private void save() {
-		VisitBean bean = new VisitBean();
+		openPopupWindowPG("数据上传中...");
+		
+		sp = getSharedPreferences("userdata", 0);
+		SetInfo set = IUtil.initSetInfo(sp);
+		Gson gson = new Gson();
 		bean.id = UUID.randomUUID().toString();
 		bean.plan_id = mPlan_id;
 		bean.plan_name = plan_name.getText().toString();
@@ -123,13 +139,54 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 		bean.dealer_name = dealer_name.getText().toString();
 		bean.start_time = start_time.getText().toString();
 		bean.start_location = start_location.getText().toString();
+		bean.start_accuracy = "-100";
 		bean.start_lon = mlon;
 		bean.start_lat = mlat;
 		bean.status = "0";
 		
+		String json = gson.toJson(bean);
+		String mUrl = URLHelper.BASE_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", URLHelper.UPDATE_START);
+		params.put("json", json);
+		params.put("data_id", bean.id);
+		params.put("gps_id", set.getDevice_id());
+		HttpRestClient.post(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				try {
+					popupWindowPg.dismiss();
+				} catch (Exception e) {
+				}
+				try {
+					Gson gson = new Gson();
+					ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+					if ("1".equals(resultBean.result_code)) {
+						saveDB();
+						Toast.makeText(VisitStartActivity.this, getResources().getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
+						finish();
+					} else {
+						Toast.makeText(VisitStartActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				try {
+					popupWindowPg.dismiss();
+					Toast.makeText(VisitStartActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	private void saveDB() {
 		VisitDBTask.addStartBean(bean);
-		
-		finish();
 	}
 
 	@Override

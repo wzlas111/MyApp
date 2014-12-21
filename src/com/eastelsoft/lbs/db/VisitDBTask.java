@@ -55,6 +55,10 @@ public class VisitDBTask {
 			bean.arrive_location = c.getString(c.getColumnIndex(VisitTable.ARRIVE_LOCATION));
 			bean.arrive_lon = c.getString(c.getColumnIndex(VisitTable.ARRIVE_LON));
 			bean.arrive_lat = c.getString(c.getColumnIndex(VisitTable.ARRIVE_LAT));
+			bean.visit_img = c.getString(c.getColumnIndex(VisitTable.VISIT_IMG));
+			bean.visit_img_num = c.getString(c.getColumnIndex(VisitTable.VISIT_IMG_NUM));
+			bean.service_begin_time = c.getString(c.getColumnIndex(VisitTable.SERVICE_BEGIN_TIME));
+			bean.service_end_time = c.getString(c.getColumnIndex(VisitTable.SERVICE_END_TIME));
 			bean.status = c.getString(c.getColumnIndex(VisitTable.STATUS));
 			bean.is_upload = c.getString(c.getColumnIndex(VisitTable.IS_UPLOAD));
 			bean.mechanic_count = c.getString(c.getColumnIndex(VisitTable.MECHANIC_COUNT));
@@ -118,6 +122,7 @@ public class VisitDBTask {
 		values.put(VisitTable.SERVICE_BEGIN_TIME, bean.service_begin_time);
 		values.put(VisitTable.SERVICE_END_TIME, bean.service_end_time);
 		values.put(VisitTable.VISIT_IMG, bean.visit_img);
+		values.put(VisitTable.VISIT_IMG_NUM, bean.visit_img_num);
 		values.put(VisitTable.IS_UPLOAD, bean.is_upload);
 		values.put(VisitTable.STATUS, bean.status);
 		
@@ -129,6 +134,7 @@ public class VisitDBTask {
 	public static DBResult updateIsUploadBean(VisitBean bean) {
 		ContentValues values = new ContentValues();
 		values.put(VisitTable.IS_UPLOAD, bean.is_upload);
+		values.put(VisitTable.STATUS, bean.status);
 		
 		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
 		

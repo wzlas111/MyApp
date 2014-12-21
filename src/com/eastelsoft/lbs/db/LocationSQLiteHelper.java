@@ -122,10 +122,12 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + VisitTable.PLAN_NAME + " text,"
             + VisitTable.START_TIME + " text,"
             + VisitTable.START_LOCATION + " text,"
+            + VisitTable.START_ACCURACY + " text,"
             + VisitTable.START_LON + " text,"
             + VisitTable.START_LAT + " text,"
             + VisitTable.ARRIVE_TIME + " text,"
             + VisitTable.ARRIVE_LOCATION + " text,"
+            + VisitTable.ARRIVE_ACCURACY + " text,"
             + VisitTable.ARRIVE_LON + " text,"
             + VisitTable.ARRIVE_LAT + " text,"
             + VisitTable.SERVICE_BEGIN_TIME + " text,"
@@ -155,6 +157,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + VisitMcTable.MC_INFO_JSON + " text,"
             + VisitMcTable.CLIENT_SIGN + " text,"
             + VisitMcTable.UPLOAD_IMG + " text,"
+            + VisitMcTable.UPLOAD_IMG_NUM + " text,"
             + VisitMcTable.IS_UPLOAD + " text"
             + ");";
 	
@@ -184,7 +187,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
-		super(context, DATABASE_NAME, null, 35);
+		super(context, DATABASE_NAME, null, 37);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -433,6 +436,18 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 		
 		try {
 			db.execSQL("ALTER TABLE visit_table ADD COLUMN visit_img_num text");
+		} catch (SQLException e) {
+		}
+		try {
+			db.execSQL("ALTER TABLE visit_table ADD COLUMN start_accuracy text");
+		} catch (SQLException e) {
+		}
+		try {
+			db.execSQL("ALTER TABLE visit_table ADD COLUMN arrvie_accuracy text");
+		} catch (SQLException e) {
+		}
+		try {
+			db.execSQL("ALTER TABLE visit_mc_table ADD COLUMN upload_img_num text");
 		} catch (SQLException e) {
 		}
 		onCreate(db);

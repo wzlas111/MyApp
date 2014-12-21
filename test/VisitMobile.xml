@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 终端管理手工映射SQL语句 -->
+<sqlMap namespace="VisitMobile">
+	<typeAlias alias="dto" type="org.eredlab.g4.ccl.datastructure.impl.BaseDto"/>
+	
+	<insert id="updateStart" parameterClass="dto">
+		INSERT INTO gps_dealer_upload_data (
+			data_id, gps_id, enterprise_id, dealer_id, plan_id, 
+			date1, lon1, lat1, accuracy1, dealer_upload_status) 
+		VALUES (
+			#data_id#, #gps_id#, #enterprise_id#, #dealer_id#, #plan_id#,
+			#date1#, #lon1#, #lat1#, #accuracy1#, #dealer_upload_status#)
+	</insert>
+	
+	<update id="updateArrive" parameterClass="dto">
+        UPDATE gps_dealer_upload_data
+		<dynamic prepend="SET"> 
+			<isNotNull prepend="," property="date2">
+	         date2 = #date2#
+			</isNotNull>
+			<isNotNull prepend="," property="lon2">
+	         lon2 = #lon2#
+			</isNotNull>
+			<isNotNull prepend="," property="lat2">
+	         lat2 = #lat2#
+			</isNotNull>
+			<isNotNull prepend="," property="accuracy2">
+	         accuracy2 = #accuracy2#
+			</isNotNull>
+			<isNotNull prepend="," property="dealer_upload_status">
+	         dealer_upload_status = #dealer_upload_status#
+			</isNotNull>
+		</dynamic> 
+	        WHERE data_id = #data_id# 
+	</update>
+	
+	<update id="updateFinish" parameterClass="dto">
+        UPDATE gps_dealer_upload_data
+		<dynamic prepend="SET"> 
+			<isNotNull prepend="," property="date3">
+	         date3 = #date3#
+			</isNotNull>
+			<isNotNull prepend="," property="date4">
+	         date4 = #date4#
+			</isNotNull>
+			<isNotNull prepend="," property="img_number">
+	         img_number = #img_number#
+			</isNotNull>
+			<isNotNull prepend="," property="upload_date">
+	         upload_date = #upload_date#
+			</isNotNull>
+			<isNotNull prepend="," property="phone_time">
+	         phone_time = #phone_time#
+			</isNotNull>
+			<isNotNull prepend="," property="dealer_upload_status">
+	         dealer_upload_status = #dealer_upload_status#
+			</isNotNull>
+		</dynamic> 
+	        WHERE data_id = #data_id# 
+	</update>
+	
+	<update id="updateEvaluate" parameterClass="dto">
+        UPDATE gps_dealer_upload_data
+		<dynamic prepend="SET"> 
+			<isNotNull prepend="," property="visit_number">
+	         visit_number = #visit_number#
+			</isNotNull>
+			<isNotNull prepend="," property="other_job">
+	         other_job = #other_job#
+			</isNotNull>
+			<isNotNull prepend="," property="proposal">
+	         proposal = #proposal#
+			</isNotNull>
+			<isNotNull prepend="," property="evaluate_name">
+	         evaluate_name = #evaluate_name#
+			</isNotNull>
+			<isNotNull prepend="," property="evaluate_value">
+	         evaluate_value = #evaluate_value#
+			</isNotNull>
+			<isNotNull prepend="," property="signature_img_file">
+	         signature_img_file = #signature_img_file#
+			</isNotNull>
+			<isNotNull prepend="," property="signature_img_date">
+	         signature_img_date = #signature_img_date#
+			</isNotNull>
+		</dynamic> 
+	        WHERE data_id = #data_id# 
+	</update>
+	
+	<update id="updateEvaluateSign" parameterClass="dto">
+        UPDATE gps_dealer_upload_data
+		<dynamic prepend="SET"> 
+			<isNotNull prepend="," property="signature_img_file">
+	         signature_img_file = #signature_img_file#
+			</isNotNull>
+			<isNotNull prepend="," property="signature_img_date">
+	         signature_img_date = #signature_img_date#
+			</isNotNull>
+		</dynamic> 
+	        WHERE data_id = #data_id# 
+	</update>
+	
+	<insert id="insertUploadImg" parameterClass="dto">
+		INSERT INTO upload_img_table (
+			id, data_id, type, img_path, img_name, upload_date) 
+		VALUES (
+			#id#, #data_id#, #type#, #img_path#, #img_name#, #upload_date#)
+	</insert>
+	
+	<update id="updateImgType1" parameterClass="map">
+        UPDATE gps_dealer_upload_data SET img_file = #img_file#,img_number=img_number-1
+	        WHERE data_id = #data_id# 
+	</update>
+	
+	<select id="checkUploadImg" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		select count(*) from upload_img_table where id = #id#
+	</select>
+	
+	<select id="queryImgType1" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select img_file from gps_dealer_upload_data where data_id = #data_id#
+	</select>
+	
+	<select id="queryImgNumType1" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select img_number from gps_dealer_upload_data where data_id = #data_id#
+	</select>
+	
+</sqlMap>

@@ -109,11 +109,10 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <View style="@style/ViewLine" />
-
             <LinearLayout
                 android:id="@+id/set_help"
-                style="@style/LinearLayoutShapeItemMiddle" >
+                style="@style/LinearLayoutShapeItemMiddle"
+                android:visibility="gone" >
 
                 <RelativeLayout
                     android:layout_width="fill_parent"

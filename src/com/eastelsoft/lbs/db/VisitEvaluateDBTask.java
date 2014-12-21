@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.eastelsoft.lbs.bean.VisitEvaluateBean;
 import com.eastelsoft.lbs.db.table.VisitEvaluateTable;
+import com.eastelsoft.lbs.db.table.VisitTable;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -56,5 +57,14 @@ public class VisitEvaluateDBTask {
 		getWsd().insert(VisitEvaluateTable.TABLE_NAME, VisitEvaluateTable.ID, values);
 		
 		return DBResult.add_successfully;
+	}
+	
+	public static DBResult updateIsUploadBean(VisitEvaluateBean bean) {
+		ContentValues values = new ContentValues();
+		values.put(VisitTable.IS_UPLOAD, bean.is_upload);
+		
+		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{bean.id});
+		
+		return DBResult.update_successfully;
 	}
 }

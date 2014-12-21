@@ -56,16 +56,21 @@ public class WelcomeActivity extends Activity {
 		}
 		
 		String welcome_view = sp.getString("welcome_view", "");
-		if("".equals(welcome_view)) {
-			Editor editor = sp.edit();
-			editor.putString("welcome_view", "1");
-			editor.commit();
-		} else {
-			Intent intent = new Intent();
-			intent.setClass(WelcomeActivity.this, WaitActivity.class);
-			startActivity(intent);
-			finish();
-		}
+//		if("".equals(welcome_view)) {
+//			Editor editor = sp.edit();
+//			editor.putString("welcome_view", "1");
+//			editor.commit();
+//		} else {
+//			Intent intent = new Intent();
+//			intent.setClass(WelcomeActivity.this, WaitActivity.class);
+//			startActivity(intent);
+//			finish();
+//		}
+		
+		Intent intent = new Intent();
+		intent.setClass(WelcomeActivity.this, WaitActivity.class);
+		startActivity(intent);
+		finish();
 		
 		mInflater = getLayoutInflater();
 		mPageViews = new ArrayList<View>();

@@ -69,7 +69,9 @@ public class VisitAdapter extends BaseAdapter {
 			msg_color = mContext.getResources().getColor(R.color.is_upload_blue);
 			viewHolder.visit_img_blue.setVisibility(View.VISIBLE);
 			viewHolder.visit_img_red.setVisibility(View.GONE);
-		} else if("3".equals(status)) {//提交失败
+		} else if("3".equals(status)) {//上传中
+			msg = "上传中";
+		} else if("9".equals(status)) {//上传失败
 			msg = "上传失败";
 		}
 		viewHolder.visit_title.setText(bean.dealer_name);

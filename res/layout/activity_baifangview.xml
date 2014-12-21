@@ -139,7 +139,7 @@
                     android:visibility="gone" >
 
                     <View
-                        android:id="@+id/info_title_line"
+                        android:id="@+id/info_title_line12"
                         android:layout_width="fill_parent"
                         android:layout_height="1.0px"
                         android:background="@drawable/shape_line" />

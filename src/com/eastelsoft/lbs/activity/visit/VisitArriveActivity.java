@@ -1,5 +1,7 @@
 package com.eastelsoft.lbs.activity.visit;
 
+import org.apache.http.Header;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -10,14 +12,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
+import com.eastelsoft.lbs.bean.ResultBean;
 import com.eastelsoft.lbs.bean.VisitBean;
 import com.eastelsoft.lbs.db.VisitDBTask;
 import com.eastelsoft.lbs.location.BaiduMapAction;
 import com.eastelsoft.util.CallBack;
 import com.eastelsoft.util.Util;
+import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 public class VisitArriveActivity extends BaseActivity implements OnClickListener{
 	
@@ -93,20 +102,63 @@ public class VisitArriveActivity extends BaseActivity implements OnClickListener
 		start_location.setText(mBean.start_location);
 	}
 	
+	VisitBean bean = new VisitBean();
 	private void save() {
-		VisitBean bean = new VisitBean();
+		openPopupWindowPG("数据上传中...");
+		
 		bean.id = mId;
 		bean.arrive_time = arrive_time.getText().toString();
 		bean.arrive_location = arrive_location.getText().toString();
 		bean.arrive_lon = mlon;
 		bean.arrive_lat = mlat;
+		bean.arrive_accuracy = "-100";
 		bean.status = "1";
 		
-		VisitDBTask.updateArriveBean(bean);
-		
-		finish();
+		Gson gson = new Gson();
+		String json = gson.toJson(bean);
+		String mUrl = URLHelper.BASE_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", URLHelper.UPDATE_ARRIVE);
+		params.put("json", json);
+		params.put("data_id", bean.id);
+		HttpRestClient.post(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				try {
+					try {
+						popupWindowPg.dismiss();
+					} catch (Exception e) {
+					}
+					Gson gson = new Gson();
+					ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+					if ("1".equals(resultBean.result_code)) {
+						saveDB();
+						Toast.makeText(VisitArriveActivity.this, getResources().getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
+						finish();
+					} else {
+						Toast.makeText(VisitArriveActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				try {
+					popupWindowPg.dismiss();
+					Toast.makeText(VisitArriveActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
+	private void saveDB() {
+		VisitDBTask.updateArriveBean(bean);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

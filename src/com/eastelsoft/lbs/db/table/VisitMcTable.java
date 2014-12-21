@@ -36,6 +36,8 @@ public class VisitMcTable {
     
     public static final String UPLOAD_IMG = "upload_img";
     
+    public static final String UPLOAD_IMG_NUM = "upload_img_num";
+    
     
     public static final String IS_UPLOAD = "is_upload";
 }

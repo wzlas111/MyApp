@@ -1,6 +1,9 @@
 package com.eastelsoft.lbs.bean;
 
-public class VisitMcBean {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class VisitMcBean implements Parcelable{
 
 	public String id;
 	public String visit_id;
@@ -13,6 +16,7 @@ public class VisitMcBean {
 	public String is_repair;
 	public String client_sign;
 	public String upload_img;
+	public String upload_img_num;
 	public String is_upload;
 	
 	public String mc_register_json = "";
@@ -41,9 +45,57 @@ public class VisitMcBean {
 		sb.append("mc_info_json : "+mc_info_json+", ");
 		return sb.toString();
 	}
-	
-//	public List<VisitMcRegisterBean> mc_register_list = new ArrayList<VisitMcRegisterBean>();
-//	public List<VisitMcTypeBean> mc_type_list = new ArrayList<VisitMcTypeBean>();
-//	public List<VisitMcPersonBean> mc_person_list = new ArrayList<VisitMcPersonBean>();
-//	public List<VisitMcInfoBean> mc_info_list = new ArrayList<VisitMcInfoBean>();
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(id);
+		dest.writeString(visit_id);
+		dest.writeString(client_id);
+		dest.writeString(client_name);
+		dest.writeString(start_time);
+		dest.writeString(end_time);
+		dest.writeString(service_start_time);
+		dest.writeString(service_end_time);
+		dest.writeString(is_repair);
+		dest.writeString(client_sign);
+		dest.writeString(upload_img);
+		dest.writeString(upload_img_num);
+		dest.writeString(is_upload);
+		dest.writeString(mc_register_json);
+		dest.writeString(mc_type_json);
+		dest.writeString(mc_person_json);
+		dest.writeString(mc_info_json);
+	}
+	public static final Parcelable.Creator<VisitMcBean> CREATOR = new Parcelable.Creator<VisitMcBean>() {
+		public VisitMcBean createFromParcel(Parcel in) {
+			VisitMcBean bean = new VisitMcBean();
+			bean.id = in.readString();
+			bean.visit_id = in.readString();
+			bean.client_id = in.readString();
+			bean.client_name = in.readString();
+			bean.start_time = in.readString();
+			bean.end_time = in.readString();
+			bean.service_start_time = in.readString();
+			bean.service_end_time = in.readString();
+			bean.is_repair = in.readString();
+			bean.client_sign = in.readString();
+			bean.upload_img = in.readString();
+			bean.upload_img_num = in.readString();
+			bean.is_upload = in.readString();
+			bean.mc_register_json = in.readString();
+			bean.mc_type_json = in.readString();
+			bean.mc_person_json = in.readString();
+			bean.mc_info_json = in.readString();
+			return bean;
+		}
+
+		public VisitMcBean[] newArray(int size) {
+			return new VisitMcBean[size];
+		}
+	};
 }
