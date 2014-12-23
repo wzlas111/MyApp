@@ -56,6 +56,7 @@ import com.eastelsoft.lbs.clock.DeskClockMainActivity;
 import com.eastelsoft.lbs.db.DBUtil;
 import com.eastelsoft.lbs.db.LocationSQLiteHelper;
 import com.eastelsoft.lbs.entity.SetInfo;
+import com.eastelsoft.lbs.service.InitParamService;
 import com.eastelsoft.lbs.service.LocationService;
 import com.eastelsoft.lbs.service.LocationService.MBinder;
 import com.eastelsoft.lbs.service.ProcessService;
@@ -89,7 +90,6 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 
 		// 检测上下文数据
 		sp = getSharedPreferences("userdata", 0);
@@ -146,23 +146,17 @@ public class MainActivity extends BaseActivity {
 			itt = new Intent("com.eastelsoft.lbs.MyTimeReceiver");
 			sender = PendingIntent.getBroadcast(this, 0, itt,
 					PendingIntent.FLAG_CANCEL_CURRENT);
-			this.setAlarmTime(120000); // 启动后1分钟执行
+			this.setAlarmTime(120000); // 启动后2分钟执行
 
 		}
 		// 获取到GridView
 		maingv = (GridView) this.findViewById(R.id.gv_all);
 		pb_ll = (LinearLayout) this.findViewById(R.id.pb_ll);
-		// 给gridview设置数据适配器
-		// // String sm = "01,02,03,04,05,06,07,99";
-		// String sm = "";
-		// maingv.setAdapter(new MainGridViewAdapter(this, sm));
-		// 点击事件
 		maingv.setOnItemClickListener(new MainItemClickListener());
 		tv_lt = (TextView) findViewById(R.id.tv_lt);
 		if ("0".equals(set.getPfsign())) {
 			tv_lt.setVisibility(View.GONE);
 		}
-
 		/**
 		 * 使用地图sdk前需先初始化BMapManager. BMapManager是全局的，可为多个MapView共用，它需要地图模块创建前创建，
 		 * 并在地图地图模块销毁后销毁，只要还有地图模块在使用，BMapManager就不应该销毁
@@ -173,39 +167,15 @@ public class MainActivity extends BaseActivity {
 		dataThread = new Thread(new DataThread());
 		dataThread.start();
 
+		//初始化系统参数
+		Intent serviceIntent = new Intent(this, InitParamService.class);
+		serviceIntent.putExtra("gps_id", set.getDevice_id());
+		startService(serviceIntent);
 	}
-
-	private Thread dataThread;
 
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
-//		LocationSQLiteHelper helper = new LocationSQLiteHelper(this,null,null,5);
-//		SQLiteDatabase db = helper.getReadableDatabase();
-//		Cursor c = db.query("l_info",
-//				new String[]{"info_auto_id","uploadDate","title","imgFile","remark","location","lon","lat","istijiao","setLongtime"},
-//				null,null,null,null,null);
-//		if(c.moveToFirst()){//判断游标是否为空
-//		    for(int i=0;i<c.getCount();i++){
-//		        c.move(i);//移动到指定记录
-//		        Log.e("L_INFO", 
-//		        "info_auto_id="+ c.getString(c.getColumnIndex("info_auto_id"))+
-//		        "uploadDate="+ c.getString(c.getColumnIndex("uploadDate"))+
-//		        "title="+ c.getString(c.getColumnIndex("title"))+
-//		        "imgFile="+ c.getString(c.getColumnIndex("imgFile"))+
-//		        "remark="+ c.getString(c.getColumnIndex("remark"))+
-//		        "location="+ c.getString(c.getColumnIndex("location"))+
-//		        "lon="+c.getString(c.getColumnIndex("lon"))+
-//		        "lat="+c.getString(c.getColumnIndex("lat"))+
-//		        "istijiao="+ c.getString(c.getColumnIndex("istijiao"))+
-//		        "setLongtime="+ c.getString(c.getColumnIndex("setLongtime"))
-//		        );
-//		    }
-//
-//		}
-//		
-//		
 		if (locationService != null) {
 			String state = locationService.getOnlineState();
 			if (Contant.LINGING.equals(state)) {
@@ -225,22 +195,9 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private class MainItemClickListener implements OnItemClickListener {
-		/**
-		 * @param parent
-		 *            代表当前的gridview
-		 * @param view
-		 *            代表点击的item
-		 * @param position
-		 *            当前点击的item在适配中的位置
-		 * @param id
-		 *            当前点击的item在哪一行
-		 */
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent intent = null;
 			TextView tv = (TextView) view.findViewById(R.id.main_gv_tv);
-			// toast("" + view.getId() + ":" + tv.getText());
 			if (Contant.MENUS_MAP.get("01").equalsIgnoreCase(
 					tv.getText().toString())) {
 				intent = new Intent(MainActivity.this, PlanActivity.class);
@@ -279,18 +236,12 @@ public class MainActivity extends BaseActivity {
 				intent = new Intent(MainActivity.this,
 						BulletinListActivity.class);
 			}
-
 			if (Contant.MENUS_MAP.get("11").equalsIgnoreCase(
 					tv.getText().toString())) {
 				intent = new Intent(MainActivity.this,
 						KnowledgeBaseListActivity.class);
 				intent.putExtra("info_auto_id", "firstpage");
 			}
-			// if (Contant.MENUS_MAP.get("98").equalsIgnoreCase(
-			// tv.getText().toString())) {
-			// intent = new Intent(MainActivity.this,
-			// DeskClockMainActivity.class);
-			// }
 			if (Contant.MENUS_MAP.get("24").equalsIgnoreCase(
 					tv.getText().toString())) {
 				intent = new Intent(MainActivity.this, VisitActivity.class);
@@ -311,9 +262,7 @@ public class MainActivity extends BaseActivity {
 			if (intent != null)
 				startActivity(intent);
 			else
-				Toast.makeText(MainActivity.this,
-						"[" + tv.getText() + "]开发中，敬请期待。。。", Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(MainActivity.this,"[" + tv.getText() + "]开发中，敬请期待。。。", Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -345,12 +294,9 @@ public class MainActivity extends BaseActivity {
 					online_state.setImageResource(R.drawable.stat_lineing);
 				} else if (Contant.ON_LINE.equals(state)) {
 					online_state.setImageResource(R.drawable.stat_online);
-
 				} else {
 					online_state.setImageResource(R.drawable.stat_offline);
-
 				}
-
 			}
 		}
 
@@ -400,6 +346,7 @@ public class MainActivity extends BaseActivity {
 
 	}
 
+	private Thread dataThread;
 	class DataThread implements Runnable {
 		@Override
 		public void run() {

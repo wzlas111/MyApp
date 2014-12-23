@@ -42,7 +42,7 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 		
 		for (int i = 0; i < mList.size(); i++) {
 			ClientBean bean = mList.get(i);
-			String py = bean.py;
+			String py = bean.first_py;
 			String py_index = "#";
 			if (py != null && !"".equals(py)) {
 				py_index = py.substring(0, 1).toUpperCase();
@@ -105,7 +105,7 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 		
 		if (isFirstInSection(position)) {
 			viewHolder.sectionTv.setVisibility(View.VISIBLE);
-			String py = bean.py;
+			String py = bean.first_py;
 			String py_index = "#";
 			if (py != null && !"".equals(py)) {
 				py_index = py.substring(0, 1);
@@ -122,7 +122,7 @@ public class ClientAdapter extends BaseAdapter implements SectionIndexer{
 			viewHolder.isUploadTv.setText("已同步");
 			viewHolder.isUploadTv.setTextColor(mBlueColor);
 		}
-		viewHolder.fullNameTv.setText(bean.name);
+		viewHolder.fullNameTv.setText(bean.client_name);
 		return convertView;
 	}
 

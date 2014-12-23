@@ -49,10 +49,12 @@ import com.eastelsoft.lbs.activity.select.SignImgDetailActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
 import com.eastelsoft.lbs.bean.VisitMcBean;
 import com.eastelsoft.lbs.db.VisitMcDBTask;
+import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.lbs.service.VisitEvaluateService;
 import com.eastelsoft.lbs.service.VisitMcService;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.FileUtil;
+import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.ImageThumbnail;
 import com.eastelsoft.util.ImageUtil;
 import com.eastelsoft.util.Util;
@@ -185,12 +187,15 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 //		setResult(RESULT_OK, intent);
 //		finish();
 		if (canSend()) {
+			sp = getSharedPreferences("userdata", 0);
+			SetInfo set = IUtil.initSetInfo(sp);
 			Toast.makeText(this, getResources().getString(R.string.upload_visit_mc_background), Toast.LENGTH_SHORT).show();
 			
 			Intent serviceIntent = new Intent(this, VisitMcService.class);
 			Bundle bundle = new Bundle();
 			bundle.putParcelable("bean", mBean);
 			bundle.putString("id", mBean.visit_id);
+			bundle.putString("gps_id", set.getDevice_id());
 			bundle.putStringArray("photos_path", photos_path);
 			serviceIntent.putExtras(bundle);
 			startService(serviceIntent);

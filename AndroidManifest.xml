@@ -626,6 +626,8 @@
         <service android:name=".service.VisitFinishService" />
         <service android:name=".service.VisitEvaluateService" />
         <service android:name=".service.VisitMcService" />
+        <service android:name=".service.ImgUploadService" />
+        <service android:name=".service.InitParamService" />
         
     </application>
 

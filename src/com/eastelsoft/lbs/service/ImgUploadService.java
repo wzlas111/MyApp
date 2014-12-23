@@ -12,11 +12,10 @@ import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.visit.VisitActivity;
 import com.eastelsoft.lbs.bean.ResultBean;
 import com.eastelsoft.lbs.bean.UploadImgBean;
-import com.eastelsoft.lbs.bean.VisitMcBean;
+import com.eastelsoft.lbs.bean.VisitBean;
 import com.eastelsoft.lbs.db.UploadDBTask;
-import com.eastelsoft.lbs.db.VisitMcDBTask;
+import com.eastelsoft.lbs.db.VisitDBTask;
 import com.eastelsoft.util.FileLog;
-import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.Util;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
@@ -31,21 +30,17 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.widget.Toast;
 
-public class VisitMcService extends Service {
+public class ImgUploadService extends Service {
 	
-	public static final String TAG = "VisitMcService";
-	public String contentType = RequestParams.APPLICATION_OCTET_STREAM;
+	public static final String TAG = "ImgUploadService";
 	
 	private String mId;
-	private String gps_id;
-	private VisitMcBean mBean;
 	private String[] photos_path;
 	private String upload_date;
-	List<UploadImgBean> u_list;
-	Gson gson = new Gson();
+	private List<UploadImgBean> u_list;
 	
+	private Gson gson = new Gson();
 	private NotificationManager nm;
 	private int notification_id;
 	
@@ -55,27 +50,19 @@ public class VisitMcService extends Service {
 		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		notification_id = new Random().nextInt(Integer.MAX_VALUE);
 	}
-
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		FileLog.i(TAG, TAG+"----> onStartCommand");
 		mId = intent.getStringExtra("id");
-		gps_id = intent.getStringExtra("gps_id");
 		photos_path = intent.getStringArrayExtra("photos_path");
 		upload_date = Util.getLocaleTime("yyyy-MM-dd HH:mm:ss");
-		mBean = intent.getParcelableExtra("bean");
 		u_list = new ArrayList<UploadImgBean>();
 		
 		new InsertDBTask().execute("");
 		return START_NOT_STICKY;
 	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		FileLog.i(TAG, TAG+"----> onDestroy");
-	}
-	
+
 	private class InsertDBTask extends AsyncTask<String, Integer, Boolean> {
 		@Override
 		protected Boolean doInBackground(String... params) {
@@ -90,8 +77,8 @@ public class VisitMcService extends Service {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-			//upload
-			uploadForm();
+			//upload img
+			uploadImg();
 		}
 	}
 	
@@ -102,43 +89,20 @@ public class VisitMcService extends Service {
 			FileLog.i(TAG, TAG+"---->i:"+i+", photos_path:"+photos_path[i]);
 			UploadImgBean u_bean = new UploadImgBean();
 			u_bean.id = UUID.randomUUID().toString();
-			u_bean.data_id = mBean.id;
+			u_bean.data_id = mId;
 			u_bean.name = photos_path[i];
-			u_bean.type = "2";
+			u_bean.type = "1";
 			u_bean.path = photos_path[i];
 			u_list.add(u_bean);
 			sb.append(photos_path[i]+"|");
 		}
 		UploadDBTask.addImgBeanList(u_list);
-		
-		mBean.upload_img = sb.toString();
-		mBean.upload_img_num = String.valueOf(photos_path.length);
-		VisitMcDBTask.addBean(mBean);
-	}
-	
-	/**
-	 * 上传基本数据
-	 */
-	private void uploadForm() {
-		try {
-			FileLog.i(TAG, TAG+"----> uploadForm");
-			String json = gson.toJson(mBean);
-			String mUrl = URLHelper.BASE_ACTION;
-			RequestParams params = new RequestParams();
-			params.put("reqCode", URLHelper.UPDATE_MC);
-			params.put("gps_id", gps_id);
-			params.put("data_id", mBean.id);
-			params.put("json", json);
-			params.put("file1", new File(mBean.client_sign));
-			HttpRestClient.postSingle(mUrl, params, new FormResponseHandler());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	private void uploadImg() {
 		FileLog.i(TAG, TAG+"----> uploadImg");
 		String mUrl = URLHelper.BASE_ACTION;
+		String contentType = RequestParams.APPLICATION_OCTET_STREAM;
 		for (int i = 0; i < u_list.size(); i++) {
 			try {
 				UploadImgBean u_bean = u_list.get(i);
@@ -146,8 +110,8 @@ public class VisitMcService extends Service {
 				File file = new File(u_bean.path);
 				RequestParams params = new RequestParams();
 				params.put("reqCode", URLHelper.IMG_UPLOAD);
-				params.put("data_id", mBean.id);
-				params.put("type", "2");
+				params.put("data_id", mId);
+				params.put("type", "1");
 				params.put("json", json);
 				params.put("file"+i, file, contentType);
 				params.setHttpEntityIsRepeatable(false);
@@ -159,42 +123,6 @@ public class VisitMcService extends Service {
 			}
 		}
 		FileLog.i(TAG, TAG+"---->u_list size:"+u_list.size());
-	}
-	
-	private class FormResponseHandler extends TextHttpResponseHandler {
-		@Override
-		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			FileLog.i(TAG, TAG+"基础数据上传成功，等待上传图片...");
-			mBean.is_upload = "00";
-			if (photos_path.length == 0) {
-				mBean.is_upload = "1";
-				VisitMcDBTask.updateIsUploadBean(mBean);
-				
-				showNotificationInformation(R.drawable.notify,
-						getResources().getString(R.string.app_name),
-						getResources().getString(R.string.app_name),
-						"机修记录上传成功.");
-				
-				stopService();
-			}
-			uploadImg();
-		}
-		@Override
-		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-			Toast.makeText(GlobalVar.getInstance(), getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
-			FileLog.i(TAG, TAG+"基础数据上传失败...");
-			showNotificationInformation(R.drawable.notify,
-					getResources().getString(R.string.app_name),
-					getResources().getString(R.string.app_name),
-					"机修记录上传失败,待网络通畅后自动上传.");
-			
-			stopService();
-		}
-		@Override
-		public void onRetry(int retryNo) {
-			super.onRetry(retryNo);
-			FileLog.i(TAG, TAG+"基础数据上传中,重试次数:"+retryNo);
-		}
 	}
 	
 	private class ImgResponseHandler extends TextHttpResponseHandler {
@@ -213,14 +141,17 @@ public class VisitMcService extends Service {
 					String img_num = bean.img_num;
 					int num = Integer.parseInt(img_num);
 					if (num <= 0) {
-						mBean.is_upload = "1";
-						VisitMcDBTask.updateIsUploadBean(mBean);
+						VisitBean v_bean = new VisitBean();
+						v_bean.id = mId;
+						v_bean.is_upload = "1";
+						v_bean.status = "2";
+						VisitDBTask.updateIsUploadBean(v_bean);
 						FileLog.i(TAG, TAG+"图片已全部上传...");
 						
 						showNotificationInformation(R.drawable.notify,
 								getResources().getString(R.string.app_name),
 								getResources().getString(R.string.app_name),
-								"机修记录上传成功.");
+								"补录拜访记录上传成功.");
 						
 						stopService();
 					}
@@ -236,10 +167,6 @@ public class VisitMcService extends Service {
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 			FileLog.i(TAG, TAG+"图片上传失败!!!,img_id:"+img_id);
-			showNotificationInformation(R.drawable.notify,
-					getResources().getString(R.string.app_name),
-					getResources().getString(R.string.app_name),
-					"机修记录上传失败,待网络通畅后自动上传.");
 		}
 		
 		@Override
@@ -275,4 +202,5 @@ public class VisitMcService extends Service {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
+
 }

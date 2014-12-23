@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.Header;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -44,15 +46,24 @@ import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.select.ClientDealerActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
+import com.eastelsoft.lbs.bean.ResultBean;
 import com.eastelsoft.lbs.bean.VisitBean;
 import com.eastelsoft.lbs.db.VisitDBTask;
+import com.eastelsoft.lbs.entity.SetInfo;
+import com.eastelsoft.lbs.service.ImgUploadService;
 import com.eastelsoft.lbs.service.VisitFinishService;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.FileUtil;
+import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.ImageThumbnail;
 import com.eastelsoft.util.ImageUtil;
 import com.eastelsoft.util.Util;
 import com.eastelsoft.util.file.FileManager;
+import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 public class VisitAdditionalActivity extends BaseActivity implements OnClickListener{
 	
@@ -176,22 +187,93 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 		return true;
 	}
 	
-	private void saveDB() {
+	private void save() {
 		if (canSend()) {
-			Intent intent = new Intent(this, VisitFinishService.class);
-			intent.putExtra("id", mBean.id);
-			intent.putExtra("dealer_id", mDealer_id);
-			intent.putExtra("dealer_name", dealer_name.getText().toString());
-			intent.putExtra("start_time", start_time.getText().toString());
-			intent.putExtra("arrive_time", arrive_time.getText().toString());
-			intent.putExtra("service_begin_time", service_start_time.getText().toString());
-			intent.putExtra("service_end_time", service_end_time.getText().toString());
-			intent.putExtra("photos_path", photos_path);
-			startService(intent);
+			StringBuffer sb = new StringBuffer("");
+			for (int i = 0; i < photos_path.length; i++) {
+				sb.append(photos_path[i]+"|");
+			}
 			
-			Toast.makeText(VisitAdditionalActivity.this, getResources().getString(R.string.upload_visit_background), Toast.LENGTH_SHORT).show();
-			finish();
+			mBean.dealer_id = mDealer_id;
+			mBean.dealer_name = dealer_name.getText().toString();
+			mBean.start_time = start_time.getText().toString();
+			mBean.arrive_time = arrive_time.getText().toString();
+			mBean.service_begin_time = service_start_time.getText().toString();
+			mBean.service_end_time = service_end_time.getText().toString();
+			mBean.is_upload = "0";
+			mBean.status = "3";
+			mBean.mechanic_count = "0";
+			mBean.is_evaluate = "0";
+			mBean.upload_date = Util.getLocaleTime("yyyy-MM-dd HH:mm:ss");
+			mBean.visit_img = sb.toString();
+			mBean.visit_img_num = String.valueOf(photos_path.length);
+			
+			openPopupWindowPG("数据上传中...");
+			
+			sp = getSharedPreferences("userdata", 0);
+			SetInfo set = IUtil.initSetInfo(sp);
+			Gson gson = new Gson();
+			String json = gson.toJson(mBean);
+			String mUrl = URLHelper.BASE_ACTION;
+			RequestParams params = new RequestParams();
+			params.put("reqCode", URLHelper.UPDATE_ADDITIONAL);
+			params.put("json", json);
+			params.put("data_id", mBean.id);
+			params.put("gps_id", set.getDevice_id());
+			HttpRestClient.post(mUrl, params, new TextHttpResponseHandler() {
+				@Override
+				public void onSuccess(int statusCode, Header[] headers, String responseString) {
+					try {
+						popupWindowPg.dismiss();
+					} catch (Exception e) {
+					}
+					try {
+						Gson gson = new Gson();
+						ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+						if ("1".equals(resultBean.resultcode)) {
+							
+							if (photos_path.length > 0) {//upload img
+								mBean.status = "4";
+								saveDB();
+								
+								Intent intent = new Intent(VisitAdditionalActivity.this, ImgUploadService.class);
+								intent.putExtra("id", mBean.id);
+								intent.putExtra("photos_path", photos_path);
+								startService(intent);
+								Toast.makeText(VisitAdditionalActivity.this, getResources().getString(R.string.upload_form_success), Toast.LENGTH_SHORT).show();
+							} else {
+								mBean.status = "2";
+								mBean.is_upload = "1";
+								saveDB();
+								Toast.makeText(VisitAdditionalActivity.this, getResources().getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
+							}
+							finish();
+						} else {
+							Toast.makeText(VisitAdditionalActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				@Override
+				public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+					try {
+						try {
+							popupWindowPg.dismiss();
+						} catch (Exception e) {
+						}
+						Toast.makeText(VisitAdditionalActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
 		}
+	}
+	
+	private void saveDB() {
+		VisitDBTask.addAdditionalBean(mBean);
 	}
 	
 	@Override
@@ -202,7 +284,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			finish();
 			break;
 		case R.id.save_db:
-			saveDB();
+			save();
 			break;
 		case R.id.save_upload:
 			

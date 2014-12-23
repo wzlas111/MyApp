@@ -18,7 +18,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
 public class ClientContactsAddFragment extends Fragment implements OnClickListener{
@@ -57,11 +59,21 @@ public class ClientContactsAddFragment extends Fragment implements OnClickListen
 	private void addTableRow(int row) {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.widget_contact_add_table, null);
 		((EditText)view.findViewById(R.id.name)).setText("");
-		((EditText)view.findViewById(R.id.position)).setText("");
-		((EditText)view.findViewById(R.id.tel_1)).setText("");
-		((EditText)view.findViewById(R.id.tel_2)).setText("");
-		((EditText)view.findViewById(R.id.tel_3)).setText("");
+		((EditText)view.findViewById(R.id.contact_phone_1)).setText("");
+		((EditText)view.findViewById(R.id.contact_phone_2)).setText("");
+		((EditText)view.findViewById(R.id.tel)).setText("");
 		((EditText)view.findViewById(R.id.remark)).setText("");
+		((TextView)view.findViewById(R.id.is_main)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String text = ((TextView)v).getText().toString();
+				if ("是".equals(text)) {
+					((TextView)v).setText("否");
+				} else if("否".equals(text)) {
+					((TextView)v).setText("是");
+				}
+			}
+		});
 		
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
 		layoutParams.topMargin = 15;
@@ -85,20 +97,23 @@ public class ClientContactsAddFragment extends Fragment implements OnClickListen
 		for (int i = 0; i < count; i++) {
 			View view = mFrameTable.getChildAt(i);
 			ClientContactsBean mBean = new ClientContactsBean();
-			mBean.id = UUID.randomUUID().toString();
-			mBean.client_id = mId;
-			
+			mBean.contact_person_id = UUID.randomUUID().toString();
+			mBean.map_client_id = mId;
+		
 			String name = ((EditText)view.findViewById(R.id.name)).getText().toString();
 			if (TextUtils.isEmpty(name)) {//if name has no value,so the data is invalid.
 				continue;
 			}
-			mBean.name = name;
-			mBean.position = ((EditText)view.findViewById(R.id.position)).getText().toString();
-			mBean.tel_1 = ((EditText)view.findViewById(R.id.tel_1)).getText().toString();
-			mBean.tel_2 = ((EditText)view.findViewById(R.id.tel_2)).getText().toString();
-			mBean.tel_3 = ((EditText)view.findViewById(R.id.tel_3)).getText().toString();
-			mBean.remark = ((EditText)view.findViewById(R.id.remark)).getText().toString();
-			
+			mBean.contact_person_name = name;
+			mBean.contact_phone_1 = ((EditText)view.findViewById(R.id.contact_phone_1)).getText().toString();
+			mBean.contact_phone_2 = ((EditText)view.findViewById(R.id.contact_phone_2)).getText().toString();
+			mBean.tel = ((EditText)view.findViewById(R.id.tel)).getText().toString();
+			String is_main = ((TextView)view.findViewById(R.id.is_main)).getText().toString();
+			if ("是".equals(is_main)) {
+				mBean.is_main = "1";
+			} else if("否".equals(is_main)) {
+				mBean.is_main = "0";
+			}
 			mList.add(mBean);
 		}
 		Gson gson = new Gson();

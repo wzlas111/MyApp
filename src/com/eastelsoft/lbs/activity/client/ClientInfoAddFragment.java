@@ -6,20 +6,31 @@ import com.eastelsoft.lbs.activity.select.ClientRegionActivity;
 import com.eastelsoft.lbs.activity.select.ClientTypeActivity;
 import com.eastelsoft.lbs.activity.select.ClientTypenameActivity;
 import com.eastelsoft.lbs.bean.ClientDetailBean;
+import com.eastelsoft.lbs.bean.ClientDto;
+import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
+import com.eastelsoft.lbs.location.BaiduMapAction;
+import com.eastelsoft.util.CallBack;
+import com.eastelsoft.util.Util;
 import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class ClientInfoAddFragment extends Fragment implements OnClickListener{
@@ -42,10 +53,10 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 	private TextView type;
 	private TextView region_name;
 	private TextView typename;
-	private EditText contact_phone;
 	private EditText fax;
 	private EditText address;
 	private EditText remark;
+	private Button location_btn;
 	
 	public ClientInfoAddFragment(String id) {
 		mId = id;
@@ -71,11 +82,12 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 		type = (TextView)view.findViewById(R.id.type);
 		region_name = (TextView)view.findViewById(R.id.region_name);
 		typename = (TextView)view.findViewById(R.id.typename);
-		contact_phone = (EditText)view.findViewById(R.id.contact_phone);
 		fax = (EditText)view.findViewById(R.id.fax);
 		address = (EditText)view.findViewById(R.id.address);
 		remark = (EditText)view.findViewById(R.id.remark);
+		location_btn = (Button)view.findViewById(R.id.location_btn);
 		
+		location_btn.setOnClickListener(this);
 		mRow_dealer = view.findViewById(R.id.row_dealer_name);
 		mRow_dealer.setOnClickListener(this);
 		mRow_type = view.findViewById(R.id.row_type);
@@ -128,6 +140,10 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 			intent.putExtra("id", mChecked_typename);
 			startActivityForResult(intent, 4);
 			break;
+		case R.id.location_btn:
+			address.setText("正在获取中...");
+			new BaiduMapAction(getActivity(), mapCallback, "2").startListener();
+			break;
 		}
 	}
 	
@@ -166,26 +182,74 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 		}
 	}
 	
+	public boolean canSend() {
+		if (TextUtils.isEmpty(client_name.getText().toString())) {
+			Toast.makeText(getActivity(), "请选择客户名称.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(type.getText().toString())) {
+			Toast.makeText(getActivity(), "请选择客户共享.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
+	}
+	
 	public String getJSON() {
-		ClientDetailBean mBean = new ClientDetailBean();
+		ClientBean mBean = new ClientDto().new ClientBean();
 		mBean.id = mId;
 		mBean.client_name = client_name.getText().toString();
 		mBean.client_code = client_code.getText().toString();
 		mBean.dealer_id = mChecked_dealer;
 		mBean.type = mChecked_type;
 		mBean.region_id = mChecked_region;
-		mBean.typename = mChecked_typename;
-		mBean.contact_phone = contact_phone.getText().toString();
+		mBean.type_id = mChecked_typename;
 		mBean.fax = fax.getText().toString();
 		mBean.address = address.getText().toString();
+		mBean.accuary = "-100";
 		mBean.remark = remark.getText().toString();
 		mBean.lon = mLon;
 		mBean.lat = mLat;
+		mBean.is_upload = "0";
 		
 		Gson gson = new Gson();
-		String jsonString = gson.toJson(mBean, ClientDetailBean.class);
+		String jsonString = gson.toJson(mBean, ClientBean.class);
 		
 		return jsonString;
 	}
+	
+	private CallBack mapCallback = new CallBack() {
+		public void execute(Object[] params) {
+			Message msg = mHandler.obtainMessage();
+			msg.what = 99;
+			msg.obj = params;
+			mHandler.sendMessage(msg);
+		}
+	};
+	
+	private Handler mHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 99:
+				Location location = null;
+				Object[] obj1 = (Object[]) msg.obj;
+				if (obj1[0] != null) {
+					location = (Location) obj1[0];
+				}
+				if (location != null) {
+					try {
+						mLon = Util.format(location.getLongitude(), "#.######");
+						mLat = Util.format(location.getLatitude(), "#.######");
+						String locationDesc = location.getExtras().getString("desc");
+						address.setText(locationDesc);
+					} catch (Exception e) {
+						address.setText("获取定位信息失败");
+					}
+				} else {
+					address.setText("获取定位信息失败");
+				}
+				break;
+			}
+		}
+	};
 	
 }

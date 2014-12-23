@@ -43,8 +43,8 @@ public class VisitFinishService extends Service {
 	private String service_end_time;
 	private String upload_date;
 	private String[] photos_path;
-	List<UploadImgBean> u_list;
-	Gson gson = new Gson();
+	private List<UploadImgBean> u_list;
+	private Gson gson = new Gson();
 	
 	private NotificationManager nm;
 	private int notification_id;
@@ -178,8 +178,13 @@ public class VisitFinishService extends Service {
 						"拜访记录上传成功.");
 				
 				stopService();
+			} else {
+				bean.is_upload = "0";
+				bean.status = "4";
+				VisitDBTask.updateIsUploadBean(bean);
+				uploadImg();
 			}
-			uploadImg();
+			
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -209,7 +214,7 @@ public class VisitFinishService extends Service {
 			try {
 				Gson gson = new Gson();
 				ResultBean bean = gson.fromJson(responseString, ResultBean.class);
-				if ("1".equals(bean.result_code)) { //success
+				if ("1".equals(bean.resultcode)) { //success
 					FileLog.i(TAG, TAG+"图片上传成功...,img_id:"+img_id);
 					UploadDBTask.deleteImgBean(img_id);
 					String img_num = bean.img_num;
@@ -229,7 +234,7 @@ public class VisitFinishService extends Service {
 						
 						stopService();
 					}
-				} else if("98".equals(bean.result_code)){//repeat
+				} else if("98".equals(bean.resultcode)){//repeat
 					UploadDBTask.deleteImgBean(img_id);
 					FileLog.i(TAG, TAG+"图片重复上传，本地删除...,img_id:"+img_id);
 				}
@@ -241,10 +246,10 @@ public class VisitFinishService extends Service {
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 			FileLog.i(TAG, TAG+"图片上传失败!!!,img_id:"+img_id);
-			showNotificationInformation(R.drawable.notify,
-					getResources().getString(R.string.app_name),
-					getResources().getString(R.string.app_name),
-					"拜访记录上传失败,待网络通畅后自动上传.");
+//			showNotificationInformation(R.drawable.notify,
+//					getResources().getString(R.string.app_name),
+//					getResources().getString(R.string.app_name),
+//					"拜访记录上传失败,待网络通畅后自动上传.");
 		}
 		
 		@Override

@@ -4,5 +4,6 @@ import java.util.List;
 
 public class ClientMechanicsDto {
 
-	public List<ClientMechanicsBean> data;
+	public String resultcode;
+	public List<ClientMechanicsBean> clientdata;
 }

@@ -69,11 +69,11 @@ public class ClientTypeActivity extends BaseActivity {
 	private void initData() {
 		mList = new ArrayList<SelectBean>();
 		SelectBean bean = new SelectBean();
-		bean.id = "0";
+		bean.id = "1";
 		bean.name = "企业共享";
 		mList.add(bean);
 		SelectBean bean1 = new SelectBean();
-		bean1.id = "1";
+		bean1.id = "3";
 		bean1.name = "员工私有";
 		mList.add(bean1);
 	}

@@ -44,7 +44,7 @@ public class VisitTable {
     
     public static final String VISIT_IMG_NUM = "visit_img_num";
     
-    //0:已出发; 1:到达; 2:已上传 ; 3:上传中; 9:上传失败
+    //0:已出发; 1:到达; 2:已上传 ; 3:表单上传中; 4:图片上传中; 9:上传失败;
     public static final String STATUS = "status";
     //0:未上传; 1:已上传
     public static final String IS_UPLOAD = "is_upload";

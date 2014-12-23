@@ -21,9 +21,9 @@
     <TableRow>
         <TextView
             style="@style/table_text_style"
-            android:text="职位 " />
+            android:text="联系电话" />
         <EditText
-            android:id="@+id/position"
+            android:id="@+id/contact_phone_1"
             style="@style/table_edit_style"
             android:imeOptions="actionNext" />
     </TableRow>
@@ -31,9 +31,9 @@
     <TableRow>
         <TextView
             style="@style/table_text_style"
-            android:text="电话" />
+            android:text="联系电话" />
         <EditText
-            android:id="@+id/tel_1"
+            android:id="@+id/contact_phone_2"
             style="@style/table_edit_style"
             android:imeOptions="actionNext" />
     </TableRow>
@@ -41,19 +41,9 @@
     <TableRow>
         <TextView
             style="@style/table_text_style"
-            android:text="电话" />
+            android:text="座机" />
         <EditText
-            android:id="@+id/tel_2"
-            style="@style/table_edit_style"
-            android:imeOptions="actionNext" />
-    </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-    <TableRow>
-        <TextView
-            style="@style/table_text_style"
-            android:text="电话" />
-        <EditText
-            android:id="@+id/tel_3"
+            android:id="@+id/tel"
             style="@style/table_edit_style"
             android:imeOptions="actionNext" />
     </TableRow>
@@ -67,6 +57,18 @@
             android:id="@+id/remark"
             style="@style/table_edit_style"
             android:imeOptions="actionNext" />
+    </TableRow>
+     <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
+    
+    <TableRow>
+        <TextView
+            style="@style/table_text_style"
+            android:text="主联系人"/>
+        <TextView 
+            android:id="@+id/is_main"
+            android:layout_width="100.0dp"
+            android:layout_height="wrap_content"
+            android:text="否"/>
     </TableRow>
 
 </TableLayout>

@@ -4,5 +4,6 @@ import java.util.List;
 
 public class ClientContactsDto {
 
-	public List<ClientContactsBean> data;
+	public String reslutcode;
+	public List<ClientContactsBean> clientdata;
 }

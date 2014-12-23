@@ -2,7 +2,6 @@ package com.eastelsoft.lbs.activity.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import org.apache.http.Header;
 
@@ -25,13 +24,20 @@ import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.bean.ClientDto;
 import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
 import com.eastelsoft.lbs.db.ClientDBTask;
+import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.lbs.widget.ClientListView;
+import com.eastelsoft.util.FileLog;
+import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
 import com.eastelsoft.util.settinghelper.SettingUtility;
 import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 public class ClientActivity extends BaseActivity implements TextWatcher {
+	
+	public static final String TAG = "ClientActivity";
 	
 	private List<ClientBean> mList;
 	private List<ClientBean> mFilterList;
@@ -40,6 +46,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 	private String mSearchStr;
 	private SearchTask mSearchTask;
 	private boolean isSearchMode = false;
+	private boolean need_update = false;
 	
 	private EditText mSearchEt;
 	private View mLoadingView;
@@ -66,8 +73,10 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
 		case 0:
-			if (data != null) {
+			if (resultCode == 0) {//本地
 				new InitDBDataTask(false).execute("");
+			} else if(resultCode == 1) {//服务器
+				initDataTask();
 			}
 			break;
 		}
@@ -114,6 +123,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 					bean = mFilterList.get(position);
 				}
 				intent.putExtra("id", bean.id);
+				intent.putExtra("need_update", need_update);
 				startActivity(intent);
 			}
 		});
@@ -160,19 +170,28 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 	private ClientDto clientDto;
 	private DataThread mDataThread;
 	private void initDataTask() {
-		String url = "http://58.240.63.104/managermobile.do?reqCode=custList";
-		HttpRestClient.get(url, null, new TextHttpResponseHandler() {
+		sp = getSharedPreferences("userdata", 0);
+		SetInfo set = IUtil.initSetInfo(sp);
+		String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.CLIENT_UPDATECODE);
+		FileLog.i(TAG, TAG+".updatecode: "+updatecode);
+		String mUrl = URLHelper.TEST_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", "ClientUpdateActionJk");
+		params.put("GpsId", set.getDevice_id());
+		params.put("code", updatecode);
+		params.put("Pin", "111111");
+		HttpRestClient.get(mUrl, params, new TextHttpResponseHandler() {
 			
 			@Override
 			public void onStart() {
 				super.onStart();
 				mLoadingView.setVisibility(View.VISIBLE);
-				System.out.println("dealer list onStart");
+				FileLog.i(TAG, TAG+"开始进行客户数据更新.");
 			}
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				System.out.println("dealer list onSuccess");
+				FileLog.i(TAG, TAG+"客户数据下载成功.data: "+responseString);
 				Message msg = new Message();
 				msg.what = 0;
 				msg.obj = responseString;
@@ -200,17 +219,19 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 				Gson gson = new Gson();
 				clientDto = gson.fromJson(responseString, ClientDto.class);
 				if ("1".equals(clientDto.resultcode)) { //load from net
-					System.out.println("load from net");
-					mList = clientDto.data;
+					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号不同，更新数据库.");
+					need_update = true;
+					mList = clientDto.clientdata;
 					insertDB();
-					mList = ClientDBTask.getBeanList();
-					SettingUtility.setValue(SettingUtility.DEALER_UPDATECODE, clientDto.updatecode);
-				} 
+//					mList = ClientDBTask.getBeanList();
+					SettingUtility.setValue(SettingUtility.CLIENT_UPDATECODE, clientDto.updatecode);
+				} else {
+					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号相同，无需更新.");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			mHandler.sendEmptyMessage(1);
-			System.out.println("dealer data handle success.");
 		}
 	}
 	
@@ -248,8 +269,8 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 			mFilterList.clear();
 			String keyword = params[0];
 			for (ClientBean bean : mList) {
-				boolean isPinyin = bean.py.indexOf(keyword) > -1;
-				boolean isZhongwen = bean.name.indexOf(keyword) > -1;
+				boolean isPinyin = bean.first_py.indexOf(keyword) > -1;
+				boolean isZhongwen = bean.client_name.indexOf(keyword) > -1;
 				if (isPinyin || isZhongwen) {
 					mFilterList.add(bean);
 				}

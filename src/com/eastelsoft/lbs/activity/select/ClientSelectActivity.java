@@ -90,7 +90,7 @@ public class ClientSelectActivity extends BaseActivity implements TextWatcher {
 					bean = mFilterList.get(position);
 				}
 				intent.putExtra("checked_id", bean.id);
-				intent.putExtra("checked_name", bean.name);
+				intent.putExtra("checked_name", bean.client_name);
 				setResult(1, intent);
 				finish();
 			}
@@ -133,8 +133,8 @@ public class ClientSelectActivity extends BaseActivity implements TextWatcher {
 			mFilterList.clear();
 			String keyword = params[0];
 			for (ClientBean bean : mList) {
-				boolean isPinyin = bean.py.indexOf(keyword) > -1;
-				boolean isZhongwen = bean.name.indexOf(keyword) > -1;
+				boolean isPinyin = bean.first_py.indexOf(keyword) > -1;
+				boolean isZhongwen = bean.client_name.indexOf(keyword) > -1;
 				if (isPinyin || isZhongwen) {
 					mFilterList.add(bean);
 				}

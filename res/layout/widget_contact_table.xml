@@ -1,132 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10.0dp"
+    android:layout_marginTop="15.0dp"
     android:background="@drawable/tt_page_item_bk"
-    android:gravity="center_vertical"
-    android:paddingLeft="20dp"
-    android:shrinkColumns="1" >
+    android:orientation="vertical" >
 
-    <TableRow>
-        <TextView
-            android:layout_height="45dp"
-            android:layout_column="1"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text="姓名"
-            android:textColor="@color/default_key_color"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/name"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text=""
-            android:textColor="@color/default_value_color"
-            android:textSize="15sp" />
-    </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-    <TableRow>
-        <TextView
-            android:layout_height="45dp"
-            android:layout_column="1"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text="职位 "
-            android:textColor="@color/default_key_color"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/position"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text=""
-            android:textColor="@color/default_value_color"
-            android:textSize="15sp" />
-    </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-    <TableRow>
-        <TextView
-            android:layout_height="45dp"
-            android:layout_column="1"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text="电话"
-            android:textColor="@color/default_key_color"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/tel_1"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text=""
-            android:textColor="@color/default_value_color"
-            android:textSize="15sp" />
-    </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-    <TableRow>
-        <TextView
-            android:layout_height="45dp"
-            android:layout_column="1"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text="电话"
-            android:textColor="@color/default_key_color"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/tel_2"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text=""
-            android:textColor="@color/default_value_color"
-            android:textSize="15sp" />
-    </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-    <TableRow>
-        <TextView
-            android:layout_height="45dp"
-            android:layout_column="1"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text="电话"
-            android:textColor="@color/default_key_color"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/tel_3"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text=""
-            android:textColor="@color/default_value_color"
-            android:textSize="15sp" />
-    </TableRow>
-    <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-    
-    <TableRow>
-        <TextView
-            android:layout_height="45dp"
-            android:layout_column="1"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text="备注"
-            android:textColor="@color/default_key_color"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/remark"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:gravity="left|center_vertical"
-            android:padding="3dip"
-            android:text=""
-            android:textColor="@color/default_value_color"
-            android:textSize="15sp" />
-    </TableRow>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:orientation="horizontal" >
 
-</TableLayout>
+        <TextView
+            style="@style/table_text_style"
+            android:text="姓名" />
+
+        <TextView
+            android:id="@+id/contact_person_name"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="联系电话" />
+
+        <TextView
+            android:id="@+id/contact_phone_1"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/contact_phone_sms_1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|left"
+            android:background="@drawable/selector_sms_true"
+            android:gravity="center_vertical|left"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/contact_phone_tel_1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@drawable/selector_call_true"
+            android:gravity="center_vertical|right"
+            android:paddingLeft="30dip"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="联系电话" />
+
+        <TextView
+            android:id="@+id/contact_phone_2"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/contact_phone_sms_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|left"
+            android:background="@drawable/selector_sms_true"
+            android:gravity="center_vertical|left"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/contact_phone_tel_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@drawable/selector_call_true"
+            android:gravity="center_vertical|right"
+            android:paddingLeft="30dip"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="座机" />
+
+        <TextView
+            android:id="@+id/tel"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/contact_phone_sms_3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|left"
+            android:background="@drawable/selector_sms_true"
+            android:gravity="center_vertical|left"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/contact_phone_tel_3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|right"
+            android:background="@drawable/selector_call_true"
+            android:gravity="center_vertical|right"
+            android:paddingLeft="30dip"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="主联系人" />
+
+        <TextView
+            android:id="@+id/is_main"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="3dip"
+            android:text=""
+            android:textColor="@color/default_value_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

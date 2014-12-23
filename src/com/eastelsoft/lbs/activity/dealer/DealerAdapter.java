@@ -37,7 +37,11 @@ public class DealerAdapter extends BaseAdapter implements SectionIndexer{
 		
 		for (int i = 0; i < mList.size(); i++) {
 			DealerBean bean = mList.get(i);
-			String py_index = bean.py_index.toUpperCase();
+			String py = bean.first_py;
+			String py_index = "#";
+			if (py != null && !"".equals(py)) {
+				py_index = py.substring(0, 1).toUpperCase();
+			}
 			int sectionIndex = Arrays.binarySearch(mSections, py_index);
 			if (sectionIndex < 0 || sectionIndex > mSections.length) {
 				sectionIndex = 0;
@@ -88,7 +92,7 @@ public class DealerAdapter extends BaseAdapter implements SectionIndexer{
 			convertView = LayoutInflater.from(mContext).inflate(R.layout.dealer_listview_item, null);
 			viewHolder.sectionTv = (TextView)convertView.findViewById(R.id.sectionTextView);
 			viewHolder.fullNameTv = (TextView)convertView.findViewById(R.id.full_name);
-			viewHolder.telephoneTv = (TextView)convertView.findViewById(R.id.telephpne);
+//			viewHolder.telephoneTv = (TextView)convertView.findViewById(R.id.telephpne);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder)convertView.getTag();
@@ -96,14 +100,18 @@ public class DealerAdapter extends BaseAdapter implements SectionIndexer{
 		
 		if (isFirstInSection(position)) {
 			viewHolder.sectionTv.setVisibility(View.VISIBLE);
-			viewHolder.sectionTv.setText(bean.py_index);
-			System.out.println("getView : "+position);
+			String py = bean.first_py;
+			String py_index = "#";
+			if (py != null && !"".equals(py)) {
+				py_index = py.substring(0, 1).toUpperCase();
+			}
+			viewHolder.sectionTv.setText(py_index);
 		} else {
 			viewHolder.sectionTv.setVisibility(View.GONE);
 		}
 		
-		viewHolder.fullNameTv.setText(bean.name);
-		viewHolder.telephoneTv.setText(bean.telephone);
+		viewHolder.fullNameTv.setText(bean.dealer_name);
+//		viewHolder.telephoneTv.setText(bean.telephone);
 		return convertView;
 	}
 

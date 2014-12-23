@@ -84,7 +84,7 @@ public class VisitEvaluateService extends Service {
 			try {
 				Gson gson = new Gson();
 				ResultBean bean = gson.fromJson(responseString, ResultBean.class);
-				if ("1".equals(bean.result_code)) {
+				if ("1".equals(bean.resultcode)) {
 					FileLog.i(TAG, TAG+"基础数据上传成功...");
 					mBean.is_upload = "1";
 					VisitEvaluateDBTask.updateIsUploadBean(mBean);

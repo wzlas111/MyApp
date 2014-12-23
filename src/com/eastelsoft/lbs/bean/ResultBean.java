@@ -2,7 +2,8 @@ package com.eastelsoft.lbs.bean;
 
 public class ResultBean {
 
-	public String result_code;
-	public String update_code;
+	public String resultcode;
+	public String updatecode;
 	public String img_num;
+	public String first_py;
 }

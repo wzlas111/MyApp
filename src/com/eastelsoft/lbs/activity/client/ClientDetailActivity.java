@@ -1,6 +1,7 @@
 package com.eastelsoft.lbs.activity.client;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -10,10 +11,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.eastelsoft.lbs.R;
+import com.eastelsoft.lbs.entity.SetInfo;
+import com.eastelsoft.util.IUtil;
 
 public class ClientDetailActivity extends FragmentActivity implements OnClickListener{
 	
 	private String mId;
+	private boolean need_update;
 	private FragmentManager mFragmentManager;
 	private ClientInfoFragment mInfoFragment;
 	private ClientContactsFragment mContactsFragment;
@@ -24,17 +28,26 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 	private Button mMechanicsBtn;
 	private Button mBackBtn;
 	
+	protected SharedPreferences sp;
+	
+	public String getGpsId() {
+		SetInfo set = IUtil.initSetInfo(sp);
+		return set.getDevice_id();
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
+		need_update = intent.getBooleanExtra("need_update", false);
 		
 		setContentView(R.layout.activity_client_detail);
 		initViews();
 		mFragmentManager = getSupportFragmentManager();
 		setTabSection(0);
+		sp = getSharedPreferences("userdata", 0);
 	}
 	
 	private void initViews() {
@@ -62,7 +75,7 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 		switch (index) {
 		case 0:
 			if (mInfoFragment == null) {
-				mInfoFragment = new ClientInfoFragment(mId);
+				mInfoFragment = new ClientInfoFragment(mId,need_update);
 				transaction.add(R.id.content, mInfoFragment);
 			} else {
 				transaction.show(mInfoFragment);
@@ -70,7 +83,7 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 			break;
 		case 1:
 			if (mContactsFragment == null) {
-				mContactsFragment = new ClientContactsFragment(mId);
+				mContactsFragment = new ClientContactsFragment(mId,need_update);
 				transaction.add(R.id.content, mContactsFragment);
 			} else {
 				transaction.show(mContactsFragment);
@@ -78,7 +91,7 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 			break;
 		case 2:
 			if (mMechanicsFragment == null) {
-				mMechanicsFragment = new ClientMechanicsFragment(mId);
+				mMechanicsFragment = new ClientMechanicsFragment(mId,need_update);
 				transaction.add(R.id.content, mMechanicsFragment);
 			} else {
 				transaction.show(mMechanicsFragment);

@@ -11,7 +11,7 @@ public class PinYinComparator implements Comparator<DealerDto.DealerBean> {
 		if (lhs.py_index == null|| rhs.py_index == null) {
 			return -1;
 		}
-		return (lhs.py_name).compareTo(rhs.py_name);
+		return (lhs.first_py).compareTo(rhs.first_py);
 	}
 
 }

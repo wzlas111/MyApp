@@ -10,6 +10,10 @@ import com.eastelsoft.lbs.db.table.ClientRegionTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.ClientTypeTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
+import com.eastelsoft.lbs.db.table.EnterpriseTypeTable;
+import com.eastelsoft.lbs.db.table.EvaluateTable;
+import com.eastelsoft.lbs.db.table.OrderTypeTable;
+import com.eastelsoft.lbs.db.table.ProductTypeTable;
 import com.eastelsoft.lbs.db.table.UploadImgTable;
 import com.eastelsoft.lbs.db.table.VisitEvaluateTable;
 import com.eastelsoft.lbs.db.table.VisitMcTable;
@@ -38,10 +42,21 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + "("
             + DealerTable.UID + " integer primary key autoincrement,"
             + DealerTable.ID + " text,"
-            + DealerTable.NAME + " text,"
-            + DealerTable.TELEPHONE + " text,"
-            + DealerTable.GROUP_ID + " text,"
-            + DealerTable.GROUP_NAME + " text,"
+            + DealerTable.DEALER_NAME + " text,"
+            + DealerTable.DEALER_CODE + " text,"
+            + DealerTable.PARENT_DEALER_NAME + " text,"
+            + DealerTable.REGION_ID + " text,"
+            + DealerTable.REGION_NAME + " text,"
+            + DealerTable.TYPE_ID + " text,"
+            + DealerTable.TYPE_NAME + " text,"
+            + DealerTable.CONTACT_PERSON + " text,"
+            + DealerTable.CONTACT_PHONE + " text,"
+            + DealerTable.FAX + " text,"
+            + DealerTable.ADDRESS + " text,"
+            + DealerTable.LON + " text,"
+            + DealerTable.LAT + " text,"
+            + DealerTable.ACCURACY + " text,"
+            + DealerTable.TYPE + " text,"
             + DealerTable.PY_INDEX + " text,"
             + DealerTable.PY_NAME + " text,"
             + DealerTable.REMARK + " text"
@@ -53,46 +68,45 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + ClientTable.ID + " text,"
             + ClientTable.CLIENT_NAME + " text,"
             + ClientTable.CLIENT_CODE + " text,"
-            + ClientTable.PY + " text,"
             + ClientTable.DEALER_ID + " text,"
             + ClientTable.DEALER_NAME + " text,"
             + ClientTable.TYPE + " text,"
             + ClientTable.TYPE_ID + " text,"
-            + ClientTable.TYPENAME + " text," 
+            + ClientTable.TYPE_NAME + " text," 
             + ClientTable.REGION_ID + " text," 
             + ClientTable.REGION_NAME + " text," 
-            + ClientTable.CONTACT_PHONE + " text," 
             + ClientTable.FAX + " text," 
             + ClientTable.LON + " text," 
             + ClientTable.LAT + " text," 
-            + ClientTable.EMAIL + " text," 
             + ClientTable.ADDRESS + " text," 
+            + ClientTable.ACCURARY + " text," 
             + ClientTable.REMARK + " text," 
+            + ClientTable.FIRST_PY + " text," 
+            + ClientTable.PY_INDEX + " text," 
             + ClientTable.IS_UPLOAD + " text" 
             + ");";
 	
 	static final String CREATE_CLIENT_CONATCTS_TABLE_SQL = "create table if not exists " + ClientContactsTable.TABLE_NAME
             + "("
             + ClientContactsTable.UID + " integer primary key autoincrement,"
-            + ClientContactsTable.ID + " text,"
-            + ClientContactsTable.CLIENT_ID + " text,"
-            + ClientContactsTable.NAME + " text,"
-            + ClientContactsTable.tel_1 + " text,"
-            + ClientContactsTable.tel_2 + " text,"
-            + ClientContactsTable.tel_3 + " text,"
-            + ClientContactsTable.POSITION + " text,"
-            + DealerTable.REMARK + " text"
+            + ClientContactsTable.CONTACT_PERSON_ID + " text,"
+            + ClientContactsTable.MAP_CLIENT_ID + " text,"
+            + ClientContactsTable.CONTACT_PERSON_NAME + " text,"
+            + ClientContactsTable.CONTACT_PHONE_1 + " text,"
+            + ClientContactsTable.CONTACT_PHONE_2 + " text,"
+            + ClientContactsTable.TEL + " text,"
+            + ClientContactsTable.IS_MAIN + " text,"
+            + ClientContactsTable.REMARK + " text"
             + ");";
 	
 	static final String CREATE_CLIENT_MECHANICS_TABLE_SQL = "create table if not exists " + ClientMechanicsTable.TABLE_NAME
             + "("
             + ClientMechanicsTable.UID + " integer primary key autoincrement,"
-            + ClientMechanicsTable.ID + " text,"
-            + ClientMechanicsTable.CLIENT_ID + " text,"
-            + ClientMechanicsTable.NAME + " text,"
-            + ClientMechanicsTable.tel_1 + " text,"
-            + ClientMechanicsTable.tel_2 + " text,"
-            + ClientMechanicsTable.REMARK + " text"
+            + ClientMechanicsTable.MAINTAIN_PERSON_ID + " text,"
+            + ClientMechanicsTable.MAP_CLIENT_ID + " text,"
+            + ClientMechanicsTable.CONTACT_PERSON_NAME + " text,"
+            + ClientMechanicsTable.CONTACT_PHONE_1 + " text,"
+            + ClientMechanicsTable.CONTACT_PHONE_2 + " text"
             + ");";
 	
 	static final String CREATE_CLIENT_TYPE_TABLE_SQL = "create table if not exists " + ClientTypeTable.TABLE_NAME
@@ -184,10 +198,39 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + UploadImgTable.PATH + " text,"
             + UploadImgTable.TYPE + " text"
             + ");";
+	
+	static final String CREATE_EVALUATE_TABLE_SQL = "create table if not exists " + EvaluateTable.TABLE_NAME
+            + "("
+            + EvaluateTable.UID + " integer primary key autoincrement,"
+            + EvaluateTable.EVALUATE_ID + " text,"
+            + EvaluateTable.EVALUATE_NAME + " text,"
+            + EvaluateTable.SEQUENCE + " text"
+            + ");";
+	
+	static final String CREATE_PRODUCT_TYPE_TABLE_SQL = "create table if not exists " + ProductTypeTable.TABLE_NAME
+            + "("
+            + ProductTypeTable.UID + " integer primary key autoincrement,"
+            + ProductTypeTable.PRODUCT_TYPE_ID + " text,"
+            + ProductTypeTable.PRODUCT_TYPE_NAME + " text"
+            + ");";
+	
+	static final String CREATE_ORDER_TYPE_TABLE_SQL = "create table if not exists " + OrderTypeTable.TABLE_NAME
+            + "("
+            + OrderTypeTable.UID + " integer primary key autoincrement,"
+            + OrderTypeTable.ORDER_FORM_TYPE_ID + " text,"
+            + OrderTypeTable.ORDER_FORM_TYPE_NAME + " text"
+            + ");";
+	
+	static final String CREATE_ENTERPRISE_TYPE_TABLE_SQL = "create table if not exists " + EnterpriseTypeTable.TABLE_NAME
+            + "("
+            + EnterpriseTypeTable.UID + " integer primary key autoincrement,"
+            + EnterpriseTypeTable.ENTERPRISE_TYPE_ID + " text,"
+            + EnterpriseTypeTable.ENTERPRISE_TYPE_NAME + " text"
+            + ");";
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
-		super(context, DATABASE_NAME, null, 37);
+		super(context, DATABASE_NAME, null, 2);
 	}
 	
 	public static synchronized LocationSQLiteHelper getInstance() {
@@ -212,6 +255,11 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_VISIT_MC_TABLE_SQL);
 			db.execSQL(CREATE_UPLOAD_IMG_TABLE_SQL);
 			db.execSQL(CREATE_VISIT_EVALUATE_TABLE_SQL);
+			
+			db.execSQL(CREATE_EVALUATE_TABLE_SQL);
+			db.execSQL(CREATE_PRODUCT_TYPE_TABLE_SQL);
+			db.execSQL(CREATE_ORDER_TYPE_TABLE_SQL);
+			db.execSQL(CREATE_ENTERPRISE_TYPE_TABLE_SQL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -332,124 +380,6 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
 		FileLog.i("LocationSQLiteHelper", "onUpgrade");
-		try {
-			db.execSQL("ALTER TABLE l_info ADD COLUMN setLongtime NTEXT");
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN py NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN c_t_id NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN region_id NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN c_t_name NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN region_name NTEXT");
-		} catch (SQLException e) {
-		}
-
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN job NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN Phone2 NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN Phone3 NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_cust ADD COLUMN Phone4 NTEXT");
-		} catch (SQLException e) {
-		}
-
-		try {
-			db.execSQL("ALTER TABLE l_plan ADD COLUMN istijiao NTEXT");
-		} catch (SQLException e) {
-		}
-
-		try {
-			db.execSQL("ALTER TABLE l_plan ADD COLUMN uplon NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_plan ADD COLUMN uplat NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_plan ADD COLUMN uplocation NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_plan ADD COLUMN releasedate NTEXT");
-		} catch (SQLException e) {
-		}
-
-		// 2013/5/17
-		try {
-			db.execSQL("ALTER TABLE l_timinglocation ADD COLUMN tl_seq NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_timinglocation ADD COLUMN tl_power NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_timinglocation ADD COLUMN tl_states NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_timinglocation ADD COLUMN tl_signalStrengthValue NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_timinglocation ADD COLUMN tl_cell NTEXT");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE l_timinglocation ADD COLUMN tl_wifi NTEXT");
-		} catch (SQLException e) {
-		}
-		// 2013/5/17结束
-		
-		try {
-			db.execSQL("ALTER TABLE client_table ADD COLUMN is_upload text");
-		} catch (SQLException e) {
-		}
-		
-		try {
-			db.execSQL("ALTER TABLE upload_img_table ADD COLUMN id text");
-		} catch (SQLException e) {
-		}
-		
-		try {
-			db.execSQL("ALTER TABLE visit_table ADD COLUMN visit_img_num text");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE visit_table ADD COLUMN start_accuracy text");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE visit_table ADD COLUMN arrvie_accuracy text");
-		} catch (SQLException e) {
-		}
-		try {
-			db.execSQL("ALTER TABLE visit_mc_table ADD COLUMN upload_img_num text");
-		} catch (SQLException e) {
-		}
 		onCreate(db);
 
 	}

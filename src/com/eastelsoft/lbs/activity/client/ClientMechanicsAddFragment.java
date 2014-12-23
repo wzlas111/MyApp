@@ -61,7 +61,6 @@ public class ClientMechanicsAddFragment extends Fragment implements OnClickListe
 		((EditText)view.findViewById(R.id.name)).setText("");
 		((EditText)view.findViewById(R.id.tel_1)).setText("");
 		((EditText)view.findViewById(R.id.tel_2)).setText("");
-		((EditText)view.findViewById(R.id.remark)).setText("");
 		
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
 		layoutParams.topMargin = 15;
@@ -85,16 +84,15 @@ public class ClientMechanicsAddFragment extends Fragment implements OnClickListe
 		for (int i = 0; i < count; i++) {
 			View view = mFrameTable.getChildAt(i);
 			ClientMechanicsBean mBean = new ClientMechanicsBean();
-			mBean.id = UUID.randomUUID().toString();
-			mBean.client_id = mId;
+			mBean.maintain_person_id = UUID.randomUUID().toString();
+			mBean.map_client_id = mId;
 			String name = ((EditText)view.findViewById(R.id.name)).getText().toString();
 			if (TextUtils.isEmpty(name)) {//if name has no value,so the data is invalid.
 				continue;
 			}
-			mBean.name = name;
-			mBean.tel_1 = ((EditText)view.findViewById(R.id.tel_1)).getText().toString();
-			mBean.tel_2 = ((EditText)view.findViewById(R.id.tel_2)).getText().toString();
-			mBean.remark = ((EditText)view.findViewById(R.id.remark)).getText().toString();
+			mBean.contact_person_name = name;
+			mBean.contact_phone_1 = ((EditText)view.findViewById(R.id.tel_1)).getText().toString();
+			mBean.contact_phone_2 = ((EditText)view.findViewById(R.id.tel_2)).getText().toString();
 			
 			mList.add(mBean);
 		}

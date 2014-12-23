@@ -83,6 +83,29 @@ public class VisitDBTask {
 		return plist;
 	}
 	
+	public static DBResult addAdditionalBean(VisitBean bean) {
+		ContentValues values = new ContentValues();
+		values.put(VisitTable.ID, bean.id);
+		values.put(VisitTable.PLAN_ID, bean.plan_id);
+		values.put(VisitTable.PLAN_NAME, bean.plan_name);
+		values.put(VisitTable.DEALER_ID, bean.dealer_id);
+		values.put(VisitTable.DEALER_NAME, bean.dealer_name);
+		values.put(VisitTable.START_TIME, bean.start_time);
+		values.put(VisitTable.ARRIVE_TIME, bean.arrive_time);
+		values.put(VisitTable.SERVICE_BEGIN_TIME, bean.service_begin_time);
+		values.put(VisitTable.SERVICE_END_TIME, bean.service_end_time);
+		values.put(VisitTable.STATUS, bean.status);
+		values.put(VisitTable.IS_UPLOAD, bean.is_upload);
+		values.put(VisitTable.MECHANIC_COUNT, bean.mechanic_count);
+		values.put(VisitTable.IS_EVALUATE, bean.is_evaluate);
+		values.put(VisitTable.VISIT_IMG, bean.visit_img);
+		values.put(VisitTable.VISIT_IMG_NUM, bean.visit_img_num);
+		
+		getWsd().insert(VisitTable.TABLE_NAME, VisitTable.ID, values);
+		
+		return DBResult.add_successfully;
+	}
+	
 	public static DBResult addStartBean(VisitBean bean) {
 		ContentValues values = new ContentValues();
 		values.put(VisitTable.ID, bean.id);

@@ -8,6 +8,7 @@ import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.select.SignImgActivity;
 import com.eastelsoft.lbs.activity.select.SignImgDetailActivity;
 import com.eastelsoft.lbs.bean.VisitEvaluateBean;
+import com.eastelsoft.lbs.db.ParamsDBTask;
 import com.eastelsoft.lbs.db.VisitEvaluateDBTask;
 import com.eastelsoft.lbs.service.VisitEvaluateService;
 import com.eastelsoft.lbs.service.VisitFinishService;
@@ -16,6 +17,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -55,7 +57,7 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 		mId = intent.getStringExtra("id");
 		mType = intent.getStringExtra("type");
 
-		intiData();
+//		intiData();
 		setContentView(R.layout.activity_visit_evaluate);
 		initView();
 
@@ -82,7 +84,7 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 		sign_show.setOnClickListener(this);
 		sign_delete.setOnClickListener(this);
 
-		initServices();
+		new InitDataTask().execute("");
 	}
 
 	private void initServices() {
@@ -94,17 +96,23 @@ public class VisitEvaluateActivity extends Activity implements OnClickListener {
 			mServicesLayout.addView(view);
 		}
 	}
-
-	private void intiData() {
-		mList = new ArrayList<String>();
-		mList.add("退货/零配件清退");
-		mList.add("处理疑难问题");
-		mList.add("店面培训+工厂培训");
-		mList.add("聚焦产品跟踪");
-		mList.add("新品推广宣导");
-		mList.add("售前服务");
-		mList.add("协助经销商展会");
-		mList.add("和经销商沟通");
+	
+	private class InitDataTask extends AsyncTask<String, Integer, Boolean> {
+		@Override
+		protected Boolean doInBackground(String... params) {
+			try {
+				mList = ParamsDBTask.getEvaluateList();
+			} catch (Exception e) {
+				e.printStackTrace();
+				mList = new ArrayList<String>();
+			}
+			return true;
+		}
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			initServices();
+		}
 	}
 
 	private void save() {

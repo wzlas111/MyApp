@@ -136,17 +136,6 @@
                         android:layout_marginRight="25.0dp"
                         android:src="@drawable/tt_default_arrow"/>
                 </TableRow>
-                <View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
-                <TableRow>
-                    <TextView
-                        style="@style/table_text_style"
-                        android:text="电话"/>
-                    <EditText
-                        android:id="@+id/contact_phone"
-                        style="@style/table_edit_style"
-                        android:inputType="phone"
-                        android:imeOptions="actionNext" />
-                </TableRow>
  				<View android:layout_width="fill_parent" android:layout_height="0.5dp" android:background="@color/default_line_color" />
                 <TableRow>
                     <TextView
@@ -180,7 +169,7 @@
             </TableLayout>
 
             <Button
-                android:id="@+id/chat_btn"
+                android:id="@+id/location_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="53dp"
                 android:layout_margin="20dp"

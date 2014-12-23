@@ -8,7 +8,13 @@ public class SettingUtility {
 
     public static final String DEALER_UPDATECODE = "dealer_updatecode";
     public static final String CLIENT_UPDATECODE = "client_updatecode";
-
+    public static final String CLIENT_TYPE_UPDATECODE = "client_type_updatecode";
+    public static final String CLIENT_REGION_UPDATECODE = "client_region_updatecode";
+    public static final String VISIT_EVALUATE_UPDATECODE = "visit_evaluate_updatecode";
+    public static final String PRODUCT_TYPE_UPDATECODE = "product_type_updatecode";
+    public static final String ORDER_TYPE_UPDATECODE = "order_type_updatecode";
+    public static final String ENTERPRISE_TYPE_UPDATECODE = "enterprise_type_updatecode";
+    
     private SettingUtility() {}
 
     public static void setValue(String key, String value) {

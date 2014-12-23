@@ -136,7 +136,7 @@ public class VisitArriveActivity extends BaseActivity implements OnClickListener
 					}
 					Gson gson = new Gson();
 					ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
-					if ("1".equals(resultBean.result_code)) {
+					if ("1".equals(resultBean.resultcode)) {
 						saveDB();
 						Toast.makeText(VisitArriveActivity.this, getResources().getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
 						finish();

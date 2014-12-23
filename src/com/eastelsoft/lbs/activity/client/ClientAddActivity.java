@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.apache.http.Header;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,19 +25,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
+import com.eastelsoft.lbs.activity.visit.VisitStartActivity;
 import com.eastelsoft.lbs.bean.ClientContactsBean;
 import com.eastelsoft.lbs.bean.ClientDetailBean;
 import com.eastelsoft.lbs.bean.ClientMechanicsBean;
 import com.eastelsoft.lbs.bean.ClientRegionDto;
 import com.eastelsoft.lbs.bean.ClientTypeDto;
+import com.eastelsoft.lbs.bean.ClientUploadBean;
+import com.eastelsoft.lbs.bean.ResultBean;
+import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
 import com.eastelsoft.lbs.bean.ClientRegionDto.RegionBean;
 import com.eastelsoft.lbs.bean.ClientTypeDto.TypeBean;
 import com.eastelsoft.lbs.db.ClientDBTask;
 import com.eastelsoft.lbs.db.DBUtil;
+import com.eastelsoft.lbs.entity.SetInfo;
+import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
 import com.eastelsoft.util.pinyin.PinyinUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 public class ClientAddActivity extends FragmentActivity implements OnClickListener{
@@ -61,6 +70,8 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 	private Button mPopYes;
 	private Button mPopNo;
 	private TextView mPopTitle;
+	
+	private Gson gson = new Gson();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +107,7 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 		
 		mClientBtn.setEnabled(false);
 		
-		InitDataTask();
+//		InitDataTask();
 	}
 	
 	/**
@@ -282,6 +293,9 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 		case R.id.btSave:
 			openPopConfirm("是否同步客户信息到平台");
 			if (mInfoFragment != null) {
+				if (!mInfoFragment.canSend()) {
+					return;
+				}
 				info_data = mInfoFragment.getJSON();
 			} 
 			if (mContactsFragment != null) {
@@ -301,17 +315,65 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			}
 			break;
 		case R.id.btClose1: //pop yes,upload data
+			openPopupWindowPG("客户信息上传中...");
 			
+			SharedPreferences sp = getSharedPreferences("userdata", 0);
+			SetInfo set = IUtil.initSetInfo(sp);
+			
+			ClientUploadBean bean = new ClientUploadBean();
+			bean.id = mId;
+			bean.info_data = info_data;
+			bean.contacts_data = contacts_data;
+			bean.mechanics_data = mechanics_data;
+			
+			String json = gson.toJson(bean);
+			String mUrl = URLHelper.BASE_ACTION;
+			RequestParams params = new RequestParams();
+			params.put("reqCode", URLHelper.UPDATE_CLIENT);
+			params.put("json", json);
+			params.put("data_id", mId);
+			params.put("gps_id", set.getDevice_id());
+			System.out.println("json : "+json);
+			HttpRestClient.post(mUrl, params, new TextHttpResponseHandler() {
+				@Override
+				public void onSuccess(int statusCode, Header[] headers, String responseString) {
+					try {
+						popupWindowPg.dismiss();
+					} catch (Exception e) {
+					}
+					try {
+						Gson gson = new Gson();
+						ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+						if ("1".equals(resultBean.resultcode)) {
+							Toast.makeText(ClientAddActivity.this, getResources().getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
+							setResult(1);
+							finish();
+						} else {
+							Toast.makeText(ClientAddActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				@Override
+				public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+					try {
+						popupWindowPg.dismiss();
+						Toast.makeText(ClientAddActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
 			break;
 		case R.id.btClose2: //pop no,insert to DB
-			Gson gson = new Gson();
 			if (!TextUtils.isEmpty(info_data)) { //insert info
-				ClientDetailBean bean = gson.fromJson(info_data, ClientDetailBean.class);
-				bean.is_upload = "0";
-				String name = bean.client_name;
+				ClientBean clientBean = gson.fromJson(info_data, ClientBean.class);
+				clientBean.is_upload = "0";
+				String name = clientBean.client_name;
 				String py = PinyinUtil.getPinYin(name);
-				bean.py = py;
-				ClientDBTask.addBean(bean);
+				clientBean.first_py = py;
+				ClientDBTask.addBean(clientBean);
 			}
 			if (!TextUtils.isEmpty(contacts_data)) {
 				List<ClientContactsBean> list = gson.fromJson(contacts_data, new TypeToken<List<ClientContactsBean>>(){}.getType());
@@ -333,4 +395,26 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			break;
 		}
 	}
+	
+	protected PopupWindow popupWindowPg;
+	protected TextView btPopGps;
+	protected void openPopupWindowPG(String msg) {
+		try {
+			LayoutInflater mLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+			ViewGroup menuView = (ViewGroup) mLayoutInflater.inflate(
+					R.layout.pop_gps, null, true);
+			popupWindowPg = new PopupWindow(menuView, LayoutParams.FILL_PARENT,
+					LayoutParams.FILL_PARENT, true); // 全部背景置灰
+			btPopGps = (TextView) menuView.findViewById(R.id.pop_gps);
+			popupWindowPg.setBackgroundDrawable(new BitmapDrawable());
+			popupWindowPg.setAnimationStyle(R.style.PopupAnimation);
+			popupWindowPg.showAtLocation(findViewById(R.id.parent), 
+					Gravity.CENTER | Gravity.CENTER, 0, 0);
+			popupWindowPg.update();
+		} catch (Exception e) {
+
+		}
+
+	}
+	
 }

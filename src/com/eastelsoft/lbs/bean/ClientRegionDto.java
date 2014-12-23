@@ -4,6 +4,8 @@ import java.util.List;
 
 public class ClientRegionDto {
 
+	public String resultcode;
+	public String updatecode;
 	public List<RegionBean> clientdata;
 	
 	public class RegionBean {
