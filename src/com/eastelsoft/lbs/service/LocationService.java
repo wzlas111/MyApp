@@ -187,51 +187,19 @@ public class LocationService extends Service {
 		intent = new Intent("android.alarm.service");
 		sender = PendingIntent.getBroadcast(this, 0, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
-
 		this.setAlarmTime(60000); // 启动后1分钟执行
-
-		// 注册定时器-检测网络状态，检测长连接状态
-		/*
-		 * connReceiver = new ConnReceiver(); IntentFilter filter_1 = new
-		 * IntentFilter(); filter_1.addAction("android.conn.service");
-		 * this.getApplicationContext().registerReceiver(connReceiver,
-		 * filter_1); // 启动网络检测定时 intent_1 = new Intent("android.conn.service");
-		 * sender_1 = PendingIntent.getBroadcast(this, 0, intent_1,
-		 * PendingIntent.FLAG_CANCEL_CURRENT); this.setAlarmTime_1(60000); //
-		 * 启动后1分钟执行
-		 */
-		// 注册网络接收器
-		/**
-		 * networkReceiver=new NetworkReceiver(); IntentFilter nfilter=new
-		 * IntentFilter();
-		 * nfilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-		 * this.getApplicationContext
-		 * ().registerReceiver(networkReceiver,filter);
-		 */
-
 		// 初始化网络参数
 		// intNetworkState();
 		networkState = this.getNetworkState();
 		FileLog.i(TAG, "networkState==>" + networkState);
-
-		// 启动GPS模块
-		// stopListener(); // 先停止
-		// this.locationManager = (LocationManager)
-		// getSystemService(Context.LOCATION_SERVICE);
-		// regListener(); // 启动
-
 		// 注册网络监听模块
 		IntentFilter mFilter = new IntentFilter();
 		mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		registerReceiver(mReceiver, mFilter);
-
 		// 初始化全局变量
 		globalVar = (GlobalVar) getApplication();
-
 		// 电量
-		this.registerReceiver(batteryChangedReceiver, new IntentFilter(
-				Intent.ACTION_BATTERY_CHANGED));
-
+		this.registerReceiver(batteryChangedReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		// 如果网络正常且定时上报时间大于1分钟一次，连接tcp
 		// if(isNetworkAvailable()) {
 		DisConnectToServer();
@@ -243,10 +211,7 @@ public class LocationService extends Service {
 		tcpReceThread = new Thread(new TcpReceThread());
 		tcpReceThread.start();
 		FileLog.i(TAG, "============>TCP Running");
-		// }
-
 		// 初始化通知
-
 		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
 		locationHelper = new LocationSQLiteHelper(LocationService.this, null,
@@ -265,7 +230,6 @@ public class LocationService extends Service {
 		tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		myListener = new MyPhoneStateListener();
 		tm.listen(myListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-		
 		/*
 		 * 开始定时清除日志
 		 */
@@ -301,12 +265,6 @@ public class LocationService extends Service {
 				null, 5);
 		super.onStart(intent, startId);
 	}
-
-	// @Override
-	// public int onStartCommand(Intent intent, int flags, int startId) {
-	// // TODO Auto-generated method stub
-	// return START_STICKY;
-	// }
 
 	private void torepeatStartAlarm(Context paramContext) {
 		Intent localIntent = new Intent();
@@ -388,18 +346,6 @@ public class LocationService extends Service {
 		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
 				+ timeInMillis, interval * 1000, sender);
 	}
-	
-	
-//	public void setAlarmTime(){
-//		if (pm != null) {
-//			pm.cancel(deleteDaily);
-//		}
-//		pm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//		// 获取最新数据
-//		FileLog.i(TAG, "========================================第二次");
-//		pm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),1000, deleteDaily);
-//	}
-	
 
 	public class MyReceiver extends BroadcastReceiver{
 		// 自定义一个广播接收器
@@ -411,18 +357,6 @@ public class LocationService extends Service {
 			set = IUtil.initSetInfo(sp);
 			FileLog.i(TAG, "定时上报开始");
 			startListener("");
-
-			// 时间间隔有变化，重新启动定时器；长连接的启动与关闭
-			/*
-			 * if (interval != set.getInterval()) { interval =
-			 * set.getInterval(); LocationService.this.setAlarmTime(60000); if
-			 * (interval > 60) { DisConnectToServer(); //不用注销tcpReceThread
-			 * 因为重连接又是一个新的sochet 以前的收不到数据了
-			 * 
-			 * tcpReceThread = new Thread(new TcpReceThread());
-			 * tcpReceThread.start(); } else { DisConnectToServer(); } }
-			 */
-
 		}
 	}
 
@@ -439,7 +373,6 @@ public class LocationService extends Service {
 		am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		// 60秒，检测一次网络连接情况，检测一次tcp长连接情况
 		am.setRepeating(AlarmManager.RTC, timeInMillis, 1800 * 1000, sender_1);
-
 	}
 
 	/**
@@ -477,8 +410,7 @@ public class LocationService extends Service {
 		sp = getSharedPreferences("userdata", 0);
 		set = IUtil.initSetInfo(sp);
 
-		Notification notification = new Notification(icon, tickertext,
-				System.currentTimeMillis());
+		Notification notification = new Notification(icon, tickertext, System.currentTimeMillis());
 		/*
 		 * notification.defaults = Notification.DEFAULT_ALL |
 		 * Notification.DEFAULT_VIBRATE;
@@ -486,7 +418,6 @@ public class LocationService extends Service {
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
 
 		if (set.getShock_select().equals("1")) {
-
 			// 振动提示
 			notification.defaults = Notification.DEFAULT_ALL;
 		} else {
@@ -502,20 +433,15 @@ public class LocationService extends Service {
 	}
 	public void showNotificationKnowledge(int icon, String tickertext, String title,
 			String content, Class<?> cls, int id) {
-
 		sp = getSharedPreferences("userdata", 0);
 		set = IUtil.initSetInfo(sp);
-
-		Notification notification = new Notification(icon, tickertext,
-				System.currentTimeMillis());
+		Notification notification = new Notification(icon, tickertext, System.currentTimeMillis());
 		/*
 		 * notification.defaults = Notification.DEFAULT_ALL |
 		 * Notification.DEFAULT_VIBRATE;
 		 */
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
-
 		if (set.getShock_select().equals("1")) {
-
 			// 振动提示
 			notification.defaults = Notification.DEFAULT_ALL;
 		} else {
@@ -533,12 +459,10 @@ public class LocationService extends Service {
 
 	public void showNotificationInformation(int icon, String tickertext,
 			String title, String content) {
-
 		sp = getSharedPreferences("userdata", 0);
 		set = IUtil.initSetInfo(sp);
 
-		Notification notification = new Notification(icon, tickertext,
-				System.currentTimeMillis());
+		Notification notification = new Notification(icon, tickertext, System.currentTimeMillis());
 		/*
 		 * notification.defaults = Notification.DEFAULT_ALL |
 		 * Notification.DEFAULT_VIBRATE;
@@ -1953,7 +1877,6 @@ public class LocationService extends Service {
 										      }
 										      
 										      } catch (Exception e) {
-													// TODO: handle exception
 										    	  e.printStackTrace();
 												}
 										    }

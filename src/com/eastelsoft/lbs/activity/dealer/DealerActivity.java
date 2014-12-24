@@ -4,22 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.Header;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.PopupWindow.OnDismissListener;
 
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
+import com.eastelsoft.lbs.activity.client.ClientActivity;
+import com.eastelsoft.lbs.activity.client.ClientAdapter;
 import com.eastelsoft.lbs.bean.DealerDto;
+import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
 import com.eastelsoft.lbs.bean.DealerDto.DealerBean;
 import com.eastelsoft.lbs.db.DealerDBTask;
 import com.eastelsoft.lbs.entity.SetInfo;
@@ -81,6 +94,15 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 		mSearchEt = (EditText)findViewById(R.id.search_text);
 		mLoadingView = findViewById(R.id.circle_progress_bar);
 		mBackBtn = findViewById(R.id.btBack);
+		
+		tvTitleCust = (TextView) findViewById(R.id.tvTitleCust);
+		ivArrow = (ImageView) findViewById(R.id.ivArrow);
+		tvTitleCust.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showPopupWindow();
+			}
+		});
 		
 		mBackBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -281,4 +303,82 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 
 	@Override
 	public void afterTextChanged(Editable s) {}
+	
+	private TextView tvTitleCust;
+	private ImageView ivArrow;
+	private LinearLayout layout;
+	private ListView listView;
+	private String title[] = { "企业共享", "员工私有", "全部" };
+	public void showPopupWindow() {
+		ivArrow.setImageResource(R.drawable.arrow_up);
+		layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog, null);
+		listView = (ListView) layout.findViewById(R.id.lv_dialog);
+		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.text, R.id.tv_text, title));
+		popupWindow = new PopupWindow(this);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
+		popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.setFocusable(true);
+		popupWindow.setContentView(layout);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		int xPos = popupWindow.getWidth() / 2 - tvTitleCust.getWidth() / 2;
+		popupWindow.showAsDropDown(findViewById(R.id.tvTitleCust), -xPos, 6);
+		popupWindow.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				ivArrow.setImageResource(R.drawable.arrow_down);
+			}
+		});
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				String t_title = title[arg2];
+				if ("全部".equals(t_title)) {
+					t_title = "客户信息";
+				}
+				tvTitleCust.setText(t_title);
+				popupWindow.dismiss();
+				popupWindow = null;
+				switch (arg2) {
+				case 0:
+					// 查企业共享
+					mFilterList.clear();
+					for (int i = 0; i < mList.size(); i++) {
+						DealerBean bean = mList.get(i);
+						String type = bean.type;
+						if (!TextUtils.isEmpty(type)) {
+							if ("1".equals(type)) {
+								mFilterList.add(bean);
+							}
+						}
+					}
+					DealerAdapter adapter0 = new DealerAdapter(DealerActivity.this, mFilterList);
+					mListView.setAdapter(adapter0);
+					break;
+				case 1:
+					// 查员工私有
+					mFilterList.clear();
+					for (int i = 0; i < mList.size(); i++) {
+						DealerBean bean = mList.get(i);
+						String type = bean.type;
+						if (!TextUtils.isEmpty(type)) {
+							if ("3".equals(type)) {
+								mFilterList.add(bean);
+							}
+						}
+					}
+					DealerAdapter adapter1 = new DealerAdapter(DealerActivity.this, mFilterList);
+					mListView.setAdapter(adapter1);
+					break;
+				case 2:
+					// 查全部
+					DealerAdapter adapter2 = new DealerAdapter(DealerActivity.this, mList);
+					mListView.setAdapter(adapter2);
+					break;
+				}
+			}
+		});
+	}
 }

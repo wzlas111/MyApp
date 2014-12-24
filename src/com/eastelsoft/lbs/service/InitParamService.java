@@ -71,7 +71,7 @@ public class InitParamService extends Service {
 		RequestParams params = new RequestParams();
 		params.put("reqCode", URLHelper.UPDATE_CLIENT_TYPE);
 		params.put("code", updatecode);
-		params.put("gpsid", gps_id);
+		params.put("GpsId", gps_id);
 		HttpRestClient.getSingle(mUrl, params, new TextHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
@@ -104,7 +104,7 @@ public class InitParamService extends Service {
 		RequestParams params = new RequestParams();
 		params.put("reqCode", URLHelper.UPDATE_CLIENT_REGION);
 		params.put("code", updatecode);
-		params.put("gpsid", gps_id);
+		params.put("GpsId", gps_id);
 		HttpRestClient.getSingle(mUrl, params, new TextHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {

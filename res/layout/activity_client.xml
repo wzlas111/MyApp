@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#dedee0" >
+    android:background="#dedee0"
+    android:id="@+id/parent" >
 
     <RelativeLayout
         android:id="@+id/layout_top"
@@ -17,6 +18,11 @@
             android:id="@+id/tvTitleCust"
             style="@style/TextViewTopTitle"
             android:text="@string/client_title" />
+        
+        <ImageView
+            android:id="@+id/ivArrow"
+            style="@style/ImageViewArrowDown" 
+            android:layout_toRightOf="@id/tvTitleCust" />
         
         <Button
             android:id="@+id/btAdd"

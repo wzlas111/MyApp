@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/tvTitleCust"
             style="@style/TextViewTopTitle"
-            android:text="共享属性" />
+            android:text="选择" />
         
     </RelativeLayout>
 

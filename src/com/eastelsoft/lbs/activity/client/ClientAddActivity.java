@@ -25,9 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
-import com.eastelsoft.lbs.activity.visit.VisitStartActivity;
 import com.eastelsoft.lbs.bean.ClientContactsBean;
-import com.eastelsoft.lbs.bean.ClientDetailBean;
 import com.eastelsoft.lbs.bean.ClientMechanicsBean;
 import com.eastelsoft.lbs.bean.ClientRegionDto;
 import com.eastelsoft.lbs.bean.ClientTypeDto;
@@ -291,7 +289,6 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			setTabSection(2);
 			break;
 		case R.id.btSave:
-			openPopConfirm("是否同步客户信息到平台");
 			if (mInfoFragment != null) {
 				if (!mInfoFragment.canSend()) {
 					return;
@@ -307,6 +304,7 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			System.out.println("info_data : "+info_data);
 			System.out.println("contacts_data : "+contacts_data);
 			System.out.println("mechanics_data : "+mechanics_data);
+			openPopConfirm("是否同步客户信息到平台");
 			break;
 		case R.id.btClose: //pop close
 			try {
@@ -315,6 +313,10 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			}
 			break;
 		case R.id.btClose1: //pop yes,upload data
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+			}
 			openPopupWindowPG("客户信息上传中...");
 			
 			SharedPreferences sp = getSharedPreferences("userdata", 0);
@@ -327,7 +329,7 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			bean.mechanics_data = mechanics_data;
 			
 			String json = gson.toJson(bean);
-			String mUrl = URLHelper.BASE_ACTION;
+			String mUrl = URLHelper.TEST_ACTION;
 			RequestParams params = new RequestParams();
 			params.put("reqCode", URLHelper.UPDATE_CLIENT);
 			params.put("json", json);
@@ -367,6 +369,10 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			});
 			break;
 		case R.id.btClose2: //pop no,insert to DB
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+			}
 			if (!TextUtils.isEmpty(info_data)) { //insert info
 				ClientBean clientBean = gson.fromJson(info_data, ClientBean.class);
 				clientBean.is_upload = "0";

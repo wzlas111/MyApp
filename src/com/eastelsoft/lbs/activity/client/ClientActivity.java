@@ -6,19 +6,30 @@ import java.util.List;
 import org.apache.http.Header;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.PopupWindow.OnDismissListener;
 
+import com.eastelsoft.lbs.CustActivity;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.bean.ClientDto;
@@ -88,6 +99,15 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 		mLoadingView = findViewById(R.id.circle_progress_bar);
 		mBackBtn = findViewById(R.id.btBack);
 		mAddBtn = findViewById(R.id.btAdd);
+		
+		tvTitleCust = (TextView) findViewById(R.id.tvTitleCust);
+		ivArrow = (ImageView) findViewById(R.id.ivArrow);
+		tvTitleCust.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showPopupWindow();
+			}
+		});
 		
 		mBackBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -266,29 +286,36 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 
 		@Override
 		protected Boolean doInBackground(String... params) {
-			mFilterList.clear();
-			String keyword = params[0];
-			for (ClientBean bean : mList) {
-				boolean isPinyin = bean.first_py.indexOf(keyword) > -1;
-				boolean isZhongwen = bean.client_name.indexOf(keyword) > -1;
-				if (isPinyin || isZhongwen) {
-					mFilterList.add(bean);
+			try {
+				mFilterList.clear();
+				String keyword = params[0];
+				for (ClientBean bean : mList) {
+					boolean isPinyin = bean.first_py.indexOf(keyword) > -1;
+					boolean isZhongwen = bean.client_name.indexOf(keyword) > -1;
+					if (isPinyin || isZhongwen) {
+						mFilterList.add(bean);
+					}
 				}
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
-			return true;
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
+			if (!result) {
+				return;
+			}
 			System.out.println("search : new PersonAdapter");
 			isSearchMode = true;
 			ClientAdapter adapter = new ClientAdapter(ClientActivity.this, mFilterList);
 			mListView.setAdapter(adapter);
 		}
-		
 	}
-
+	
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -304,4 +331,85 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 
 	@Override
 	public void afterTextChanged(Editable s) {}
+	
+	private TextView tvTitleCust;
+	private ImageView ivArrow;
+	private LinearLayout layout;
+	private ListView listView;
+	private String title[] = { "企业共享", "员工私有", "全部" };
+	public void showPopupWindow() {
+		ivArrow.setImageResource(R.drawable.arrow_up);
+		layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog, null);
+		listView = (ListView) layout.findViewById(R.id.lv_dialog);
+		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.text, R.id.tv_text, title));
+		popupWindow = new PopupWindow(this);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
+		popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.setFocusable(true);
+		popupWindow.setContentView(layout);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		int xPos = popupWindow.getWidth() / 2 - tvTitleCust.getWidth() / 2;
+		popupWindow.showAsDropDown(findViewById(R.id.tvTitleCust), -xPos, 6);
+		popupWindow.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				ivArrow.setImageResource(R.drawable.arrow_down);
+			}
+		});
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				String t_title = title[arg2];
+				if ("全部".equals(t_title)) {
+					t_title = "客户信息";
+				}
+				tvTitleCust.setText(t_title);
+				popupWindow.dismiss();
+				popupWindow = null;
+				switch (arg2) {
+				case 0:
+					// 查企业共享
+					mFilterList.clear();
+					for (int i = 0; i < mList.size(); i++) {
+						ClientBean bean = mList.get(i);
+						String type = bean.type;
+						if (!TextUtils.isEmpty(type)) {
+							if ("1".equals(type)) {
+								mFilterList.add(bean);
+							}
+						}
+					}
+					ClientAdapter adapter0 = new ClientAdapter(ClientActivity.this, mFilterList);
+					mListView.setAdapter(adapter0);
+					isSearchMode = true;
+					break;
+				case 1:
+					// 查员工私有
+					mFilterList.clear();
+					for (int i = 0; i < mList.size(); i++) {
+						ClientBean bean = mList.get(i);
+						String type = bean.type;
+						if (!TextUtils.isEmpty(type)) {
+							if ("3".equals(type)) {
+								mFilterList.add(bean);
+							}
+						}
+					}
+					ClientAdapter adapter1 = new ClientAdapter(ClientActivity.this, mFilterList);
+					mListView.setAdapter(adapter1);
+					isSearchMode = true;
+					break;
+				case 2:
+					// 查全部
+					ClientAdapter adapter2 = new ClientAdapter(ClientActivity.this, mList);
+					mListView.setAdapter(adapter2);
+					break;
+				}
+			}
+		});
+	}
+	
 }

@@ -72,7 +72,7 @@ public class VisitAdapter extends BaseAdapter {
 		} else if("3".equals(status)) {//表单上传中
 			msg = "上传中";
 		} else if("4".equals(status)) {//图片上传中
-			msg = "上传中";
+			msg = "图片上传中";
 		} else if("9".equals(status)) {//上传失败
 			msg = "上传失败";
 		}

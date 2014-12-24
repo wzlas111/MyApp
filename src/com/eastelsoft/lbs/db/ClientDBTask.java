@@ -111,6 +111,7 @@ public class ClientDBTask {
 			values.put(ClientTable.LON, bean.lon);
 			values.put(ClientTable.LAT, bean.lat);
 			values.put(ClientTable.ACCURARY, bean.accuary);
+			values.put(ClientTable.FIRST_PY, bean.first_py);
 			
 			getWsd().insert(ClientTable.TABLE_NAME, null, values);
 		} catch (Exception e) {

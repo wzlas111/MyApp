@@ -628,6 +628,15 @@
         <service android:name=".service.VisitMcService" />
         <service android:name=".service.ImgUploadService" />
         <service android:name=".service.InitParamService" />
+        <service android:name=".service.AutoUploadService" />
+        
+        <receiver 
+            android:name=".receiver.AutoUploadReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.action.autoupload"/>
+            </intent-filter>
+        </receiver>
         
     </application>
 

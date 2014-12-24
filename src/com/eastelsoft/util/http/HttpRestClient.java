@@ -9,6 +9,7 @@ public class HttpRestClient {
 
 	private static AsyncHttpClient mClient = new AsyncHttpClient();
 	private static AsyncHttpClientQueue mSingleClient = new AsyncHttpClientQueue();
+	private static AsyncHttpClientQueue mBgClient = new AsyncHttpClientQueue();
 	
 	public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
 		mClient.get(url, params, responseHandler);
@@ -24,6 +25,18 @@ public class HttpRestClient {
 	
 	public static void postSingle(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
 		mSingleClient.post(url, params, responseHandler);
+	}
+	
+	public static void getBg(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+		mBgClient.get(url, params, responseHandler);
+	}
+	
+	public static void postBg(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+		mBgClient.post(url, params, responseHandler);
+	}
+	
+	public static void clearBgRequest() {
+		mBgClient.cancelAllRequests(true);
 	}
 	
 }

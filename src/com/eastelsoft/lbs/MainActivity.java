@@ -171,6 +171,8 @@ public class MainActivity extends BaseActivity {
 		Intent serviceIntent = new Intent(this, InitParamService.class);
 		serviceIntent.putExtra("gps_id", set.getDevice_id());
 		startService(serviceIntent);
+		
+//		initAutoUpload();
 	}
 
 	@Override
@@ -190,10 +192,22 @@ public class MainActivity extends BaseActivity {
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 	}
 
+	private PendingIntent alarmIntent;
+	private AlarmManager alarmManager;
+	private void initAutoUpload() {
+		Intent intent = new Intent("com.action.autoupload");
+		alarmIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		if (alarmManager != null) {
+			alarmManager.cancel(alarmIntent);
+		}
+		alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+				System.currentTimeMillis(), 5 * 60 * 1000, alarmIntent);
+	}
+	
 	private class MainItemClickListener implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Intent intent = null;

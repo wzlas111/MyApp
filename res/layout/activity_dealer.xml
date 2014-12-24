@@ -18,6 +18,11 @@
             style="@style/TextViewTopTitle"
             android:text="@string/dealer_title" />
         
+        <ImageView
+            android:id="@+id/ivArrow"
+            style="@style/ImageViewArrowDown" 
+            android:layout_toRightOf="@id/tvTitleCust" />
+        
         <ProgressBar
 	        android:id="@+id/circle_progress_bar"
 	        android:layout_width="20.0dp"
