@@ -267,17 +267,17 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			startActivityForResult(intent, 1);
 			break;
 		case R.id.evaluate_btn:
-//			if (!"1".equals(mBean.is_evaluate)) {
-//				intent = new Intent(this, VisitEvaluateActivity.class);
-//				intent.putExtra("id", mBean.id);
-//				startActivityForResult(intent, 2);
-//			} else {
-//				Toast.makeText(this, "服务已评.", Toast.LENGTH_SHORT).show();
-//			}
-			intent = new Intent(this, VisitEvaluateActivity.class);
-			intent.putExtra("id", mBean.id);
-			intent.putExtra("type", "1");
-			startActivityForResult(intent, 2);
+			if (!"1".equals(mBean.is_evaluate)) {
+				intent = new Intent(this, VisitEvaluateActivity.class);
+				intent.putExtra("id", mBean.id);
+				startActivityForResult(intent, 2);
+			} else {
+				Toast.makeText(this, "服务已评.", Toast.LENGTH_SHORT).show();
+			}
+//			intent = new Intent(this, VisitEvaluateActivity.class);
+//			intent.putExtra("id", mBean.id);
+//			intent.putExtra("type", "1");
+//			startActivityForResult(intent, 2);
 			break;
 		case R.id.mechanic_count:
 			intent = new Intent(this, VisitMcListActivity.class);

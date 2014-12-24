@@ -182,7 +182,7 @@ public class VisitArriveActivity extends BaseActivity implements OnClickListener
 			save();
 			break;
 		case R.id.arrive_btn:
-			String now = Util.getLocaleTime("yyyy-MM-dd hh:mm:ss");
+			String now = Util.getLocaleTime("yyyy-MM-dd HH:mm:ss");
 			arrive_time.setText(now);
 			arrive_location.setText("正在获取中...");
 			new BaiduMapAction(this, mapCallback, "2").startListener();

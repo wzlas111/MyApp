@@ -37,6 +37,7 @@ public class AutoUploadService extends Service {
 
 	public static String TAG = "AutoUploadService";
 
+	private int count = 0;
 	private boolean is_uploading = false;
 	private String gps_id = "";
 	private Gson gson = new Gson();
@@ -49,6 +50,7 @@ public class AutoUploadService extends Service {
 		super.onCreate();
 		FileLog.i(TAG, TAG + "--->onCreate");
 		
+		count = 0;
 		is_uploading = false;
 		HttpRestClient.clearBgRequest();
 		
@@ -105,33 +107,46 @@ public class AutoUploadService extends Service {
 			
 			is_uploading = true;
 			//load need upload data
+			int list_size = 0;
 			try {
 				List<VisitBean> visit_list = AutoUploadDBTask.getVisitForm();
 				uploadVisitForm(visit_list);
 				FileLog.i(TAG,TAG+"visit_list : "+visit_list.size());
+				list_size += visit_list.size();
 			} catch (Exception e) {
 				e.printStackTrace();
+				list_size += 0;
 			}
 			try {
 				List<VisitEvaluateBean> evaluate_list = AutoUploadDBTask.getEvaluate();
 				uploadEvaluate(evaluate_list);
 				FileLog.i(TAG,TAG+"evaluate_list : "+evaluate_list.size());
+				list_size += evaluate_list.size();
 			} catch (Exception e) {
 				e.printStackTrace();
+				list_size += 0;
 			}
 			try {
 				List<VisitMcBean> mc_list = AutoUploadDBTask.getMc();
 				uploadMc(mc_list);
 				FileLog.i(TAG,TAG+"mc_list : "+mc_list.size());
+				list_size += mc_list.size();
 			} catch (Exception e) {
 				e.printStackTrace();
+				list_size += 0;
 			}
 			try {
 				List<UploadImgBean> img_list = AutoUploadDBTask.getUploadImg();
 				uploadImg(img_list);
 				FileLog.i(TAG,TAG+"img_list : "+img_list.size());
+				list_size += img_list.size();
 			} catch (Exception e) {
 				e.printStackTrace();
+				list_size += 0;
+			}
+			
+			if (list_size == 0) {
+				is_uploading = false;
 			}
 		}
 	}
@@ -150,6 +165,7 @@ public class AutoUploadService extends Service {
 			params.put("data_id", bean.id);
 			params.put("json", json);
 			HttpRestClient.postBg(mUrl, params, new VisitFormResponseHandler(bean));
+			count ++;
 		}
 	}
 	
@@ -160,22 +176,34 @@ public class AutoUploadService extends Service {
 		}
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			FileLog.i(TAG, TAG+"uploadVisitForm,基础数据上传成功.");
-			ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
-			if ("1".equals(resultBean.resultcode)) {
-				if ("0".equals(bean.visit_img_num)) {
-					bean.is_upload = "1";
-					bean.status = "2";
-					VisitDBTask.updateIsUploadBean(bean);
-				} else {
-					bean.is_upload = "0";
-					bean.status = "4";
-					VisitDBTask.updateIsUploadBean(bean);
+			FileLog.i(TAG, TAG+"uploadVisitForm,基础数据上传成功.id:"+bean.id);
+			try {
+				ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+				if ("1".equals(resultBean.resultcode)) {
+					if ("0".equals(bean.visit_img_num)) {
+						bean.is_upload = "1";
+						bean.status = "2";
+						VisitDBTask.updateIsUploadBean(bean);
+					} else {
+						bean.is_upload = "0";
+						bean.status = "4";
+						VisitDBTask.updateIsUploadBean(bean);
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
 			}
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
+			}
 			FileLog.i(TAG, TAG+"uploadVisitForm,基础数据上传失败...");
 		}
 	}
@@ -195,6 +223,7 @@ public class AutoUploadService extends Service {
 			params.put("json", json);
 			params.put("file1", new File(bean.client_sign), contentType);
 			HttpRestClient.postBg(mUrl, params, new EvaluateResponseHandler(bean));
+			count ++;
 		}
 	}
 	
@@ -205,14 +234,26 @@ public class AutoUploadService extends Service {
 		}
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			FileLog.i(TAG, TAG+"uploadMc,基础数据上传成功.");
-			ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
-			if ("1".equals(resultBean.resultcode)) {
-				AutoUploadDBTask.updateEvaluate(bean.id);
+			FileLog.i(TAG, TAG+"uploadMc,基础数据上传成功.id : "+bean.id);
+			try {
+				ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+				if ("1".equals(resultBean.resultcode)) {
+					AutoUploadDBTask.updateEvaluate(bean.id);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
 			}
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
+			}
 			FileLog.i(TAG, TAG+"uploadMc,基础数据上传失败...");
 		}
 	}
@@ -234,6 +275,7 @@ public class AutoUploadService extends Service {
 			params.put("json", json);
 			params.put("file1", new File(bean.client_sign));
 			HttpRestClient.postBg(mUrl, params, new McResponseHandler(bean));
+			count ++;
 		}
 	}
 	
@@ -244,18 +286,30 @@ public class AutoUploadService extends Service {
 		}
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			FileLog.i(TAG, TAG+"uploadMc,基础数据上传成功.");
-			ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
-			if ("1".equals(resultBean.resultcode)) {
-				if ("0".equals(bean.upload_img_num)) {
-					AutoUploadDBTask.updateMc(bean.id,"1");
-				} else {
-					AutoUploadDBTask.updateMc(bean.id,"00");
+			FileLog.i(TAG, TAG+"uploadMc,基础数据上传成功.id:"+bean.id);
+			try {
+				ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+				if ("1".equals(resultBean.resultcode)) {
+					if ("0".equals(bean.upload_img_num)) {
+						AutoUploadDBTask.updateMc(bean.id,"1");
+					} else {
+						AutoUploadDBTask.updateMc(bean.id,"00");
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
 			}
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
+			}
 			FileLog.i(TAG, TAG+"uploadMc,基础数据上传失败...");
 		}
 	}
@@ -280,6 +334,7 @@ public class AutoUploadService extends Service {
 			params.setHttpEntityIsRepeatable(false);
 			params.setUseJsonStreamer(false);
 			HttpRestClient.postBg(mUrl, params, new ImgResponseHandler(bean));
+			count ++;
 		}
 	}
 	
@@ -294,7 +349,7 @@ public class AutoUploadService extends Service {
 				Gson gson = new Gson();
 				ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
 				if ("1".equals(resultBean.resultcode)) { //success
-					FileLog.i(TAG, TAG+"uploadImg,图片上传成功.");
+					FileLog.i(TAG, TAG+"uploadImg,图片上传成功.id:"+bean.id+",data_id:"+bean.data_id);
 					UploadDBTask.deleteImgBean(bean.id);
 					String img_num = resultBean.img_num;
 					if (TextUtils.isEmpty(img_num)) {
@@ -319,9 +374,17 @@ public class AutoUploadService extends Service {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
+			}
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+			count--;
+			if (count <=0 ) {
+				is_uploading = false;
+			}
 			FileLog.i(TAG, TAG+"uploadImg,图片上传失败.");
 		}
 	}

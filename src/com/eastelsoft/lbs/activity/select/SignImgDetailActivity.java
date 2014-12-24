@@ -35,7 +35,7 @@ public class SignImgDetailActivity extends Activity implements OnClickListener {
 		mBackBtn = (Button)findViewById(R.id.btBack);
 		mBackBtn.setOnClickListener(this);
 		
-		Bitmap bitmap = BitmapFactory.decodeFile(mBasePath+mPath);
+		Bitmap bitmap = BitmapFactory.decodeFile(mPath);
 		mImgShow.setImageBitmap(bitmap);
 	}
 	

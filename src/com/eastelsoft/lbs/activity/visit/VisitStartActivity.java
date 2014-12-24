@@ -217,7 +217,7 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 			save();
 			break;
 		case R.id.start_btn:
-			String now = Util.getLocaleTime("yyyy-MM-dd hh:mm:ss");
+			String now = Util.getLocaleTime("yyyy-MM-dd HH:mm:ss");
 			start_time.setText(now);
 			start_location.setText("正在获取中...");
 			new BaiduMapAction(this, mapCallback, "2").startListener();
