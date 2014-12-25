@@ -20,6 +20,7 @@ import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.select.McModelActivity;
 import com.eastelsoft.lbs.activity.select.McReasonActivity;
 import com.eastelsoft.lbs.activity.select.McSolverActivity;
+import com.eastelsoft.lbs.activity.util.CaptureActivity;
 import com.eastelsoft.lbs.bean.VisitMcRegisterBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -134,6 +135,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 		mViewList.add(holder);
 		
 		//选择机型
+		view.findViewById(R.id.row_scan).setOnClickListener(new McCodeOnClickListener(i));
 		view.findViewById(R.id.row_model).setOnClickListener(new McModelOnClickListener(i));
 		view.findViewById(R.id.row_reason).setOnClickListener(new McReasonOnClickListener(i));
 		view.findViewById(R.id.row_solver).setOnClickListener(new McSolverOnClickListener(i));
@@ -142,6 +144,21 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 		layoutParams.topMargin = 15;
 		mFrameTable.addView(view, layoutParams);
 		i++;
+	}
+	
+	private class McCodeOnClickListener implements OnClickListener {
+		private int mIndex;
+		public McCodeOnClickListener(int index){
+			mIndex = index;
+		}
+		@Override
+		public void onClick(View v) {
+			ViewHolder holder = mViewList.get(mIndex);
+			Intent intent = new Intent(VisitMcRegisterActivity.this, CaptureActivity.class);
+			intent.putExtra("id", holder.mc_model_id.getText().toString());
+			intent.putExtra("index", mIndex);
+			startActivityForResult(intent, 2);
+		}
 	}
 	
 	private class McModelOnClickListener implements OnClickListener {
@@ -228,6 +245,14 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 				ViewHolder holder = mViewList.get(index);
 				holder.mc_model_id.setText(id);
 				holder.mc_model.setText(name);
+			}
+			break;
+		case 2: //mc code
+			if (data != null) {
+				int index = data.getIntExtra("index", 0);
+				String code = data.getStringExtra("code");
+				ViewHolder holder = mViewList.get(index);
+				holder.mc_code.setText(code);
 			}
 			break;
 		case 3: //mc reason

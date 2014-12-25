@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Calendar;
-import java.util.List;
 import java.util.UUID;
 
 import android.app.AlertDialog;
@@ -48,9 +47,7 @@ import com.eastelsoft.lbs.activity.select.SignImgActivity;
 import com.eastelsoft.lbs.activity.select.SignImgDetailActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
 import com.eastelsoft.lbs.bean.VisitMcBean;
-import com.eastelsoft.lbs.db.VisitMcDBTask;
 import com.eastelsoft.lbs.entity.SetInfo;
-import com.eastelsoft.lbs.service.VisitEvaluateService;
 import com.eastelsoft.lbs.service.VisitMcService;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.FileUtil;
