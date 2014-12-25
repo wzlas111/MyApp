@@ -2,7 +2,6 @@ package com.eastelsoft.lbs.db;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import com.eastelsoft.lbs.bean.UploadImgBean;
 import com.eastelsoft.lbs.bean.VisitBean;
@@ -49,7 +48,7 @@ private AutoUploadDBTask() {}
 	
 	public static List<VisitEvaluateBean> getEvaluate() {
 		List<VisitEvaluateBean> plist = new ArrayList<VisitEvaluateBean>();
-		String sql = "select * from "+VisitEvaluateTable.TABLE_NAME + " where is_upload = '0'";
+		String sql = "select * from "+VisitEvaluateTable.TABLE_NAME + " where is_upload='0'";
 		Cursor c = getRsd().rawQuery(sql, null);
 		if (c.moveToNext()) {
 			VisitEvaluateBean bean = new VisitEvaluateBean();
@@ -132,7 +131,7 @@ private AutoUploadDBTask() {}
 	
 	public static DBResult updateEvaluate(String id) {
 		ContentValues values = new ContentValues();
-		values.put(VisitTable.IS_UPLOAD, "1");
+		values.put(VisitEvaluateTable.IS_UPLOAD, "1");
 		
 		getWsd().update(VisitEvaluateTable.TABLE_NAME, values, "id=?", new String[]{id});
 		

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.eastelsoft.lbs"
-    android:versionCode="7"
-    android:versionName="2.0730">
+    android:versionCode="1"
+    android:versionName="1.01">
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19"/>  

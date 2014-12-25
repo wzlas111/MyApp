@@ -118,6 +118,7 @@ public class VisitArriveActivity extends BaseActivity implements OnClickListener
 		}
 		
 		openPopupWindowPG("数据上传中...");
+		btPopGps.setText("数据上传中...");
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(bean);

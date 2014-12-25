@@ -50,10 +50,13 @@ import com.eastelsoft.lbs.bean.ResultBean;
 import com.eastelsoft.lbs.bean.VisitBean;
 import com.eastelsoft.lbs.db.VisitDBTask;
 import com.eastelsoft.lbs.entity.SetInfo;
+import com.eastelsoft.lbs.photo.GalleryActivity;
 import com.eastelsoft.lbs.service.ImgUploadService;
 import com.eastelsoft.lbs.service.VisitFinishService;
+import com.eastelsoft.util.Contant;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.FileUtil;
+import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.ImageThumbnail;
 import com.eastelsoft.util.ImageUtil;
@@ -93,9 +96,13 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 	private TextView mechanic_count;
 	private TextView is_evaluate;
 
+	private String max_img_num = "5";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		globalVar = (GlobalVar) getApplicationContext();
+		sp = getSharedPreferences("userdata", 0);
+		max_img_num = sp.getString("img_num", Contant.IMG_NUM);
 		parseIntent();
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -209,6 +216,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			mBean.visit_img_num = String.valueOf(photos_path.length);
 			
 			openPopupWindowPG("数据上传中...");
+			btPopGps.setText("数据上传中...");
 			
 			sp = getSharedPreferences("userdata", 0);
 			SetInfo set = IUtil.initSetInfo(sp);
@@ -411,6 +419,12 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			
 			handlePhoto(photo_path);
 			break;
+		case PHOTO_DEL://圖片刪除
+			if (data != null) {
+				int p = data.getIntExtra("p", 0);
+				displayPhotoDel(p);
+			}
+			break;
 		}
 	}
 	
@@ -421,7 +435,8 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 	public static final int CAMERA_WITH_DATA = 1001;
 	// 选择本地图片
 	public static final int PHOTO_PICKED_WITH_DATA = 1002;
-	
+	//图片删除
+	private static final int PHOTO_DEL = 99990;
 	//display
 	private Bitmap[] photos;
 	//path
@@ -431,7 +446,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 		Bitmap bitmap = ImageUtil.drawableToBitmap(res.getDrawable(R.drawable.addphoto_button_normal));
 		photos = new Bitmap[1];
 		photos[0] = bitmap;
-		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
 		grid_photo.setAdapter(mGridAdapter);
 		grid_photo.setOnItemClickListener(new GridOnItemClick());
 	}
@@ -441,7 +456,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 		for (int i = 0; i < paths.size(); i++) {
 			photos[i] = BitmapFactory.decodeFile(paths.get(i));
 		}
-		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
 		grid_photo.setAdapter(mGridAdapter);
 	}
 	
@@ -456,9 +471,41 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 		}
 		photos[temp.length-1] = bitmap;
 		photos[temp.length] = add_photo;
-		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
 		grid_photo.setAdapter(mGridAdapter);
 		grid_photo.setOnItemClickListener(new GridOnItemClick());
+	}
+	
+	private void displayPhotoDel(int p) {
+		try {
+			Bitmap[] tempP = photos;
+			String[] tempPs = photos_path;
+			photos = new Bitmap[tempP.length-1];
+			//copy
+			for (int i = 0; i < tempP.length; i++) {
+				if (i < p) {
+					photos[i] = tempP[i];
+				} else if(i > p) {
+					photos[i-1] = tempP[i];
+				}
+			}
+			photos_path = new String[tempPs.length-1];
+			//copy
+			for (int i = 0; i < tempPs.length; i++) {
+				if (i < p) {
+					photos_path[i] = tempPs[i];
+				} else if(i > p) {
+					photos_path[i-1] = tempPs[i];
+				}
+			}
+			tempP = null;
+			tempPs = null;
+			mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
+			grid_photo.setAdapter(mGridAdapter);
+			grid_photo.setOnItemClickListener(new GridOnItemClick());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void takePhoto() {
@@ -540,8 +587,6 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			if (position == photos.length-1) {
 				if (FileManager.isExternalStorageMounted()) {
 					try {
-//						takePhoto();
-//						choosePhoto();
 						openPhotoWindow();
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -549,6 +594,13 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 				} else {
 					Toast.makeText(VisitAdditionalActivity.this, getString(R.string.noSDCard), Toast.LENGTH_SHORT).show();
 				}
+			}  else {
+				globalVar.setImgs(photos_path);
+				Intent intent = new Intent();
+				intent.setClass(VisitAdditionalActivity.this, GalleryActivity.class);
+				intent.putExtra("position", position);
+				intent.putExtra("type", Contant.ADD);
+				startActivityForResult(intent, PHOTO_DEL);
 			}
 		}
 	}

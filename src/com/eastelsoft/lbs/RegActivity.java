@@ -35,7 +35,6 @@ import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.IUtil;
-import com.eastelsoft.util.TcpPackage;
 import com.eastelsoft.util.UMMPUtil;
 import com.eastelsoft.util.Util;
 
@@ -216,6 +215,7 @@ public class RegActivity extends BaseActivity {
 				if (msg.what == 0) {
 					Intent intent = new Intent();
 					intent.setClass(RegActivity.this, MainActivity.class);
+					intent.putExtra("is_reg", true);
 					startActivity(intent);
 					finish();
 				}

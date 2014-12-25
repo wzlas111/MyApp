@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -45,13 +44,14 @@ import com.eastelsoft.lbs.MyGridView;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
-import com.eastelsoft.lbs.bean.UploadImgBean;
 import com.eastelsoft.lbs.bean.VisitBean;
-import com.eastelsoft.lbs.db.UploadDBTask;
 import com.eastelsoft.lbs.db.VisitDBTask;
+import com.eastelsoft.lbs.photo.GalleryActivity;
 import com.eastelsoft.lbs.service.VisitFinishService;
+import com.eastelsoft.util.Contant;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.FileUtil;
+import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.ImageThumbnail;
 import com.eastelsoft.util.ImageUtil;
 import com.eastelsoft.util.Util;
@@ -85,9 +85,13 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	private TextView mechanic_count;
 	private TextView is_evaluate;
 
+	private String max_img_num = "5";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		globalVar = (GlobalVar) getApplicationContext();
+		sp = getSharedPreferences("userdata", 0);
+		max_img_num = sp.getString("img_num", Contant.IMG_NUM);
 		parseIntent();
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -102,6 +106,12 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void onStop() {
 		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		globalVar.setImgs(new String[0]);
 	}
 	
 	private void parseIntent() {
@@ -355,6 +365,14 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			
 			handlePhoto(photo_path);
 			break;
+		case PHOTO_DEL://圖片刪除
+			if (data != null) {
+				int p = data.getIntExtra("p", 0);
+				displayPhotoDel(p);
+			}
+			break;
+		case PHOTO_VIEW:
+			break;
 		}
 	}
 	
@@ -365,7 +383,10 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	public static final int CAMERA_WITH_DATA = 1001;
 	// 选择本地图片
 	public static final int PHOTO_PICKED_WITH_DATA = 1002;
-	
+	//图片删除
+	private static final int PHOTO_DEL = 99990;
+	//图片查看
+	private static final int PHOTO_VIEW = 1003;
 	//display
 	private Bitmap[] photos;
 	//path
@@ -375,18 +396,21 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		Bitmap bitmap = ImageUtil.drawableToBitmap(res.getDrawable(R.drawable.addphoto_button_normal));
 		photos = new Bitmap[1];
 		photos[0] = bitmap;
-		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
 		grid_photo.setAdapter(mGridAdapter);
 		grid_photo.setOnItemClickListener(new GridOnItemClick());
 	}
 	
 	private void initGrid(List<String> paths){
 		photos = new Bitmap[paths.size()];
+		photos_path = new String[paths.size()];
 		for (int i = 0; i < paths.size(); i++) {
 			photos[i] = BitmapFactory.decodeFile(paths.get(i));
+			photos_path[i] = paths.get(i);
 		}
-		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
 		grid_photo.setAdapter(mGridAdapter);
+		grid_photo.setOnItemClickListener(new GridOnItemClick());
 	}
 	
 	private void displayPhoto(Bitmap bitmap) {
@@ -400,9 +424,41 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		}
 		photos[temp.length-1] = bitmap;
 		photos[temp.length] = add_photo;
-		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight);
+		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
 		grid_photo.setAdapter(mGridAdapter);
 		grid_photo.setOnItemClickListener(new GridOnItemClick());
+	}
+	
+	private void displayPhotoDel(int p) {
+		try {
+			Bitmap[] tempP = photos;
+			String[] tempPs = photos_path;
+			photos = new Bitmap[tempP.length-1];
+			//copy
+			for (int i = 0; i < tempP.length; i++) {
+				if (i < p) {
+					photos[i] = tempP[i];
+				} else if(i > p) {
+					photos[i-1] = tempP[i];
+				}
+			}
+			photos_path = new String[tempPs.length-1];
+			//copy
+			for (int i = 0; i < tempPs.length; i++) {
+				if (i < p) {
+					photos_path[i] = tempPs[i];
+				} else if(i > p) {
+					photos_path[i-1] = tempPs[i];
+				}
+			}
+			tempP = null;
+			tempPs = null;
+			mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
+			grid_photo.setAdapter(mGridAdapter);
+			grid_photo.setOnItemClickListener(new GridOnItemClick());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void takePhoto() {
@@ -481,17 +537,31 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	private class GridOnItemClick implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-			if (position == photos.length-1) {
-				if (FileManager.isExternalStorageMounted()) {
-					try {
-//						takePhoto();
-//						choosePhoto();
-						openPhotoWindow();
-					} catch (Exception e) {
-						e.printStackTrace();
+			if ("detail".equals(mType)) {//detail
+				globalVar.setImgs(photos_path);
+				Intent intent = new Intent();
+				intent.setClass(VisitFinishActivity.this, GalleryActivity.class);
+				intent.putExtra("position", position);
+				intent.putExtra("type", Contant.VIEW);
+				startActivityForResult(intent, PHOTO_VIEW);
+			} else {
+				if (position == photos.length-1) {
+					if (FileManager.isExternalStorageMounted()) {
+						try {
+							openPhotoWindow();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					} else {
+						Toast.makeText(VisitFinishActivity.this, getString(R.string.noSDCard), Toast.LENGTH_SHORT).show();
 					}
 				} else {
-					Toast.makeText(VisitFinishActivity.this, getString(R.string.noSDCard), Toast.LENGTH_SHORT).show();
+					globalVar.setImgs(photos_path);
+					Intent intent = new Intent();
+					intent.setClass(VisitFinishActivity.this, GalleryActivity.class);
+					intent.putExtra("position", position);
+					intent.putExtra("type", Contant.ADD);
+					startActivityForResult(intent, PHOTO_DEL);
 				}
 			}
 		}

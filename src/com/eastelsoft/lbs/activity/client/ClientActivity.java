@@ -38,6 +38,7 @@ import com.eastelsoft.lbs.db.ClientDBTask;
 import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.lbs.widget.ClientListView;
 import com.eastelsoft.util.FileLog;
+import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
@@ -190,6 +191,11 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 	private ClientDto clientDto;
 	private DataThread mDataThread;
 	private void initDataTask() {
+		boolean is_loading = GlobalVar.getInstance().isClient_uploading();
+		if (is_loading) {
+			FileLog.i(TAG, TAG+"客户新正在下载中...");
+			return;
+		}
 		sp = getSharedPreferences("userdata", 0);
 		SetInfo set = IUtil.initSetInfo(sp);
 		String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.CLIENT_UPDATECODE);
