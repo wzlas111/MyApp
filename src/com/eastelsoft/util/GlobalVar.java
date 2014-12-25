@@ -23,6 +23,11 @@ import android.view.Display;
  */
 public class GlobalVar extends Application {
 	public static final String TAG="GlobalVar";
+	
+	private boolean dealer_uploading = false;
+	
+	private boolean client_uploading = false;
+	
 	private int msg_seq = 1;
 	
 	private long locationtime = 0;
@@ -80,6 +85,24 @@ public class GlobalVar extends Application {
 				+ ", imgFileName2=" + imgFileName2 + ", imgFileName3="
 				+ imgFileName3 + ", imgs=" + Arrays.toString(imgs) + ", idle="
 				+ idle + ", video1=" + video1 +", reSoundName"+reSoundName+"]";
+	}
+	
+	
+
+	public boolean isDealer_uploading() {
+		return dealer_uploading;
+	}
+
+	public void setDealer_uploading(boolean dealer_uploading) {
+		this.dealer_uploading = dealer_uploading;
+	}
+
+	public boolean isClient_uploading() {
+		return client_uploading;
+	}
+
+	public void setClient_uploading(boolean client_uploading) {
+		this.client_uploading = client_uploading;
 	}
 
 	public long getLocationtime() {

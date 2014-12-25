@@ -2,6 +2,7 @@ package com.eastelsoft.lbs.service;
 
 import java.io.File;
 import java.util.List;
+
 import org.apache.http.Header;
 
 import com.eastelsoft.lbs.bean.ResultBean;
@@ -57,6 +58,8 @@ public class AutoUploadService extends Service {
 		IntentFilter mFilter = new IntentFilter();
 		mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		registerReceiver(netReceiver, mFilter);
+		
+//		Looper.prepare();
 	}
 
 	@Override
@@ -89,7 +92,8 @@ public class AutoUploadService extends Service {
 					FileLog.i(TAG + "network", "当前网络名称：" + name);
 					// 有网络，检测是否有未上传的缓存信息
 					if (!is_uploading) {
-						new Thread(new NetThread()).start();
+//						new Thread(new NetThread()).start();
+						init();
 					}
 				} else {
 					Log.d(TAG + "network", "没有可用网络");
@@ -98,56 +102,53 @@ public class AutoUploadService extends Service {
 		}
 	};
 	
-	private class NetThread implements Runnable {
-		@Override
-		public void run() {
-			SharedPreferences sp = getSharedPreferences("userdata", 0);
-			SetInfo set = IUtil.initSetInfo(sp);
-			gps_id = set.getDevice_id();
-			
-			is_uploading = true;
-			//load need upload data
-			int list_size = 0;
-			try {
-				List<VisitBean> visit_list = AutoUploadDBTask.getVisitForm();
-				uploadVisitForm(visit_list);
-				FileLog.i(TAG,TAG+"visit_list : "+visit_list.size());
-				list_size += visit_list.size();
-			} catch (Exception e) {
-				e.printStackTrace();
-				list_size += 0;
-			}
-			try {
-				List<VisitEvaluateBean> evaluate_list = AutoUploadDBTask.getEvaluate();
-				uploadEvaluate(evaluate_list);
-				FileLog.i(TAG,TAG+"evaluate_list : "+evaluate_list.size());
-				list_size += evaluate_list.size();
-			} catch (Exception e) {
-				e.printStackTrace();
-				list_size += 0;
-			}
-			try {
-				List<VisitMcBean> mc_list = AutoUploadDBTask.getMc();
-				uploadMc(mc_list);
-				FileLog.i(TAG,TAG+"mc_list : "+mc_list.size());
-				list_size += mc_list.size();
-			} catch (Exception e) {
-				e.printStackTrace();
-				list_size += 0;
-			}
-			try {
-				List<UploadImgBean> img_list = AutoUploadDBTask.getUploadImg();
-				uploadImg(img_list);
-				FileLog.i(TAG,TAG+"img_list : "+img_list.size());
-				list_size += img_list.size();
-			} catch (Exception e) {
-				e.printStackTrace();
-				list_size += 0;
-			}
-			
-			if (list_size == 0) {
-				is_uploading = false;
-			}
+	private void init() {
+		SharedPreferences sp = getSharedPreferences("userdata", 0);
+		SetInfo set = IUtil.initSetInfo(sp);
+		gps_id = set.getDevice_id();
+		
+		is_uploading = true;
+		//load need upload data
+		int list_size = 0;
+		try {
+			List<VisitBean> visit_list = AutoUploadDBTask.getVisitForm();
+			uploadVisitForm(visit_list);
+			FileLog.i(TAG,TAG+"visit_list : "+visit_list.size());
+			list_size += visit_list.size();
+		} catch (Exception e) {
+			e.printStackTrace();
+			list_size += 0;
+		}
+		try {
+			List<VisitEvaluateBean> evaluate_list = AutoUploadDBTask.getEvaluate();
+			uploadEvaluate(evaluate_list);
+			FileLog.i(TAG,TAG+"evaluate_list : "+evaluate_list.size());
+			list_size += evaluate_list.size();
+		} catch (Exception e) {
+			e.printStackTrace();
+			list_size += 0;
+		}
+		try {
+			List<VisitMcBean> mc_list = AutoUploadDBTask.getMc();
+			uploadMc(mc_list);
+			FileLog.i(TAG,TAG+"mc_list : "+mc_list.size());
+			list_size += mc_list.size();
+		} catch (Exception e) {
+			e.printStackTrace();
+			list_size += 0;
+		}
+		try {
+			List<UploadImgBean> img_list = AutoUploadDBTask.getUploadImg();
+			uploadImg(img_list);
+			FileLog.i(TAG,TAG+"img_list : "+img_list.size());
+			list_size += img_list.size();
+		} catch (Exception e) {
+			e.printStackTrace();
+			list_size += 0;
+		}
+		
+		if (list_size == 0) {
+			is_uploading = false;
 		}
 	}
 	
@@ -234,7 +235,7 @@ public class AutoUploadService extends Service {
 		}
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			FileLog.i(TAG, TAG+"uploadMc,基础数据上传成功.id : "+bean.id);
+			FileLog.i(TAG, TAG+"uploadEvaluate,基础数据上传成功.id : "+bean.id);
 			try {
 				ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
 				if ("1".equals(resultBean.resultcode)) {
@@ -254,7 +255,7 @@ public class AutoUploadService extends Service {
 			if (count <=0 ) {
 				is_uploading = false;
 			}
-			FileLog.i(TAG, TAG+"uploadMc,基础数据上传失败...");
+			FileLog.i(TAG, TAG+"uploadEvaluate,基础数据上传失败...");
 		}
 	}
 	

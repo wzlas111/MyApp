@@ -85,10 +85,14 @@ public class MainActivity extends BaseActivity {
 	// 在线状态
 	private ImageView online_state;
 	private MyStateReceiver receiver;
+	
+	private boolean is_reg = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		is_reg = getIntent().getBooleanExtra("is_reg", false);
+		
 		setContentView(R.layout.activity_main);
 
 		// 检测上下文数据
@@ -148,6 +152,13 @@ public class MainActivity extends BaseActivity {
 					PendingIntent.FLAG_CANCEL_CURRENT);
 			this.setAlarmTime(120000); // 启动后2分钟执行
 
+			//初始化系统参数
+			Intent serviceIntent = new Intent(this, InitParamService.class);
+			serviceIntent.putExtra("gps_id", set.getDevice_id());
+			serviceIntent.putExtra("is_reg", is_reg);
+			startService(serviceIntent);
+			
+			initAutoUpload();
 		}
 		// 获取到GridView
 		maingv = (GridView) this.findViewById(R.id.gv_all);
@@ -167,12 +178,6 @@ public class MainActivity extends BaseActivity {
 		dataThread = new Thread(new DataThread());
 		dataThread.start();
 
-		//初始化系统参数
-		Intent serviceIntent = new Intent(this, InitParamService.class);
-		serviceIntent.putExtra("gps_id", set.getDevice_id());
-		startService(serviceIntent);
-		
-//		initAutoUpload();
 	}
 
 	@Override

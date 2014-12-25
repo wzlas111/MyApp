@@ -2,7 +2,9 @@ package com.eastelsoft.lbs.activity.dealer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.Header;
+
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -38,6 +40,7 @@ import com.eastelsoft.lbs.db.DealerDBTask;
 import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.lbs.widget.DealerListView;
 import com.eastelsoft.util.FileLog;
+import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
@@ -173,6 +176,12 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 	private DealerDto dealerDto;
 	private DataThread mDataThread;
 	private void initDataTask() {
+		boolean is_loading = GlobalVar.getInstance().isDealer_uploading();
+		if (is_loading) {
+			FileLog.i(TAG, TAG+"经销商信息在下载中...");
+			return;
+		}
+		
 		sp = getSharedPreferences("userdata", 0);
 		SetInfo set = IUtil.initSetInfo(sp);
 		String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.DEALER_UPDATECODE);
@@ -336,7 +345,7 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 					long arg3) {
 				String t_title = title[arg2];
 				if ("全部".equals(t_title)) {
-					t_title = "客户信息";
+					t_title = "经销商信息";
 				}
 				tvTitleCust.setText(t_title);
 				popupWindow.dismiss();

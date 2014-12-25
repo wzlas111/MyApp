@@ -55,7 +55,7 @@ public class WelcomeActivity extends Activity {
 			editor.commit();
 		}
 		
-		String welcome_view = sp.getString("welcome_view", "");
+//		String welcome_view = sp.getString("welcome_view", "");
 //		if("".equals(welcome_view)) {
 //			Editor editor = sp.edit();
 //			editor.putString("welcome_view", "1");

@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import com.eastelsoft.lbs.bean.ClientDto;
 import com.eastelsoft.lbs.bean.ClientRegionDto;
 import com.eastelsoft.lbs.bean.ClientTypeDto;
+import com.eastelsoft.lbs.bean.DealerDto;
+import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
 import com.eastelsoft.lbs.bean.ClientRegionDto.RegionBean;
 import com.eastelsoft.lbs.bean.ClientTypeDto.TypeBean;
+import com.eastelsoft.lbs.bean.DealerDto.DealerBean;
 import com.eastelsoft.lbs.bean.EnterpriseTypeDto;
 import com.eastelsoft.lbs.bean.EnterpriseTypeDto.EnterpriseTypeBean;
 import com.eastelsoft.lbs.bean.EvaluateDto;
@@ -17,8 +21,10 @@ import com.eastelsoft.lbs.bean.OrderTypeDto.OrderTypeBean;
 import com.eastelsoft.lbs.bean.ProductTypeDto;
 import com.eastelsoft.lbs.bean.ProductTypeDto.ProductTypeBean;
 import com.eastelsoft.lbs.db.ClientDBTask;
+import com.eastelsoft.lbs.db.DealerDBTask;
 import com.eastelsoft.lbs.db.ParamsDBTask;
 import com.eastelsoft.util.FileLog;
+import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
 import com.eastelsoft.util.settinghelper.SettingUtility;
@@ -28,7 +34,9 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.text.TextUtils;
 
 /**
@@ -40,6 +48,8 @@ public class InitParamService extends Service {
 	
 	public static String TAG = "InitParamService";
 	private String gps_id;
+	private boolean is_reg = false;
+	private Gson gson = new Gson();
 
 	@Override
 	public void onCreate() {
@@ -51,10 +61,24 @@ public class InitParamService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		FileLog.i(TAG, TAG+"---->onStartCommand");
 		gps_id = intent.getStringExtra("gps_id");
+		is_reg = intent.getBooleanExtra("is_reg", false);
 		FileLog.i(TAG, TAG+"gpsid : "+gps_id);
 		if (TextUtils.isEmpty(gps_id)) {
 			stopService();
 		}else {
+			if (is_reg) {//初次注册默认加载联系人和客户信息
+				try {
+					initDealerList();
+				} catch (Exception e) {
+					GlobalVar.getInstance().setDealer_uploading(true);
+				}
+				try {
+					initClientList();
+				} catch (Exception e) {
+					GlobalVar.getInstance().setClient_uploading(true);
+				}
+				
+			}
 			initClientType();
 			initClientRegion();
 			initVisitEvaluate();
@@ -76,9 +100,9 @@ public class InitParamService extends Service {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
-				FileLog.i(TAG, TAG+"客户类型 : "+responseString);
+				FileLog.i(TAG, TAG+"客户类型下载成功.");
 				try {
-					ClientTypeDto dto = new Gson().fromJson(responseString, ClientTypeDto.class);
+					ClientTypeDto dto = gson.fromJson(responseString, ClientTypeDto.class);
 					if ("1".equals(dto.resultcode)) {
 						SettingUtility.setValue(SettingUtility.CLIENT_TYPE_UPDATECODE, dto.updatecode);
 						List<TypeBean> list = dto.clientdata;
@@ -109,9 +133,9 @@ public class InitParamService extends Service {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
-				FileLog.i(TAG, TAG+"客户区域 : "+responseString);
+				FileLog.i(TAG, TAG+"客户区域 下载成功.");
 				try {
-					ClientRegionDto dto = new Gson().fromJson(responseString, ClientRegionDto.class);
+					ClientRegionDto dto = gson.fromJson(responseString, ClientRegionDto.class);
 					if ("1".equals(dto.resultcode)) {
 						SettingUtility.setValue(SettingUtility.CLIENT_REGION_UPDATECODE, dto.updatecode);
 						List<RegionBean> list = dto.clientdata;
@@ -142,9 +166,9 @@ public class InitParamService extends Service {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
-				FileLog.i(TAG, TAG+"服务评价 : "+responseString);
+				FileLog.i(TAG, TAG+"服务评价下载成功.");
 				try {
-					EvaluateDto dto = new Gson().fromJson(responseString, EvaluateDto.class);
+					EvaluateDto dto = gson.fromJson(responseString, EvaluateDto.class);
 					if ("1".equals(dto.resultcode)) {
 						SettingUtility.setValue(SettingUtility.VISIT_EVALUATE_UPDATECODE, dto.updatecode);
 						List<EvaluateBean> list = dto.clientdata;
@@ -175,8 +199,8 @@ public class InitParamService extends Service {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
-				FileLog.i(TAG, TAG+"产品类型 : "+responseString);
-				ProductTypeDto dto = new Gson().fromJson(responseString, ProductTypeDto.class);
+				FileLog.i(TAG, TAG+"产品类型 下载成功.");
+				ProductTypeDto dto = gson.fromJson(responseString, ProductTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
 					SettingUtility.setValue(SettingUtility.PRODUCT_TYPE_UPDATECODE, dto.updatecode);
 					List<ProductTypeBean> list = dto.clientdata;
@@ -204,8 +228,8 @@ public class InitParamService extends Service {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
-				FileLog.i(TAG, TAG+"订单类型 : "+responseString);
-				OrderTypeDto dto = new Gson().fromJson(responseString, OrderTypeDto.class);
+				FileLog.i(TAG, TAG+"订单类型下载成功.");
+				OrderTypeDto dto = gson.fromJson(responseString, OrderTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
 					SettingUtility.setValue(SettingUtility.ORDER_TYPE_UPDATECODE, dto.updatecode);
 					List<OrderTypeBean> list = dto.clientdata;
@@ -233,8 +257,8 @@ public class InitParamService extends Service {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
-				FileLog.i(TAG, TAG+"企业类型 : "+responseString);
-				EnterpriseTypeDto dto = new Gson().fromJson(responseString, EnterpriseTypeDto.class);
+				FileLog.i(TAG, TAG+"企业类型下载成功.");
+				EnterpriseTypeDto dto = gson.fromJson(responseString, EnterpriseTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
 					SettingUtility.setValue(SettingUtility.ENTERPRISE_TYPE_UPDATECODE, dto.updatecode);
 					List<EnterpriseTypeBean> list = dto.clientdata;
@@ -256,6 +280,123 @@ public class InitParamService extends Service {
 	private void stopService() {
 		stopForeground(true);
         stopSelf();
+	}
+	
+	/**
+	 * 客户列表及经销商数据更新
+	 */
+	private Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 0: //handle client list
+				new ClientThread((String)msg.obj).start();
+				break;
+			case 1: //handle dealer list
+				new DealerThread((String)msg.obj).start();
+				break;
+			}
+		};
+	};
+	
+	private class ClientThread extends Thread {
+		private String responseString;
+		public ClientThread(String param) {
+			responseString = param;
+		}
+		@Override
+		public void run() {
+			try {
+				Gson gson = new Gson();
+				ClientDto clientDto = gson.fromJson(responseString, ClientDto.class);
+				if ("1".equals(clientDto.resultcode)) { //load from net
+					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号不同，更新数据库.");
+					List<ClientBean> mList = clientDto.clientdata;
+					ClientDBTask.deleteAll();
+					ClientDBTask.addBeanList(mList);
+					SettingUtility.setValue(SettingUtility.CLIENT_UPDATECODE, clientDto.updatecode);
+				} else {
+					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号相同，无需更新.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			GlobalVar.getInstance().setClient_uploading(false);
+		}
+	}
+	
+	private class DealerThread extends Thread {
+		private String responseString;
+		public DealerThread(String param) {
+			responseString = param;
+		}
+		@Override
+		public void run() {
+			try {
+				DealerDto dealerDto = gson.fromJson(responseString, DealerDto.class);
+				if ("1".equals(dealerDto.resultcode)) { //load from net
+					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号不同，更新数据库.");
+					List<DealerBean> mList = dealerDto.clientdata;
+					DealerDBTask.deleteAll();
+					DealerDBTask.addBeanList(mList);
+					SettingUtility.setValue(SettingUtility.DEALER_UPDATECODE, dealerDto.updatecode);
+				} else {
+					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号相同，无需更新.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			GlobalVar.getInstance().setDealer_uploading(false);
+		}
+	}
+	
+	private void initClientList() {
+		String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.CLIENT_UPDATECODE);
+		FileLog.i(TAG, TAG+".updatecode: "+updatecode);
+		String mUrl = URLHelper.TEST_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", "ClientUpdateActionJk");
+		params.put("GpsId", gps_id);
+		params.put("code", updatecode);
+		params.put("Pin", "111111");
+		HttpRestClient.getSingle(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				FileLog.i(TAG, TAG+"客户数据下载成功.");
+				Message msg = new Message();
+				msg.what = 0;
+				msg.obj = responseString;
+				mHandler.sendMessage(msg);
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				FileLog.i(TAG, TAG+"客户数据数据下载失败.");
+			}
+		});
+	}
+	
+	private void initDealerList() {
+		String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.DEALER_UPDATECODE);
+		FileLog.i(TAG, TAG+".updatecode: "+updatecode);
+		String mUrl = URLHelper.TEST_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", "DealerUpdateActionJk");
+		params.put("GpsId", gps_id);
+		params.put("code", updatecode);
+		params.put("Pin", "111111");
+		HttpRestClient.getSingle(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				FileLog.i(TAG, TAG+"经销商数据数据下载成功.");
+				Message msg = new Message();
+				msg.what = 1;
+				msg.obj = responseString;
+				mHandler.sendMessage(msg);
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				FileLog.i(TAG, TAG+"经销商数据数据下载失败.");
+			}
+		});
 	}
 	
 	@Override

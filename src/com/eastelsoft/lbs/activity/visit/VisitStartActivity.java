@@ -145,6 +145,7 @@ public class VisitStartActivity extends BaseActivity implements OnClickListener{
 		}
 		
 		openPopupWindowPG("数据上传中...");
+		btPopGps.setText("数据上传中...");
 		
 		sp = getSharedPreferences("userdata", 0);
 		SetInfo set = IUtil.initSetInfo(sp);

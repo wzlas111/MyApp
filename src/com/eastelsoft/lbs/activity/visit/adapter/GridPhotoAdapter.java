@@ -4,6 +4,7 @@ import com.eastelsoft.lbs.photo.ImageViewExt;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,11 +19,14 @@ public class GridPhotoAdapter extends BaseAdapter {
 	private int mHeight;
 	private String img_num = "5";
 
-	public GridPhotoAdapter(Context context, Bitmap[] bitmaps, int width, int height) {
+	public GridPhotoAdapter(Context context, Bitmap[] bitmaps, int width, int height, String max) {
 		mContext = context;
 		mBitmaps = bitmaps;
 		mWidth = width;
 		mHeight = height;
+		if (!TextUtils.isEmpty(max)) {
+			img_num = max;
+		}
 	}
 
 	@Override

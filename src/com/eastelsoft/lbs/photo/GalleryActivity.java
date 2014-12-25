@@ -39,7 +39,6 @@ public class GalleryActivity extends BaseActivity {
 		setContentView(R.layout.mygallery);	 
 		
 		globalVar = (GlobalVar) getApplication();
-		
 		layout_top = (RelativeLayout) this.findViewById(R.id.layout_top);
 		
 		btBack = (Button) this.findViewById(R.id.btBack);
@@ -59,17 +58,14 @@ public class GalleryActivity extends BaseActivity {
 		op_type = intent.getStringExtra("type");
 		if(op_type.equalsIgnoreCase(Contant.VIEW))
 			layout_top.setVisibility(View.GONE); // 浏览的时候隐藏删除操作
-		
 		g.setVisibility(View.VISIBLE);
 		// 添加ImageAdapter给Gallery对象
 		ia=new ImageAdapter(this, imgs);		
 		g.setAdapter(ia);
 	 	g.setSelection(i_position); 	
-	 	
 	 	//加载动画
 	 	Animation an= AnimationUtils.loadAnimation(this,R.anim.scale );
         g.setAnimation(an); 
-
 	} 
 
 

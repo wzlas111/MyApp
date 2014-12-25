@@ -16,9 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -32,8 +34,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
@@ -42,21 +42,14 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Message;
-import android.provider.ContactsContract.Contacts;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.SlidingDrawer;
-import android.widget.Toast;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
+
 import com.eastelsoft.lbs.BulletinListActivity;
 import com.eastelsoft.lbs.InfoActivity;
-import com.eastelsoft.lbs.InfoAddActivity;
-import com.eastelsoft.lbs.InfoViewActivity;
 import com.eastelsoft.lbs.KnowledgeBaseListActivity;
 import com.eastelsoft.lbs.PlanActivity;
 import com.eastelsoft.lbs.R;
@@ -103,7 +96,7 @@ public class LocationService extends Service {
 	private Socket socket = null;
 	private InputStream in = null;
 	private OutputStream out = null;
-	private AlarmManager am,pm;
+	private AlarmManager am, pm;
 	private Intent intent;
 	private PendingIntent sender;
 	private PendingIntent sender_1;
@@ -199,7 +192,8 @@ public class LocationService extends Service {
 		// 初始化全局变量
 		globalVar = (GlobalVar) getApplication();
 		// 电量
-		this.registerReceiver(batteryChangedReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		this.registerReceiver(batteryChangedReceiver, new IntentFilter(
+				Intent.ACTION_BATTERY_CHANGED));
 		// 如果网络正常且定时上报时间大于1分钟一次，连接tcp
 		// if(isNetworkAvailable()) {
 		DisConnectToServer();
@@ -222,7 +216,7 @@ public class LocationService extends Service {
 			if (Build.MODEL != null) {
 				phoneModel = Build.MODEL;
 			}
-		} catch (NameNotFoundException e){
+		} catch (NameNotFoundException e) {
 			softVersion = "NULL";
 		}
 
@@ -234,14 +228,14 @@ public class LocationService extends Service {
 		 * 开始定时清除日志
 		 */
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					while(true){
-					Thread.sleep(86400000);
-					FileUtil.deleteDailyFile();
+					while (true) {
+						Thread.sleep(86400000);
+						FileUtil.deleteDailyFile();
 					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -336,7 +330,7 @@ public class LocationService extends Service {
 	 * @param context
 	 * @param timeInMillis
 	 */
-	public void setAlarmTime(long timeInMillis){
+	public void setAlarmTime(long timeInMillis) {
 		if (am != null) {
 			am.cancel(sender);
 		}
@@ -347,7 +341,7 @@ public class LocationService extends Service {
 				+ timeInMillis, interval * 1000, sender);
 	}
 
-	public class MyReceiver extends BroadcastReceiver{
+	public class MyReceiver extends BroadcastReceiver {
 		// 自定义一个广播接收器
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -384,8 +378,7 @@ public class LocationService extends Service {
 			String action = intent.getAction();
 			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
 				Log.d(TAG + "network", "网络状态已经改变");
-				connectivityManager = (ConnectivityManager)
-				getSystemService(Context.CONNECTIVITY_SERVICE);
+				connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 				info = connectivityManager.getActiveNetworkInfo();
 				netchange = true; // 网络状态发生了变化
 				nettimes += 1; // 网络变化的次数
@@ -410,7 +403,8 @@ public class LocationService extends Service {
 		sp = getSharedPreferences("userdata", 0);
 		set = IUtil.initSetInfo(sp);
 
-		Notification notification = new Notification(icon, tickertext, System.currentTimeMillis());
+		Notification notification = new Notification(icon, tickertext,
+				System.currentTimeMillis());
 		/*
 		 * notification.defaults = Notification.DEFAULT_ALL |
 		 * Notification.DEFAULT_VIBRATE;
@@ -431,11 +425,13 @@ public class LocationService extends Service {
 		nm.notify(id, notification);
 
 	}
-	public void showNotificationKnowledge(int icon, String tickertext, String title,
-			String content, Class<?> cls, int id) {
+
+	public void showNotificationKnowledge(int icon, String tickertext,
+			String title, String content, Class<?> cls, int id) {
 		sp = getSharedPreferences("userdata", 0);
 		set = IUtil.initSetInfo(sp);
-		Notification notification = new Notification(icon, tickertext, System.currentTimeMillis());
+		Notification notification = new Notification(icon, tickertext,
+				System.currentTimeMillis());
 		/*
 		 * notification.defaults = Notification.DEFAULT_ALL |
 		 * Notification.DEFAULT_VIBRATE;
@@ -462,7 +458,8 @@ public class LocationService extends Service {
 		sp = getSharedPreferences("userdata", 0);
 		set = IUtil.initSetInfo(sp);
 
-		Notification notification = new Notification(icon, tickertext, System.currentTimeMillis());
+		Notification notification = new Notification(icon, tickertext,
+				System.currentTimeMillis());
 		/*
 		 * notification.defaults = Notification.DEFAULT_ALL |
 		 * Notification.DEFAULT_VIBRATE;
@@ -590,7 +587,7 @@ public class LocationService extends Service {
 	/**
 	 * tcp长连时发送登录包
 	 */
-	public void testTcp(){
+	public void testTcp() {
 		set = IUtil.initSetInfo(sp);
 		FileLog.i(TAG, "tcp长连时发送登录包");
 		// 先做登录
@@ -679,13 +676,14 @@ public class LocationService extends Service {
 							in.close();
 							out.close();
 							socket.close();
-						} catch (IOException e1){
+						} catch (IOException e1) {
 						}
 					}
-					FileLog.e(TAG, "Connect server error==>" + e.getMessage());
+//					FileLog.e(TAG, "Connect server error==>" + e.getMessage());
 				}
 			}
-		};
+		}
+		;
 		Thread connectThread = new Thread(new ConnectThread());
 		connectThread.start();
 	}
@@ -733,37 +731,38 @@ public class LocationService extends Service {
 	class TcpReceThread implements Runnable {
 		@Override
 		public void run() {
-			FileLog.i(TAG, "TcpReceThread==> is Running");
+//			FileLog.i(TAG, "TcpReceThread==> is Running");
 			ConnectToServer();
 
 			while (!isstoptcp) {
 
-//				FileLog.i(TAG, "循环等待接收数据");
+				// FileLog.i(TAG, "循环等待接收数据");
 
-//				FileLog.i(TAG, "isNetworkAvailable==>" + isNetworkAvailable());
+				// FileLog.i(TAG, "isNetworkAvailable==>" +
+				// isNetworkAvailable());
 
 				if (isNetworkAvailable()) {
 					networkState = LocationService.this.getNetworkState();
 				}
 				if (socket != null && socket.isConnected()
 						&& !socket.isClosed()) {
-//					FileLog.i(TAG, "huilocalport" + socket.getLocalPort());
-//					FileLog.i(TAG, "huiport" + socket.getPort());
+					// FileLog.i(TAG, "huilocalport" + socket.getLocalPort());
+					// FileLog.i(TAG, "huiport" + socket.getPort());
 					try {
 						int length = 0;
 						byte[] buffer = new byte[1024];
-//						FileLog.i(TAG, "in数据");
+						// FileLog.i(TAG, "in数据");
 						length = in.read(buffer);
-						FileLog.i(TAG, "length==>" + length);
+//						FileLog.i(TAG, "length==>" + length);
 						if (length > 0) {
 
 							// 解析获取到的信息
 							TcpPackage pack = new TcpPackage();
 							pack.parseResp(buffer);
 
-							FileLog.i(TAG,
-									"msg command_id==>" + pack.getCommand_id());
-							FileLog.i(TAG, "msg seq==>" + pack.getSeq());
+//							FileLog.i(TAG,
+//									"msg command_id==>" + pack.getCommand_id());
+//							FileLog.i(TAG, "msg seq==>" + pack.getSeq());
 
 							if (pack.getLogin2Resp() != null)
 								FileLog.i(TAG, "Login2Resp==>"
@@ -1143,7 +1142,7 @@ public class LocationService extends Service {
 		if (interval != set.getInterval()) {
 			FileLog.i(TAG, "重启定时器");
 			interval = set.getInterval();
-			LocationService.this.setAlarmTime(interval*10);
+			LocationService.this.setAlarmTime(interval * 10);
 		}
 	}
 
@@ -1182,7 +1181,8 @@ public class LocationService extends Service {
 					set.getWeek(), set.getFilterDate());
 			// -1 立即上报，空时定时上报，0和1签退签到
 			if (!"".equals(reportTag) || ("".equals(reportTag) && need)) {
-				FileLog.i(TAG, "定位标识——》"+reportTag+"(-1 立即上报，空时定时上报，0和1签退签到)");
+				FileLog.i(TAG, "定位标识——》" + reportTag
+						+ "(-1 立即上报，空时定时上报，0和1签退签到)");
 				if ("0".equals(reportTag) || "1".equals(reportTag)) {
 					Object[] arrayOfObject = new Object[2];
 					arrayOfObject[0] = checklocation;
@@ -1191,10 +1191,10 @@ public class LocationService extends Service {
 					msg.what = 2;
 					msg.obj = arrayOfObject;
 					handler.sendMessage(msg);
-				} else if ("-1".equals(reportTag)){
+				} else if ("-1".equals(reportTag)) {
 					new BaiduMapAction(this, baiduMapCallback, reportTag)
 							.startListener();
-				} else if ("0".equals(reportTag)){
+				} else if ("0".equals(reportTag)) {
 					sp = getSharedPreferences("userdata", 0);
 					set = IUtil.initSetInfo(sp);
 					new GpsAction(this, gpsCallback, reportTag,
@@ -1238,8 +1238,11 @@ public class LocationService extends Service {
 					if (paramArrayOfObject[1] != null)
 						reportTag = (String) paramArrayOfObject[1];
 				}
-				if (location != null&&(location.getLongitude() >= 60&&location.getLongitude()<=150||
-						location.getLatitude()>=0&&location.getLatitude()<=135)) {
+				if (location != null
+						&& (location.getLongitude() >= 60
+								&& location.getLongitude() <= 150 || location
+								.getLatitude() >= 0
+								&& location.getLatitude() <= 135)) {
 					if (location.getAccuracy() == 0)
 						location.setAccuracy(1f);
 					LocationService.this.sendLocation(location, reportTag); // gps定位
@@ -1264,13 +1267,15 @@ public class LocationService extends Service {
 				}
 				if (location2 != null) {
 					if (location2.getProvider() != null
-							&& "gps".equalsIgnoreCase(location2.getProvider())){
+							&& "gps".equalsIgnoreCase(location2.getProvider())) {
 						if (location2.getAccuracy() == 0)
 							location2.setAccuracy(-1f);
 					} else {
 						// 错误的位置，如果签到签退、立即上报，不发送；如果定时上报，发送998
-						if (location2.getLongitude() <= 60||location2.getLongitude()>=150||
-								location2.getLatitude()<=0||location2.getLatitude()>=135){
+						if (location2.getLongitude() <= 60
+								|| location2.getLongitude() >= 150
+								|| location2.getLatitude() <= 0
+								|| location2.getLatitude() >= 135) {
 							if ("".equals(reportTag2)) {
 								location2 = new Location("lbs");
 								location2.setLongitude(998.0d);
@@ -1415,8 +1420,7 @@ public class LocationService extends Service {
 			if (location != null) {
 				if ("".equals(reportTag)) // 只有定时上报，序列增加
 					msg_seq = IUtil.getMsgReq(globalVar);
-				
-				
+
 				FileLog.i(TAG, "reportTag==" + reportTag);
 				// 获取基站信息
 				SCell cell = new BaseStationAction(LocationService.this)
@@ -1428,9 +1432,7 @@ public class LocationService extends Service {
 				}
 				FileLog.i(TAG, "uploadDate==" + uploadDate);
 				// 开始发送数据
-				
-				
-				
+
 				reportResp = UMMPUtil.sendReportUDP(Contant.PACKAGETYPE,
 						msg_seq, location, uploadDate, set, power, cell,
 						reportTag, signalStrengthValue);
@@ -1701,17 +1703,13 @@ public class LocationService extends Service {
 
 	};
 
-	
-	
-	
-
-	
 	class InfoAutoThread implements Runnable {
-		Intent intent= new Intent("ACTION_ZHENGYUHUI");
+		Intent intent = new Intent("ACTION_ZHENGYUHUI");
 		String resultcode = "";
-		String resultcode_Audio="";
-		int resultCode_Vidio=0;
-		private boolean separate=false;//false视频不分片、、、、true需要分片
+		String resultcode_Audio = "";
+		int resultCode_Vidio = 0;
+		private boolean separate = false;// false视频不分片、、、、true需要分片
+
 		@Override
 		public void run() {
 			isInfoUploading = true;
@@ -1725,7 +1723,7 @@ public class LocationService extends Service {
 							locationHelper.getWritableDatabase(),
 							infoBean.getInfo_auto_id());
 					if (localMap != null) {
-						String title = "", remark = "", tvInfoUploadDate = "", lon = "", lat = "", imgFileName = "", videoName = "",reSoundName="";
+						String title = "", remark = "", tvInfoUploadDate = "", lon = "", lat = "", imgFileName = "", videoName = "", reSoundName = "";
 						List<String> listImgs = new ArrayList<String>();
 
 						if (localMap.containsKey("info_title")) {
@@ -1759,10 +1757,10 @@ public class LocationService extends Service {
 									if (s != null && !"".equals(s)) {
 										if (s.toLowerCase().endsWith("jpg")) {
 											listImgs.add(s);
-										}else if(s.toLowerCase().endsWith("amr")){
-											reSoundName=s;
-										}
-										else {
+										} else if (s.toLowerCase().endsWith(
+												"amr")) {
+											reSoundName = s;
+										} else {
 											// 视频
 											videoName = s;
 										}
@@ -1773,20 +1771,21 @@ public class LocationService extends Service {
 							sp = getSharedPreferences("userdata", 0);
 							SetInfo set = IUtil.initSetInfo(sp);
 							String url = set.getHttpip() + Contant.ACTION;
-							
+
 							Map<String, String> map = new HashMap<String, String>();
-							Map<String, String> map_Audio = new HashMap<String,String>();
-							Map<String, String> map_Video = new HashMap<String,String>();
-							map_Video.put("reqCode",Contant.VIDEO_UPLOAD_NEW);
+							Map<String, String> map_Audio = new HashMap<String, String>();
+							Map<String, String> map_Video = new HashMap<String, String>();
+							map_Video.put("reqCode", Contant.VIDEO_UPLOAD_NEW);
 							map_Video.put("type", "1");
 							map_Video.put("gpsid", set.getDevice_id());
 							map_Video.put("id", infoBean.getInfo_auto_id());
-							
-							map_Audio.put("reqCode", Contant.AUDIO_UPLOAD_ACTION);
+
+							map_Audio.put("reqCode",
+									Contant.AUDIO_UPLOAD_ACTION);
 							map_Audio.put("type", "1");
 							map_Audio.put("gpsid", set.getDevice_id());
 							map_Audio.put("id", infoBean.getInfo_auto_id());
-							
+
 							map.put("reqCode", Contant.GPS_DATA_UPLOAD_ACTION);
 							map.put("GpsId", set.getDevice_id());
 							map.put("Pin", set.getAuth_code());
@@ -1802,97 +1801,138 @@ public class LocationService extends Service {
 							Map<String, File> files = new HashMap<String, File>();
 							Map<String, File> file_Audio = new HashMap<String, File>();
 							Map<String, File> file_Video = new HashMap<String, File>();
-							
+
 							for (int i = 0; i < listImgs.size(); i++) {
 								File file = new File(listImgs.get(i));
 								if (file.exists())
 									files.put("file" + i, file);
 							}
-							
+
 							if (reSoundName != null && !"".equals(reSoundName)) {
 								File file = new File(
-										Environment.getExternalStorageDirectory()
+										Environment
+												.getExternalStorageDirectory()
 												+ "/DCIM/eastelsoft/"
 												+ reSoundName);
 								if (file.exists())
 									file_Audio.put("reSoundName", file);
 							}
-							
+
 							if (videoName != null && !"".equals(videoName)) {
 								File videoFile = new File(
-										Environment.getExternalStorageDirectory()
-												+ "/DCIM/eastelsoft/" + videoName);
-								if (videoFile != null && videoFile.exists()){
-									if(videoFile.length()<65536){
+										Environment
+												.getExternalStorageDirectory()
+												+ "/DCIM/eastelsoft/"
+												+ videoName);
+								if (videoFile != null && videoFile.exists()) {
+									if (videoFile.length() < 65536) {
 										files.put("file20", videoFile);
-									}else{
-										 String jsonStr = AndroidHttpClient.getContent(url, map,
-													files, "file1");
-										 jsonStr = IUtil.chkJsonStr(jsonStr);
-											JSONArray array = new JSONArray(jsonStr);
-												if (array.length() > 0) {
-													JSONObject obj = array.getJSONObject(0);
-													resultcode = obj.getString("resultcode");
-											}
-										separate=false;
+									} else {
+										String jsonStr = AndroidHttpClient
+												.getContent(url, map, files,
+														"file1");
+										jsonStr = IUtil.chkJsonStr(jsonStr);
+										JSONArray array = new JSONArray(jsonStr);
+										if (array.length() > 0) {
+											JSONObject obj = array
+													.getJSONObject(0);
+											resultcode = obj
+													.getString("resultcode");
+										}
+										separate = false;
 										SeparatorUtil separator = new SeparatorUtil();
-										 if(separator.separatorFile(Environment.getExternalStorageDirectory()
-													+ "/DCIM/eastelsoft/" + videoName,65536))
-										    {
-										      FileLog.i(TAG, "文件折分成功!");
-										      File Sp_video  = new File(Environment.getExternalStorageDirectory()
-												+ "/DCIM/eastelsoft/");
-										      File[] sp=Sp_video.listFiles();
-										      
-										      try {
-										      for(int i=0;i<sp.length;i++){
-										    	  if(sp[i].getName().contains(videoName+".")){
-										    		  resultCode_Vidio++;
-										    		  File uploadFile = new File(Environment.getExternalStorageDirectory()
-																+ "/DCIM/eastelsoft/"+videoName+"k");
-										    		  map_Video.put("ProPar", sp[i].getName().replace(".","|"));
-										    		  Log.i(TAG,  map_Video.get("ProPar").toString());
-										    		  if(sp[i].renameTo(uploadFile));
-										    		  file_Video.put("file20", uploadFile);
-										    		  String jsonStr_Video = AndroidHttpClient.getContent(url, map_Video,
-										    					file_Video, "file1");
-										    			jsonStr_Video = IUtil.chkJsonStr(jsonStr_Video);
-										    			Log.i(TAG, "jsonStr_Video:"+jsonStr_Video.toString());
-										    			JSONArray array_Video = new JSONArray(jsonStr_Video);
-										    			String resultcode = "";
-										    			if (array_Video.length() > 0) {
-															JSONObject obj = array_Video.getJSONObject(0);
-															resultcode = obj.getString("resultcode");
+										if (separator
+												.separatorFile(
+														Environment
+																.getExternalStorageDirectory()
+																+ "/DCIM/eastelsoft/"
+																+ videoName,
+														65536)) {
+											FileLog.i(TAG, "文件折分成功!");
+											File Sp_video = new File(
+													Environment
+															.getExternalStorageDirectory()
+															+ "/DCIM/eastelsoft/");
+											File[] sp = Sp_video.listFiles();
+
+											try {
+												for (int i = 0; i < sp.length; i++) {
+													if (sp[i]
+															.getName()
+															.contains(
+																	videoName
+																			+ ".")) {
+														resultCode_Vidio++;
+														File uploadFile = new File(
+																Environment
+																		.getExternalStorageDirectory()
+																		+ "/DCIM/eastelsoft/"
+																		+ videoName
+																		+ "k");
+														map_Video
+																.put("ProPar",
+																		sp[i].getName()
+																				.replace(
+																						".",
+																						"|"));
+														Log.i(TAG, map_Video
+																.get("ProPar")
+																.toString());
+														if (sp[i]
+																.renameTo(uploadFile))
+															;
+														file_Video.put(
+																"file20",
+																uploadFile);
+														String jsonStr_Video = AndroidHttpClient
+																.getContent(
+																		url,
+																		map_Video,
+																		file_Video,
+																		"file1");
+														jsonStr_Video = IUtil
+																.chkJsonStr(jsonStr_Video);
+														Log.i(TAG,
+																"jsonStr_Video:"
+																		+ jsonStr_Video
+																				.toString());
+														JSONArray array_Video = new JSONArray(
+																jsonStr_Video);
+														String resultcode = "";
+														if (array_Video
+																.length() > 0) {
+															JSONObject obj = array_Video
+																	.getJSONObject(0);
+															resultcode = obj
+																	.getString("resultcode");
 														}
-										    			if("1".equals(resultcode)){
-										    				FileLog.i(TAG, "视频片段上传成功");
-										    				resultCode_Vidio--;
-										    				uploadFile.delete();
-										    			}
-										    	  }
-										      }
-										      
-										      if(resultCode_Vidio==0){
-										    	  resultcode="1";
-										      }
-										      
-										      } catch (Exception e) {
-										    	  e.printStackTrace();
+														if ("1".equals(resultcode)) {
+															FileLog.i(TAG,
+																	"视频片段上传成功");
+															resultCode_Vidio--;
+															uploadFile.delete();
+														}
+													}
 												}
-										    }
-										    else
-										    {
-										     FileLog.e(TAG, "文件折分失败!");
-										    }
+
+												if (resultCode_Vidio == 0) {
+													resultcode = "1";
+												}
+
+											} catch (Exception e) {
+												e.printStackTrace();
+											}
+										} else {
+											FileLog.e(TAG, "文件折分失败!");
+										}
 									}
 								}
-								
+
 							}
 
-
-							if(!separate){
-								String jsonStr = AndroidHttpClient.getContent(url,
-										map, files, "file1");
+							if (!separate) {
+								String jsonStr = AndroidHttpClient.getContent(
+										url, map, files, "file1");
 								jsonStr = IUtil.chkJsonStr(jsonStr);
 								JSONArray array = new JSONArray(jsonStr);
 								if (array.length() > 0) {
@@ -1900,24 +1940,29 @@ public class LocationService extends Service {
 									resultcode = obj.getString("resultcode");
 								}
 							}
-							
-							String jsonStr_Audio = AndroidHttpClient.getContent(url, map_Audio, file_Audio, "file1");
+
+							String jsonStr_Audio = AndroidHttpClient
+									.getContent(url, map_Audio, file_Audio,
+											"file1");
 							jsonStr_Audio = IUtil.chkJsonStr(jsonStr_Audio);
 							JSONArray array_Audio = new JSONArray(jsonStr_Audio);
 							if (array_Audio.length() > 0) {
 								JSONObject obj = array_Audio.getJSONObject(0);
 								resultcode_Audio = obj.getString("resultcode");
 							}
-							
-							if ("1".equals(resultcode)&&"1".equals(resultcode_Audio)) {
+
+							if ("1".equals(resultcode)
+									&& "1".equals(resultcode_Audio)) {
 								// 更新表记录
 								Log.i(TAG, "广播已发送");
 								intent.putExtra("SEND_SUCESS", "send_success");
 								sendBroadcast(intent);
-								showNotificationInformation(R.drawable.notify,
-										getResources().getString(R.string.app_name),
-										getResources().getString(R.string.app_name),
-										"信息上报上传成功");
+								showNotificationInformation(
+										R.drawable.notify,
+										getResources().getString(
+												R.string.app_name),
+										getResources().getString(
+												R.string.app_name), "信息上报上传成功");
 								DBUtil.updateLInfo(
 										locationHelper.getWritableDatabase(),
 										infoBean.getInfo_auto_id());
@@ -1954,13 +1999,16 @@ public class LocationService extends Service {
 	 */
 	public void updateInformation(String title, String remark, String lon,
 			String lat, String uploadDate, String id_info, String location,
-			String videoName, String[] imgs,String reSoundName,String setLongtime) {
+			String videoName, String[] imgs, String reSoundName,
+			String setLongtime) {
 		Thread addInfoThread = new Thread(new MAddInfoThread(title, remark,
-				lon, lat, uploadDate, id_info, location, videoName, imgs,reSoundName,setLongtime));
+				lon, lat, uploadDate, id_info, location, videoName, imgs,
+				reSoundName, setLongtime));
 		addInfoThread.start();
 	}
+
 	class MAddInfoThread implements Runnable {
-		Intent intent= new Intent("ACTION_ZHENGYUHUI");
+		Intent intent = new Intent("ACTION_ZHENGYUHUI");
 		private String title;
 		private String remark;
 		private String lon;
@@ -1972,14 +2020,15 @@ public class LocationService extends Service {
 		private String[] imgs;
 		private String reSoundName;
 		private String setLongtime;
-		private boolean separate=false;//false视频不分片、、、、true需要分片
+		private boolean separate = false;// false视频不分片、、、、true需要分片
 		String resultcode = "";
-		String resultcode_Audio="";
-		int resultCode_Vidio=0;
+		String resultcode_Audio = "";
+		int resultCode_Vidio = 0;
 
 		public MAddInfoThread(String title, String remark, String lon,
 				String lat, String uploadDate, String id_info, String location,
-				String videoName, String[] imgs,String reSoundName,String setLongtime) {
+				String videoName, String[] imgs, String reSoundName,
+				String setLongtime) {
 			this.title = title;
 			this.remark = remark;
 			this.lon = lon;
@@ -1989,13 +2038,13 @@ public class LocationService extends Service {
 			this.location = location;
 			this.videoName = videoName;
 			this.imgs = imgs;
-			this.reSoundName=reSoundName;
+			this.reSoundName = reSoundName;
 			this.setLongtime = setLongtime;
 		}
 
 		@Override
 		public void run() {
-//			Looper.prepare();
+			// Looper.prepare();
 			globalVar.setInfoLocation(null);
 			globalVar.setImgs(new String[0]);
 			globalVar.setVideo1("");
@@ -2008,41 +2057,42 @@ public class LocationService extends Service {
 					}
 				}
 
-				if (videoName != null && !"".equals(videoName)){
+				if (videoName != null && !"".equals(videoName)) {
 					mfileNames += videoName + "|";
 				}
 
-				if(reSoundName != null&& !"".equals(reSoundName)){
-					System.out.println("reSoundName------进入本地数据库的值-------->"+reSoundName);
+				if (reSoundName != null && !"".equals(reSoundName)) {
+					System.out.println("reSoundName------进入本地数据库的值-------->"
+							+ reSoundName);
 					mfileNames += reSoundName + "|";
 				}
-				
+
 				if (mfileNames.endsWith("|"))
 					mfileNames = mfileNames.substring(0,
 							(mfileNames.length() - 1));
-				System.out.println("传入的setLongtime"+setLongtime);
+				System.out.println("传入的setLongtime" + setLongtime);
 				DBUtil.insertLInfo(locationHelper.getWritableDatabase(),
 						uploadDate, title, mfileNames, remark, lon, lat,
-						id_info, location, "22",setLongtime);				
-//--------------------------------------------------------------------------
+						id_info, location, "22", setLongtime);
+				// --------------------------------------------------------------------------
 				sp = getSharedPreferences("userdata", 0);
 				SetInfo set = IUtil.initSetInfo(sp);
 				String url = set.getHttpip() + Contant.ACTION;
-				
+
 				Map<String, String> map = new HashMap<String, String>();
 				Map<String, String> map_Audio = new HashMap<String, String>();
 				Map<String, String> map_Video = new HashMap<String, String>();
-				
+
 				map_Video.put("reqCode", Contant.VIDEO_UPLOAD_NEW);
 				map_Video.put("type", "1");
 				map_Video.put("gpsid", set.getDevice_id());
 				map_Video.put("id", id_info);
-				
+
 				map_Audio.put("reqCode", Contant.AUDIO_UPLOAD_ACTION);
 				map_Audio.put("type", "1");
 				map_Audio.put("gpsid", set.getDevice_id());
 				map_Audio.put("id", id_info);
-				
+
 				map.put("reqCode", Contant.GPS_DATA_UPLOAD_ACTION);
 				map.put("GpsId", set.getDevice_id());
 				map.put("Pin", set.getAuth_code());
@@ -2053,11 +2103,11 @@ public class LocationService extends Service {
 				map.put("accuracy", "-100");
 				map.put("phone_time", uploadDate);
 				map.put("id", id_info);
-				
+
 				Map<String, File> fileMap = new HashMap<String, File>();
 				Map<String, File> file_Audio = new HashMap<String, File>();
-				Map<String,File> file_Video = new HashMap<String ,File>();
-				
+				Map<String, File> file_Video = new HashMap<String, File>();
+
 				if (imgs.length > 0) {
 					for (int i = 0; i < imgs.length; i++) {
 						File tmpFile = new File(imgs[i]);
@@ -2065,113 +2115,127 @@ public class LocationService extends Service {
 							fileMap.put("file" + i, tmpFile);
 					}
 				}
-				
-				if(reSoundName !=null && !"".equals(reSoundName)){
+
+				if (reSoundName != null && !"".equals(reSoundName)) {
 					File reSoundFile = new File(
 							Environment.getExternalStorageDirectory()
-									+ "/DCIM/eastelsoft/"+reSoundName);
-					if(reSoundFile!=null && reSoundFile.exists()){
-						file_Audio.put("file22", reSoundFile); 
+									+ "/DCIM/eastelsoft/" + reSoundName);
+					if (reSoundFile != null && reSoundFile.exists()) {
+						file_Audio.put("file22", reSoundFile);
 					}
 				}
-				
+
 				if (videoName != null && !"".equals(videoName)) {
 					File videoFile = new File(
 							Environment.getExternalStorageDirectory()
 									+ "/DCIM/eastelsoft/" + videoName);
-					if (videoFile != null && videoFile.exists()){
-						if(videoFile.length()<65536){
+					if (videoFile != null && videoFile.exists()) {
+						if (videoFile.length() < 65536) {
 							fileMap.put("file20", videoFile);
-						}else{
-							 String jsonStr = AndroidHttpClient.getContent(url, map,
-										fileMap, "file1");
-							 jsonStr = IUtil.chkJsonStr(jsonStr);
-								JSONArray array = new JSONArray(jsonStr);
-									if (array.length() > 0) {
-										JSONObject obj = array.getJSONObject(0);
-										resultcode = obj.getString("resultcode");
-								}
-							separate=false;
+						} else {
+							String jsonStr = AndroidHttpClient.getContent(url,
+									map, fileMap, "file1");
+							jsonStr = IUtil.chkJsonStr(jsonStr);
+							JSONArray array = new JSONArray(jsonStr);
+							if (array.length() > 0) {
+								JSONObject obj = array.getJSONObject(0);
+								resultcode = obj.getString("resultcode");
+							}
+							separate = false;
 							SeparatorUtil separator = new SeparatorUtil();
-							 if(separator.separatorFile(Environment.getExternalStorageDirectory()
-										+ "/DCIM/eastelsoft/" + videoName,65536))
-							    {
-							      FileLog.i(TAG, "文件折分成功!");
-							      File Sp_video  = new File(Environment.getExternalStorageDirectory()
-									+ "/DCIM/eastelsoft/");
-							      File[] sp=Sp_video.listFiles();
-							      
-							      try {
-							      for(int i=0;i<sp.length;i++){
-							    	  if(sp[i].getName().contains(videoName+".")){
-							    		  resultCode_Vidio++;
-							    		  File uploadFile = new File(Environment.getExternalStorageDirectory()
-													+ "/DCIM/eastelsoft/"+videoName+"k");
-							    		  map_Video.put("ProPar", sp[i].getName().replace(".","|"));
-							    		  Log.i(TAG,  map_Video.get("ProPar").toString());
-							    		  if(sp[i].renameTo(uploadFile));
-							    		  file_Video.put("file20", uploadFile);
-							    		  String jsonStr_Video = AndroidHttpClient.getContent(url, map_Video,
-							    					file_Video, "file1");
-							    			jsonStr_Video = IUtil.chkJsonStr(jsonStr_Video);
-							    			Log.i(TAG, "jsonStr_Video:"+jsonStr_Video.toString());
-							    			JSONArray array_Video = new JSONArray(jsonStr_Video);
-							    			String resultcode = "";
-							    			if (array_Video.length() > 0) {
-												JSONObject obj = array_Video.getJSONObject(0);
-												resultcode = obj.getString("resultcode");
+							if (separator.separatorFile(
+									Environment.getExternalStorageDirectory()
+											+ "/DCIM/eastelsoft/" + videoName,
+									65536)) {
+								FileLog.i(TAG, "文件折分成功!");
+								File Sp_video = new File(
+										Environment
+												.getExternalStorageDirectory()
+												+ "/DCIM/eastelsoft/");
+								File[] sp = Sp_video.listFiles();
+
+								try {
+									for (int i = 0; i < sp.length; i++) {
+										if (sp[i].getName().contains(
+												videoName + ".")) {
+											resultCode_Vidio++;
+											File uploadFile = new File(
+													Environment
+															.getExternalStorageDirectory()
+															+ "/DCIM/eastelsoft/"
+															+ videoName + "k");
+											map_Video.put("ProPar", sp[i]
+													.getName()
+													.replace(".", "|"));
+											Log.i(TAG, map_Video.get("ProPar")
+													.toString());
+											if (sp[i].renameTo(uploadFile))
+												;
+											file_Video
+													.put("file20", uploadFile);
+											String jsonStr_Video = AndroidHttpClient
+													.getContent(url, map_Video,
+															file_Video, "file1");
+											jsonStr_Video = IUtil
+													.chkJsonStr(jsonStr_Video);
+											Log.i(TAG, "jsonStr_Video:"
+													+ jsonStr_Video.toString());
+											JSONArray array_Video = new JSONArray(
+													jsonStr_Video);
+											String resultcode = "";
+											if (array_Video.length() > 0) {
+												JSONObject obj = array_Video
+														.getJSONObject(0);
+												resultcode = obj
+														.getString("resultcode");
 											}
-							    			if("1".equals(resultcode)){
-							    				FileLog.i(TAG, "视频片段上传成功");
-							    				resultCode_Vidio--;
-							    				uploadFile.delete();
-							    			}
-							    	  }
-							      }
-							      
-							      if(resultCode_Vidio==0){
-							    	  resultcode="1";
-							      }
-							      
-							      } catch (Exception e) {
-										// TODO: handle exception
-							    	  e.printStackTrace();
+											if ("1".equals(resultcode)) {
+												FileLog.i(TAG, "视频片段上传成功");
+												resultCode_Vidio--;
+												uploadFile.delete();
+											}
+										}
 									}
-							    }
-							    else
-							    {
-							     FileLog.e(TAG, "文件折分失败!");
-							    }
+
+									if (resultCode_Vidio == 0) {
+										resultcode = "1";
+									}
+
+								} catch (Exception e) {
+									// TODO: handle exception
+									e.printStackTrace();
+								}
+							} else {
+								FileLog.e(TAG, "文件折分失败!");
+							}
 						}
 					}
-					
-				}
-				
-			
 
-				if(!separate){
-				String jsonStr = AndroidHttpClient.getContent(url, map,
-						fileMap, "file1");
-				jsonStr = IUtil.chkJsonStr(jsonStr);
-				JSONArray array = new JSONArray(jsonStr);
-				
+				}
+
+				if (!separate) {
+					String jsonStr = AndroidHttpClient.getContent(url, map,
+							fileMap, "file1");
+					jsonStr = IUtil.chkJsonStr(jsonStr);
+					JSONArray array = new JSONArray(jsonStr);
+
 					if (array.length() > 0) {
 						JSONObject obj = array.getJSONObject(0);
 						resultcode = obj.getString("resultcode");
 					}
 				}
-				
-				String jsonStr_Audio = AndroidHttpClient.getContent(url, map_Audio,
-						file_Audio, "file1");
+
+				String jsonStr_Audio = AndroidHttpClient.getContent(url,
+						map_Audio, file_Audio, "file1");
 				jsonStr_Audio = IUtil.chkJsonStr(jsonStr_Audio);
 				JSONArray array_Audio = new JSONArray(jsonStr_Audio);
-				
+
 				if (array_Audio.length() > 0) {
 					JSONObject obj = array_Audio.getJSONObject(0);
 					resultcode_Audio = obj.getString("resultcode");
 				}
-	
-				if ("1".equals(resultcode)||"1".equals(resultcode_Audio)) {
+
+				if ("1".equals(resultcode) || "1".equals(resultcode_Audio)) {
 					// 返回成功数据写库
 					DBUtil.updateLInfo(locationHelper.getWritableDatabase(),
 							id_info);
@@ -2198,9 +2262,10 @@ public class LocationService extends Service {
 				sendBroadcast(intent);
 				showNotificationInformation(R.drawable.notify, getResources()
 						.getString(R.string.app_name), getResources()
-						.getString(R.string.app_name), "信息上报出现异常，待网络流畅后其会自动尝试上传");
+						.getString(R.string.app_name),
+						"信息上报出现异常，待网络流畅后其会自动尝试上传");
 			}
-//			Looper.loop();
+			// Looper.loop();
 		}
 	}
 
@@ -2209,15 +2274,16 @@ public class LocationService extends Service {
 	 */
 	public void updateChangeInformation(String title, String remark,
 			String lon, String lat, String uploadDate, String id_info,
-			String location, String videoName, String[] imgs,String reSoundName) {
+			String location, String videoName, String[] imgs, String reSoundName) {
 		Thread addInfoThread = new Thread(new CAddInfoThread(title, remark,
-				lon, lat, uploadDate, id_info, location, videoName, imgs,reSoundName));
+				lon, lat, uploadDate, id_info, location, videoName, imgs,
+				reSoundName));
 		addInfoThread.start();
 
 	}
 
 	class CAddInfoThread implements Runnable {
-		Intent intent= new Intent("ACTION_ZHENGYUHUI");
+		Intent intent = new Intent("ACTION_ZHENGYUHUI");
 		private String title;
 		private String remark;
 		private String lon;
@@ -2228,14 +2294,14 @@ public class LocationService extends Service {
 		private String videoName;
 		private String[] imgs;
 		private String reSoundName;
-		private boolean separate=false;//false视频不分片、、、、true需要分片
+		private boolean separate = false;// false视频不分片、、、、true需要分片
 		String resultcode = "";
-		String resultcode_Audio="";
-		int resultCode_Vidio=0;
+		String resultcode_Audio = "";
+		int resultCode_Vidio = 0;
 
 		public CAddInfoThread(String title, String remark, String lon,
 				String lat, String uploadDate, String id_info, String location,
-				String videoName, String[] imgs,String reSoundName) {
+				String videoName, String[] imgs, String reSoundName) {
 			this.title = title;
 			this.remark = remark;
 			this.lon = lon;
@@ -2245,12 +2311,12 @@ public class LocationService extends Service {
 			this.location = location;
 			this.videoName = videoName;
 			this.imgs = imgs;
-			this.reSoundName=reSoundName;
+			this.reSoundName = reSoundName;
 		}
 
 		@Override
 		public void run() {
-//			Looper.prepare();
+			// Looper.prepare();
 			try {
 				sp = getSharedPreferences("userdata", 0);
 				SetInfo set = IUtil.initSetInfo(sp);
@@ -2287,7 +2353,7 @@ public class LocationService extends Service {
 							fileMap.put("file" + i, tmpFile);
 					}
 				}
-				
+
 				if (reSoundName != null && !"".equals(reSoundName)) {
 					File vreSoundFile = new File(
 							Environment.getExternalStorageDirectory()
@@ -2295,84 +2361,97 @@ public class LocationService extends Service {
 					if (vreSoundFile != null && vreSoundFile.exists())
 						fileMap_Audio.put("file22", vreSoundFile);
 				}
-				
-				
-				
+
 				if (videoName != null && !"".equals(videoName)) {
 					File videoFile = new File(
 							Environment.getExternalStorageDirectory()
 									+ "/DCIM/eastelsoft/" + videoName);
-					if (videoFile != null && videoFile.exists()){
-						if(videoFile.length()<65536){
+					if (videoFile != null && videoFile.exists()) {
+						if (videoFile.length() < 65536) {
 							fileMap.put("file20", videoFile);
-						}else{
-							 String jsonStr = AndroidHttpClient.getContent(url, map,
-										fileMap, "file1");
-							 jsonStr = IUtil.chkJsonStr(jsonStr);
-								JSONArray array = new JSONArray(jsonStr);
-									if (array.length() > 0) {
-										JSONObject obj = array.getJSONObject(0);
-										resultcode = obj.getString("resultcode");
-								}
-							separate=false;
+						} else {
+							String jsonStr = AndroidHttpClient.getContent(url,
+									map, fileMap, "file1");
+							jsonStr = IUtil.chkJsonStr(jsonStr);
+							JSONArray array = new JSONArray(jsonStr);
+							if (array.length() > 0) {
+								JSONObject obj = array.getJSONObject(0);
+								resultcode = obj.getString("resultcode");
+							}
+							separate = false;
 							SeparatorUtil separator = new SeparatorUtil();
-							 if(separator.separatorFile(Environment.getExternalStorageDirectory()
-										+ "/DCIM/eastelsoft/" + videoName,65536))
-							    {
-							      FileLog.i(TAG, "文件折分成功!");
-							      File Sp_video  = new File(Environment.getExternalStorageDirectory()
-									+ "/DCIM/eastelsoft/");
-							      File[] sp=Sp_video.listFiles();
-							      
-							      try {
-							      for(int i=0;i<sp.length;i++){
-							    	  if(sp[i].getName().contains(videoName+".")){
-							    		  resultCode_Vidio++;
-							    		  File uploadFile = new File(Environment.getExternalStorageDirectory()
-													+ "/DCIM/eastelsoft/"+videoName+"k");
-							    		  map_Video.put("ProPar", sp[i].getName().replace(".","|"));
-							    		  Log.i(TAG,  map_Video.get("ProPar").toString());
-							    		  if(sp[i].renameTo(uploadFile));
-							    		  fileMap_Video.put("file20", uploadFile);
-							    		  String jsonStr_Video = AndroidHttpClient.getContent(url, map_Video,
-							    					fileMap_Video, "file1");
-							    			jsonStr_Video = IUtil.chkJsonStr(jsonStr_Video);
-							    			Log.i(TAG, "jsonStr_Video:"+jsonStr_Video.toString());
-							    			JSONArray array_Video = new JSONArray(jsonStr_Video);
-							    			String resultcode = "";
-							    			if (array_Video.length() > 0) {
-												JSONObject obj = array_Video.getJSONObject(0);
-												resultcode = obj.getString("resultcode");
+							if (separator.separatorFile(
+									Environment.getExternalStorageDirectory()
+											+ "/DCIM/eastelsoft/" + videoName,
+									65536)) {
+								FileLog.i(TAG, "文件折分成功!");
+								File Sp_video = new File(
+										Environment
+												.getExternalStorageDirectory()
+												+ "/DCIM/eastelsoft/");
+								File[] sp = Sp_video.listFiles();
+
+								try {
+									for (int i = 0; i < sp.length; i++) {
+										if (sp[i].getName().contains(
+												videoName + ".")) {
+											resultCode_Vidio++;
+											File uploadFile = new File(
+													Environment
+															.getExternalStorageDirectory()
+															+ "/DCIM/eastelsoft/"
+															+ videoName + "k");
+											map_Video.put("ProPar", sp[i]
+													.getName()
+													.replace(".", "|"));
+											Log.i(TAG, map_Video.get("ProPar")
+													.toString());
+											if (sp[i].renameTo(uploadFile))
+												;
+											fileMap_Video.put("file20",
+													uploadFile);
+											String jsonStr_Video = AndroidHttpClient
+													.getContent(url, map_Video,
+															fileMap_Video,
+															"file1");
+											jsonStr_Video = IUtil
+													.chkJsonStr(jsonStr_Video);
+											Log.i(TAG, "jsonStr_Video:"
+													+ jsonStr_Video.toString());
+											JSONArray array_Video = new JSONArray(
+													jsonStr_Video);
+											String resultcode = "";
+											if (array_Video.length() > 0) {
+												JSONObject obj = array_Video
+														.getJSONObject(0);
+												resultcode = obj
+														.getString("resultcode");
 											}
-							    			if("1".equals(resultcode)){
-							    				FileLog.i(TAG, "视频片段上传成功");
-							    				resultCode_Vidio--;
-							    				uploadFile.delete();
-							    			}
-							    	  }
-							      }
-							      
-							      if(resultCode_Vidio==0){
-							    	  resultcode="1";
-							      }
-							      
-							      } catch (Exception e) {
-										// TODO: handle exception
-							    	  e.printStackTrace();
+											if ("1".equals(resultcode)) {
+												FileLog.i(TAG, "视频片段上传成功");
+												resultCode_Vidio--;
+												uploadFile.delete();
+											}
+										}
 									}
-							    }
-							    else
-							    {
-							     FileLog.e(TAG, "文件折分失败!");
-							    }
+
+									if (resultCode_Vidio == 0) {
+										resultcode = "1";
+									}
+
+								} catch (Exception e) {
+									// TODO: handle exception
+									e.printStackTrace();
+								}
+							} else {
+								FileLog.e(TAG, "文件折分失败!");
+							}
 						}
 					}
-					
-				}
-				
 
-	
-				if(!separate){
+				}
+
+				if (!separate) {
 					String jsonStr = AndroidHttpClient.getContent(url, map,
 							fileMap, "file1");
 					jsonStr = IUtil.chkJsonStr(jsonStr);
@@ -2381,23 +2460,21 @@ public class LocationService extends Service {
 						JSONObject obj = array.getJSONObject(0);
 						resultcode = obj.getString("resultcode");
 					}
-					
+
 				}
-				String jsonStr_Audio = AndroidHttpClient.getContent(url, map_Audio,
-						fileMap_Audio, "file1");
-		
-				
+				String jsonStr_Audio = AndroidHttpClient.getContent(url,
+						map_Audio, fileMap_Audio, "file1");
+
 				jsonStr_Audio = IUtil.chkJsonStr(jsonStr_Audio);
-				
+
 				JSONArray array_Audio = new JSONArray(jsonStr_Audio);
-		
-				
+
 				if (array_Audio.length() > 0) {
 					JSONObject obj = array_Audio.getJSONObject(0);
 					resultcode_Audio = obj.getString("resultcode");
 				}
 
-				if ("1".equals(resultcode)&&"1".equals(resultcode_Audio)) {
+				if ("1".equals(resultcode) && "1".equals(resultcode_Audio)) {
 					// 返回成功数据写库
 					DBUtil.updateLInfo(locationHelper.getWritableDatabase(),
 							id_info);
@@ -2415,14 +2492,15 @@ public class LocationService extends Service {
 							getResources().getString(R.string.app_name),
 							"信息上传失败，待网络流畅后会自动上传");
 				}
-			} catch (Exception e){
+			} catch (Exception e) {
 				intent.putExtra("SEND_SUCESS", "send_success");
 				sendBroadcast(intent);
 				showNotificationInformation(R.drawable.notify, getResources()
 						.getString(R.string.app_name), getResources()
-						.getString(R.string.app_name), "信息上报出现异常，待网络流畅后其会自动尝试上传");
+						.getString(R.string.app_name),
+						"信息上报出现异常，待网络流畅后其会自动尝试上传");
 			}
-//			Looper.loop();
+			// Looper.loop();
 		}
 	}
 }
