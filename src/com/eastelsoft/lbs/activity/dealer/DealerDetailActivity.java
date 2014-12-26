@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,15 +25,19 @@ import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
+import com.eastelsoft.util.settinghelper.SettingUtility;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 public class DealerDetailActivity extends BaseActivity implements OnClickListener{
 	
+	public static String TAG = "DealerDetailActivity";
+	
 	private String mId;
 	private DealerBean mBean;
 	private boolean need_update;
+	private String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.DEALER_UPDATECODE);
 	
 	private View mBackBtn;
 	private TextView dealer_name;
@@ -122,7 +127,7 @@ public class DealerDetailActivity extends BaseActivity implements OnClickListene
 			} else {
 				Toast.makeText(DealerDetailActivity.this, "数据加载失败.", Toast.LENGTH_SHORT).show();
 			}
-			if (need_update) {
+			if (!updatecode.equals(mBean.updatecode)) {
 				RefreshDataTask();
 			}
 		}
@@ -147,6 +152,7 @@ public class DealerDetailActivity extends BaseActivity implements OnClickListene
 			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				Log.i(TAG, TAG+" data : "+responseString);
 				if (!TextUtils.isEmpty(responseString)) {
 					Message msg = new Message();
 					msg.what = 0;
@@ -176,6 +182,7 @@ public class DealerDetailActivity extends BaseActivity implements OnClickListene
 				Gson gson = new Gson();
 				mBean = gson.fromJson(responseString, DealerBean.class);
 				if (mBean != null) {
+					mBean.updatecode = updatecode;
 					DealerDBTask.updateBean(mBean);
 				}
 			} catch (Exception e) {

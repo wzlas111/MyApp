@@ -44,4 +44,6 @@ public class ClientTable {
     
     //0:本地数据；1：服务器数据
     public static final String IS_UPLOAD = "is_upload"; 
+    
+    public static final String UPDATECODE = "updatecode"; 
 }

@@ -29,7 +29,6 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 
-import com.eastelsoft.lbs.CustActivity;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.bean.ClientDto;
@@ -58,7 +57,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 	private String mSearchStr;
 	private SearchTask mSearchTask;
 	private boolean isSearchMode = false;
-	private boolean need_update = false;
+	private boolean need_update = true;
 	
 	private EditText mSearchEt;
 	private View mLoadingView;
@@ -249,10 +248,10 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 					need_update = true;
 					mList = clientDto.clientdata;
 					insertDB();
-//					mList = ClientDBTask.getBeanList();
 					SettingUtility.setValue(SettingUtility.CLIENT_UPDATECODE, clientDto.updatecode);
 				} else {
 					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号相同，无需更新.");
+					need_update = false;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

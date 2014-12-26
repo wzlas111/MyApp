@@ -38,5 +38,9 @@ public class URLHelper {
 	public static final String UPDATE_ORDER_TYPE = "QueryOrderFormTypeActionJk";
 
 	public static final String UPDATE_ENTERPRISE_TYPE = "QueryEnterpriseunitsTypeActionJk";
+	
+	public static final String UPDATE_COMMODITY = "QueryCommodityUpdateActionJk";
+	
+	public static final String UPDATE_COMMODITY_REASON = "QueryMaintenanceActionJk";
 
 }

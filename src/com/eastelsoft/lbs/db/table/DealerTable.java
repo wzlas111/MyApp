@@ -43,4 +43,6 @@ public class DealerTable {
     public static final String PY_NAME = "py_name";
     
     public static final String TYPE = "type";
+    
+    public static final String UPDATECODE = "updatecode";
 }

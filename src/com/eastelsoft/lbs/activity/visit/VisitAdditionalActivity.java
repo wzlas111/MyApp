@@ -52,7 +52,6 @@ import com.eastelsoft.lbs.db.VisitDBTask;
 import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.lbs.photo.GalleryActivity;
 import com.eastelsoft.lbs.service.ImgUploadService;
-import com.eastelsoft.lbs.service.VisitFinishService;
 import com.eastelsoft.util.Contant;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.FileUtil;
@@ -75,6 +74,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 	private GridPhotoAdapter mGridAdapter;
 	private int mScreenWidth;
 	private int mScreenHeight;
+	private boolean is_form_upload = false;
 	
 	private Button mBackBtn;
 	private TextView mSaveDBBtn;
@@ -239,7 +239,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 						Gson gson = new Gson();
 						ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
 						if ("1".equals(resultBean.resultcode)) {
-							
+							is_form_upload = true;
 							if (photos_path.length > 0) {//upload img
 								mBean.status = "4";
 								saveDB();
@@ -316,12 +316,20 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			showDatetimeDialog(4);
 			break;
 		case R.id.mechanic_btn:
+			if (!is_form_upload) {
+				Toast.makeText(this, "请先保存拜访记录.", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			intent = new Intent(this, VisitMcAddActivity.class);
 			intent.putExtra("id", mBean.id);
 			intent.putExtra("type", "2");
 			startActivityForResult(intent, 1);
 			break;
 		case R.id.evaluate_btn:
+			if (!is_form_upload) {
+				Toast.makeText(this, "请先保存拜访记录.", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			if (!"1".equals(mBean.is_evaluate)) {
 				intent = new Intent(this, VisitEvaluateActivity.class);
 				intent.putExtra("id", mBean.id);

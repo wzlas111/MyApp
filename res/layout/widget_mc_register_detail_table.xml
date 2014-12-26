@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10.0dp"
+    android:background="@drawable/tt_page_item_bk"
+    android:gravity="center_vertical"
+    android:paddingLeft="20dp"
+    android:shrinkColumns="1" >
+
+    <TableRow
+        android:id="@+id/row_model"
+        android:layout_marginTop="1.0dp"
+        android:background="@drawable/selector_select_bg" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="机器型号" />
+
+        <TextView
+            android:id="@+id/mc_model_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/mc_model"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <TableRow>
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="机器编码 " />
+
+        <TextView
+            android:id="@+id/mc_code"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <TableRow>
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="故障原因" />
+
+        <TextView
+            android:id="@+id/mc_reason"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <TableRow>
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="解决方法" />
+
+        <TextView
+            android:id="@+id/mc_solver"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+
+</TableLayout>

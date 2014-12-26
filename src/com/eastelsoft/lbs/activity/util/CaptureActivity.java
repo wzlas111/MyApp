@@ -72,10 +72,10 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
 					ResultMetadataType.ERROR_CORRECTION_LEVEL,
 					ResultMetadataType.POSSIBLE_COUNTRY);
 
-	private String mIndex = "";
+	private int mIndex = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		mIndex = getIntent().getStringExtra("index");
+		mIndex = getIntent().getIntExtra("index", 0);
 		initSetting();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.capture);

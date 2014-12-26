@@ -98,6 +98,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 				holder.mc_solver = mc_solver;
 				mViewList.add(holder);
 				
+				view.findViewById(R.id.row_scan).setOnClickListener(new McCodeOnClickListener(i));
 				view.findViewById(R.id.row_model).setOnClickListener(new McModelOnClickListener(i));
 				view.findViewById(R.id.row_reason).setOnClickListener(new McReasonOnClickListener(i));
 				view.findViewById(R.id.row_solver).setOnClickListener(new McSolverOnClickListener(i));
@@ -187,6 +188,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 			Intent intent = new Intent(VisitMcRegisterActivity.this, McReasonActivity.class);
 			intent.putExtra("id", holder.mc_reason.getText().toString());
 			intent.putExtra("index", mIndex);
+			intent.putExtra("model_id", mModelId);
 			startActivityForResult(intent, 3);
 		}
 	}
@@ -202,6 +204,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 			Intent intent = new Intent(VisitMcRegisterActivity.this, McSolverActivity.class);
 			intent.putExtra("id", holder.mc_solver.getText().toString());
 			intent.putExtra("index", mIndex);
+			intent.putExtra("model_id", mModelId);
 			startActivityForResult(intent, 4);
 		}
 	}
@@ -233,6 +236,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 		finish();
 	}
 	
+	private String mModelId = "";
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -241,6 +245,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 			if (data != null) {
 				int index = data.getIntExtra("index", 0);
 				String id = data.getStringExtra("checked_id");
+				mModelId = id;
 				String name = data.getStringExtra("checked_name");
 				ViewHolder holder = mViewList.get(index);
 				holder.mc_model_id.setText(id);

@@ -61,9 +61,11 @@ public class VisitMcListActivity extends BaseActivity implements OnClickListener
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			//status: 0-已出发, 1-已到达, 2-提交成功, 3-提交失败
 			VisitMcBean bean = mList.get(position);
 			System.out.println("bean : "+bean.toString());
+			Intent intent = new Intent(VisitMcListActivity.this, VisitMcDetailActivity.class);
+			intent.putExtra("id", bean.id);
+			startActivity(intent);
 		}
 		
 	}

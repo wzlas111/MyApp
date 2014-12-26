@@ -9,6 +9,7 @@ import com.eastelsoft.lbs.db.ClientDBTask;
 import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
+import com.eastelsoft.util.settinghelper.SettingUtility;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -36,6 +37,7 @@ public class ClientInfoFragment extends Fragment implements OnClickListener{
 	private String mId;
 	private boolean need_update = true;
 	private ClientBean mBean;
+	private String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.CLIENT_UPDATECODE);
 	
 	private View mLoadingView;
 	private TextView client_name;
@@ -122,7 +124,7 @@ public class ClientInfoFragment extends Fragment implements OnClickListener{
 			if (mBean != null) {
 				fillData();
 			}
-			if (need_update) {
+			if (!updatecode.equals(mBean.updatecode)) {
 				RefreshDataTask();
 			}
 		}
@@ -174,6 +176,7 @@ public class ClientInfoFragment extends Fragment implements OnClickListener{
 				Gson gson = new Gson();
 				mBean = gson.fromJson(responseString, ClientBean.class);
 				if (mBean != null) {
+					mBean.updatecode = updatecode;
 					updateDB();
 				}
 			} catch (Exception e) {

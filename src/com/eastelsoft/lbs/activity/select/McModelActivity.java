@@ -6,9 +6,11 @@ import java.util.List;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.visit.VisitMcRegisterActivity;
 import com.eastelsoft.lbs.bean.SelectBean;
+import com.eastelsoft.lbs.db.ParamsDBTask;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +39,8 @@ public class McModelActivity extends Activity {
 		setContentView(R.layout.widget_select_client_type);
 		
 		initView();
+		
+		new InitDataTask().execute("");
 	}
 	
 	private void initView() {
@@ -50,7 +54,6 @@ public class McModelActivity extends Activity {
 		});
 		
 		mList = new ArrayList<SelectBean>();
-		initData();
 		mListView = (ListView)findViewById(R.id.listview);
 		mAdapter = new SelectAdapter(this, mList, mId);
 		mListView.setAdapter(mAdapter);
@@ -70,21 +73,23 @@ public class McModelActivity extends Activity {
 		});
 	}
 	
-	private void initData() {
-		SelectBean bean = new SelectBean();
-		bean.id = "1001";
-		bean.name = "AF1001";
-		mList.add(bean);
-		
-		SelectBean bean1 = new SelectBean();
-		bean1.id = "1002";
-		bean1.name = "TD1002";
-		mList.add(bean1);
-		
-		SelectBean bean2 = new SelectBean();
-		bean2.id = "1003";
-		bean2.name = "TS1003";
-		mList.add(bean2);
+	private class InitDataTask extends AsyncTask<String, Integer, Boolean> {
+		@Override
+		protected Boolean doInBackground(String... params) {
+			try {
+				mList = ParamsDBTask.getCommodityList();
+			} catch (Exception e) {
+				e.printStackTrace();
+				mList = new ArrayList<SelectBean>();
+			}
+			return true;
+		}
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			mAdapter = new SelectAdapter(McModelActivity.this, mList, mId);
+			mListView.setAdapter(mAdapter);
+		}
 	}
 	
 }

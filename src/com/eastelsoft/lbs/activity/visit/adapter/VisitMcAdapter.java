@@ -57,6 +57,8 @@ public class VisitMcAdapter extends BaseAdapter {
 		String msg = "";
 		if ("0".equals(is_upload)) {//出发
 			msg = "提交中";
+		} else if("00".equals(is_upload)) {//到达
+			msg = "图片提交中";
 		} else if("1".equals(is_upload)) {//到达
 			msg = "已提交";
 		} 

@@ -19,12 +19,15 @@ import com.eastelsoft.lbs.db.table.ClientMechanicsTable;
 import com.eastelsoft.lbs.db.table.ClientRegionTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.ClientTypeTable;
+import com.eastelsoft.util.FileLog;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class ClientDBTask {
+	
+	public static String TAG = "ClientDBTask";
 	
 	private ClientDBTask() {}
 	
@@ -62,6 +65,7 @@ public class ClientDBTask {
 				values.put(ClientTable.FIRST_PY, bean.first_py);
 				values.put(ClientTable.TYPE, bean.type);
 				values.put(ClientTable.IS_UPLOAD, "1");
+				values.put(ClientTable.UPDATECODE, "0");
 				
 				getWsd().insert(ClientTable.TABLE_NAME, null, values);
 			}
@@ -115,7 +119,7 @@ public class ClientDBTask {
 			
 			getWsd().insert(ClientTable.TABLE_NAME, null, values);
 		} catch (Exception e) {
-			e.printStackTrace();
+			FileLog.e(TAG, TAG+" e==>" + e.toString());
 		}
 		return DBResult.add_successfully;
 	}
@@ -134,6 +138,7 @@ public class ClientDBTask {
 		values.put(ClientTable.REMARK, bean.remark);
 		values.put(ClientTable.LON, bean.lon);
 		values.put(ClientTable.LAT, bean.lat);
+		values.put(ClientTable.UPDATECODE, bean.updatecode);
 		
 		getWsd().update(ClientTable.TABLE_NAME, values, ClientTable.ID+"=?", new String[]{bean.id});
 		
@@ -161,6 +166,7 @@ public class ClientDBTask {
 			bean.lon = c.getString(c.getColumnIndex(ClientTable.LON));
 			bean.lat = c.getString(c.getColumnIndex(ClientTable.LAT));
 			bean.accuary = c.getString(c.getColumnIndex(ClientTable.ACCURARY));
+			bean.updatecode = c.getString(c.getColumnIndex(ClientTable.UPDATECODE));
 			
 			return bean;
 		}
@@ -214,7 +220,7 @@ public class ClientDBTask {
 			}
 			getWsd().setTransactionSuccessful();
 		} catch (Exception e) {
-			e.printStackTrace();
+			FileLog.e(TAG, TAG+" e==>" + e.toString());
 		}
 		getWsd().endTransaction();
 		return DBResult.add_successfully;
@@ -263,7 +269,7 @@ public class ClientDBTask {
 			}
 			getWsd().setTransactionSuccessful();
 		} catch (Exception e) {
-			e.printStackTrace();
+			FileLog.e(TAG, TAG+" e==>" + e.toString());
 		}
 		getWsd().endTransaction();
 		return DBResult.add_successfully;
@@ -286,7 +292,7 @@ public class ClientDBTask {
 			}
 			getWsd().setTransactionSuccessful();
 		} catch (Exception e) {
-			e.printStackTrace();
+			FileLog.e(TAG, TAG+" e==>" + e.toString());
 		}
 		getWsd().endTransaction();
 		return DBResult.add_successfully;
@@ -331,7 +337,7 @@ public class ClientDBTask {
 			}
 			getWsd().setTransactionSuccessful();
 		} catch (Exception e) {
-			e.printStackTrace();
+			FileLog.e(TAG, TAG+" e==>" + e.toString());
 		}
 		getWsd().endTransaction();
 		return DBResult.add_successfully;

@@ -34,12 +34,8 @@ public class DealerDBTask {
 				values.put(DealerTable.ID, bean.id);
 				values.put(DealerTable.DEALER_NAME, bean.dealer_name);
 				values.put(DealerTable.PY_NAME, bean.first_py);
-//				if (!TextUtils.isEmpty(bean.first_py)) {
-//					values.put(DealerTable.PY_INDEX, bean.first_py.substring(0, 1));
-//				} else {
-//					values.put(DealerTable.PY_INDEX, "#");
-//				}
 				values.put(DealerTable.TYPE, bean.type);
+				values.put(DealerTable.UPDATECODE, "0");
 				
 				getWsd().insert(DealerTable.TABLE_NAME, DealerTable.ID, values);
 			}
@@ -87,6 +83,7 @@ public class DealerDBTask {
 			bean.py_index = c.getString(c.getColumnIndex(DealerTable.PY_INDEX));
 			bean.first_py = c.getString(c.getColumnIndex(DealerTable.PY_NAME));
 			bean.type = c.getString(c.getColumnIndex(DealerTable.TYPE));
+			bean.updatecode = c.getString(c.getColumnIndex(DealerTable.UPDATECODE));
 			return bean;
 		}
 		return null;
@@ -136,6 +133,7 @@ public class DealerDBTask {
 		values.put(DealerTable.LON, bean.lon);
 		values.put(DealerTable.LAT, bean.lat);
 		values.put(DealerTable.ACCURACY, bean.accuracy);
+		values.put(DealerTable.UPDATECODE, bean.updatecode);
 		
 		getWsd().update(DealerTable.TABLE_NAME, values, DealerTable.ID+"=?", new String[]{bean.id});
 		

@@ -7,10 +7,14 @@ import org.apache.http.Header;
 import com.eastelsoft.lbs.bean.ClientDto;
 import com.eastelsoft.lbs.bean.ClientRegionDto;
 import com.eastelsoft.lbs.bean.ClientTypeDto;
+import com.eastelsoft.lbs.bean.CommodityDto;
+import com.eastelsoft.lbs.bean.CommodityReasonDto;
 import com.eastelsoft.lbs.bean.DealerDto;
 import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
 import com.eastelsoft.lbs.bean.ClientRegionDto.RegionBean;
 import com.eastelsoft.lbs.bean.ClientTypeDto.TypeBean;
+import com.eastelsoft.lbs.bean.CommodityDto.CommodityBean;
+import com.eastelsoft.lbs.bean.CommodityReasonDto.CommodityReasonBean;
 import com.eastelsoft.lbs.bean.DealerDto.DealerBean;
 import com.eastelsoft.lbs.bean.EnterpriseTypeDto;
 import com.eastelsoft.lbs.bean.EnterpriseTypeDto.EnterpriseTypeBean;
@@ -38,6 +42,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 /**
  * 初始化系统参数 1:客户类型;2:客户区域;3:服务评价;4:产品类型;5:订单类型;6:单位类型
@@ -85,6 +90,8 @@ public class InitParamService extends Service {
 			initProductType();
 			initOrderType();
 			initEnterpriseType();
+			initCommodity();
+			initCommodityReason();
 		}
 		return START_NOT_STICKY;
 	}
@@ -101,18 +108,19 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"客户类型下载成功.");
+				Log.i(TAG, TAG+"客户类型下载成功.data:"+responseString);
 				try {
 					ClientTypeDto dto = gson.fromJson(responseString, ClientTypeDto.class);
 					if ("1".equals(dto.resultcode)) {
-						SettingUtility.setValue(SettingUtility.CLIENT_TYPE_UPDATECODE, dto.updatecode);
 						List<TypeBean> list = dto.clientdata;
 						if (list != null && list.size() > 0) {
 							ClientDBTask.deleteType();
 							ClientDBTask.addType(list);
 						}
+						SettingUtility.setValue(SettingUtility.CLIENT_TYPE_UPDATECODE, dto.updatecode);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					FileLog.e(TAG, TAG+" e==>" + e.toString());
 				}
 			}
 			@Override
@@ -134,18 +142,19 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"客户区域 下载成功.");
+				Log.i(TAG, TAG+"客户区域下载成功.data:"+responseString);
 				try {
 					ClientRegionDto dto = gson.fromJson(responseString, ClientRegionDto.class);
 					if ("1".equals(dto.resultcode)) {
-						SettingUtility.setValue(SettingUtility.CLIENT_REGION_UPDATECODE, dto.updatecode);
 						List<RegionBean> list = dto.clientdata;
 						if (list != null && list.size() > 0) {
 							ClientDBTask.deleteRegion();
 							ClientDBTask.addRegion(list);
 						}
+						SettingUtility.setValue(SettingUtility.CLIENT_REGION_UPDATECODE, dto.updatecode);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					FileLog.e(TAG, TAG+" e==>" + e.toString());
 				}
 			}
 			@Override
@@ -167,18 +176,19 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"服务评价下载成功.");
+				Log.i(TAG, TAG+"服务评价下载成功.data:"+responseString);
 				try {
 					EvaluateDto dto = gson.fromJson(responseString, EvaluateDto.class);
 					if ("1".equals(dto.resultcode)) {
-						SettingUtility.setValue(SettingUtility.VISIT_EVALUATE_UPDATECODE, dto.updatecode);
 						List<EvaluateBean> list = dto.clientdata;
 						if (list != null && list.size() > 0) {
 							ParamsDBTask.deleteEvaluate();
 							ParamsDBTask.addEvaluateList(list);
 						}
+						SettingUtility.setValue(SettingUtility.VISIT_EVALUATE_UPDATECODE, dto.updatecode);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					FileLog.e(TAG, TAG+" e==>" + e.toString());
 				}
 			}
 			@Override
@@ -200,14 +210,15 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"产品类型 下载成功.");
+				Log.i(TAG, TAG+"产品类型下载成功.data:"+responseString);
 				ProductTypeDto dto = gson.fromJson(responseString, ProductTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
-					SettingUtility.setValue(SettingUtility.PRODUCT_TYPE_UPDATECODE, dto.updatecode);
 					List<ProductTypeBean> list = dto.clientdata;
 					if (list != null && list.size() > 0) {
 						ParamsDBTask.deleteProductType();
 						ParamsDBTask.addProductTypeList(list);
 					}
+					SettingUtility.setValue(SettingUtility.PRODUCT_TYPE_UPDATECODE, dto.updatecode);
 				}
 			}
 			@Override
@@ -229,14 +240,15 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"订单类型下载成功.");
+				Log.i(TAG, TAG+"订单类型下载成功.data:"+responseString);
 				OrderTypeDto dto = gson.fromJson(responseString, OrderTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
-					SettingUtility.setValue(SettingUtility.ORDER_TYPE_UPDATECODE, dto.updatecode);
 					List<OrderTypeBean> list = dto.clientdata;
 					if (list != null && list.size() > 0) {
 						ParamsDBTask.deleteOrderType();
 						ParamsDBTask.addOrderTypeList(list);
 					}
+					SettingUtility.setValue(SettingUtility.ORDER_TYPE_UPDATECODE, dto.updatecode);
 				}
 			}
 			@Override
@@ -258,14 +270,15 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"企业类型下载成功.");
+				Log.i(TAG, TAG+"企业类型下载成功.data:"+responseString);
 				EnterpriseTypeDto dto = gson.fromJson(responseString, EnterpriseTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
-					SettingUtility.setValue(SettingUtility.ENTERPRISE_TYPE_UPDATECODE, dto.updatecode);
 					List<EnterpriseTypeBean> list = dto.clientdata;
 					if (list != null && list.size() > 0) {
 						ParamsDBTask.deleteEnterpriseType();
 						ParamsDBTask.addEnterpriseTypeList(list);
 					}
+					SettingUtility.setValue(SettingUtility.ENTERPRISE_TYPE_UPDATECODE, dto.updatecode);
 				}
 				stopService();
 			}
@@ -273,6 +286,66 @@ public class InitParamService extends Service {
 			public void onFailure(int statusCode, Header[] headers,String responseString, Throwable throwable) {
 				FileLog.i(TAG, TAG+"企业类型下载失败.");
 				stopService();
+			}
+		});
+	}
+	
+	private void initCommodity() {
+		String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.COMMODITY_UPDATECODE);
+		String mUrl = URLHelper.TEST_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", URLHelper.UPDATE_COMMODITY);
+		params.put("code", updatecode);
+		params.put("GpsId", gps_id);
+		HttpRestClient.getSingle(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,String responseString) {
+				//insert to db
+				FileLog.i(TAG, TAG+"机器型号下载成功.");
+				Log.i(TAG, TAG+"机器型号下载成功.data:"+responseString);
+				CommodityDto dto = gson.fromJson(responseString, CommodityDto.class);
+				if ("1".equals(dto.resultcode)) {
+					List<CommodityBean> list = dto.clientdata;
+					if (list != null && list.size() > 0) {
+						ParamsDBTask.deleteCommodity();
+						ParamsDBTask.addCommodityList(list);
+					}
+					SettingUtility.setValue(SettingUtility.COMMODITY_UPDATECODE, dto.updatecode);
+				}
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers,String responseString, Throwable throwable) {
+				FileLog.i(TAG, TAG+"机器型号下载失败.");
+			}
+		});
+	}
+	
+	private void initCommodityReason() {
+		String updatecode = SettingUtility.getUpdatecodeValue(SettingUtility.COMMODITY_REASON_UPDATECODE);
+		String mUrl = URLHelper.TEST_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", URLHelper.UPDATE_COMMODITY_REASON);
+		params.put("code", updatecode);
+		params.put("GpsId", gps_id);
+		HttpRestClient.getSingle(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,String responseString) {
+				//insert to db
+				FileLog.i(TAG, TAG+"机器故障下载成功.");
+				Log.i(TAG, TAG+"机器故障下载成功.data:"+responseString);
+				CommodityReasonDto dto = gson.fromJson(responseString, CommodityReasonDto.class);
+				if ("1".equals(dto.resultcode)) {
+					List<CommodityReasonBean> list = dto.clientdata;
+					if (list != null && list.size() > 0) {
+						ParamsDBTask.deleteCommodityReason();
+						ParamsDBTask.addCommodityReasonList(list);
+					}
+					SettingUtility.setValue(SettingUtility.COMMODITY_REASON_UPDATECODE, dto.updatecode);
+				}
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers,String responseString, Throwable throwable) {
+				FileLog.i(TAG, TAG+"机器故障下载失败.");
 			}
 		});
 	}
@@ -318,7 +391,7 @@ public class InitParamService extends Service {
 					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号相同，无需更新.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FileLog.e(TAG, TAG+" e==>" + e.toString());
 			}
 			GlobalVar.getInstance().setClient_uploading(false);
 		}
@@ -343,7 +416,7 @@ public class InitParamService extends Service {
 					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号相同，无需更新.");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				FileLog.e(TAG, TAG+" e==>" + e.toString());
 			}
 			GlobalVar.getInstance().setDealer_uploading(false);
 		}

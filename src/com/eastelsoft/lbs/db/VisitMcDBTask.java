@@ -51,6 +51,32 @@ public class VisitMcDBTask {
 		return plist;
 	}
 	
+	public static VisitMcBean getBean(String id) {
+		String sql = "select * from "+VisitMcTable.TABLE_NAME + " where id = ? ";
+		Cursor c = getRsd().rawQuery(sql, new String[]{id});
+		if (c.moveToNext()) {
+			VisitMcBean bean = new VisitMcBean();
+			bean.id = c.getString(c.getColumnIndex(VisitMcTable.ID));
+			bean.visit_id = c.getString(c.getColumnIndex(VisitMcTable.VISIT_ID));
+			bean.client_id = c.getString(c.getColumnIndex(VisitMcTable.CLIENT_ID));
+			bean.client_name = c.getString(c.getColumnIndex(VisitMcTable.CLIENT_NAME));
+			bean.start_time = c.getString(c.getColumnIndex(VisitMcTable.START_TIME));
+			bean.end_time = c.getString(c.getColumnIndex(VisitMcTable.END_TIME));
+			bean.service_start_time = c.getString(c.getColumnIndex(VisitMcTable.SERVICE_START_TIME));
+			bean.service_end_time = c.getString(c.getColumnIndex(VisitMcTable.SERVICE_END_TIME));
+			bean.is_repair = c.getString(c.getColumnIndex(VisitMcTable.IS_REPAIR));
+			bean.mc_register_json = c.getString(c.getColumnIndex(VisitMcTable.MC_REGISTER_JSON));
+			bean.mc_type_json = c.getString(c.getColumnIndex(VisitMcTable.MC_TYPE_JSON));
+			bean.mc_person_json = c.getString(c.getColumnIndex(VisitMcTable.MC_PERSON_JSON));
+			bean.mc_info_json = c.getString(c.getColumnIndex(VisitMcTable.MC_INFO_JSON));
+			bean.client_sign = c.getString(c.getColumnIndex(VisitMcTable.CLIENT_SIGN));
+			bean.upload_img = c.getString(c.getColumnIndex(VisitMcTable.UPLOAD_IMG));
+			bean.is_upload = c.getString(c.getColumnIndex(VisitMcTable.IS_UPLOAD));
+			return bean;
+		}
+		return null;
+	}
+	
 	public static DBResult addBean(VisitMcBean bean) {
 		ContentValues values = new ContentValues();
 		values.put(VisitMcTable.ID, bean.id);

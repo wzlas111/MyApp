@@ -9,6 +9,8 @@ import com.eastelsoft.lbs.db.table.ClientMechanicsTable;
 import com.eastelsoft.lbs.db.table.ClientRegionTable;
 import com.eastelsoft.lbs.db.table.ClientTable;
 import com.eastelsoft.lbs.db.table.ClientTypeTable;
+import com.eastelsoft.lbs.db.table.CommodityReasonTable;
+import com.eastelsoft.lbs.db.table.CommodityTable;
 import com.eastelsoft.lbs.db.table.DealerTable;
 import com.eastelsoft.lbs.db.table.EnterpriseTypeTable;
 import com.eastelsoft.lbs.db.table.EvaluateTable;
@@ -59,6 +61,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + DealerTable.TYPE + " text,"
             + DealerTable.PY_INDEX + " text,"
             + DealerTable.PY_NAME + " text,"
+            + DealerTable.UPDATECODE + " text,"
             + DealerTable.REMARK + " text"
             + ");";
 	
@@ -83,6 +86,7 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + ClientTable.REMARK + " text," 
             + ClientTable.FIRST_PY + " text," 
             + ClientTable.PY_INDEX + " text," 
+            + ClientTable.UPDATECODE + " text," 
             + ClientTable.IS_UPLOAD + " text" 
             + ");";
 	
@@ -227,6 +231,24 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
             + EnterpriseTypeTable.ENTERPRISE_TYPE_ID + " text,"
             + EnterpriseTypeTable.ENTERPRISE_TYPE_NAME + " text"
             + ");";
+	
+	static final String CREATE_COMMODITY_TABLE_SQL = "create table if not exists " + CommodityTable.TABLE_NAME
+            + "("
+            + CommodityTable.UID + " integer primary key autoincrement,"
+            + CommodityTable.ID + " text,"
+            + CommodityTable.NAME + " text,"
+            + CommodityTable.PACKING + " text"
+            + ");";
+	
+	static final String CREATE_COMMODITY_REASON_TABLE_SQL = "create table if not exists " + CommodityReasonTable.TABLE_NAME
+            + "("
+            + CommodityReasonTable.UID + " integer primary key autoincrement,"
+            + CommodityReasonTable.COMMODITY_MAINTENANCE_ID + " text,"
+            + CommodityReasonTable.COMMODITY_ID + " text,"
+            + CommodityReasonTable.COMMODITY_NAME + " text,"
+            + CommodityReasonTable.COMMODITY_MAINTENANCE_CONTENT + " text,"
+            + CommodityReasonTable.COMMODITY_SOLVE_CONTENT + " text"
+            + ");";
 
 	public LocationSQLiteHelper(Context context, String name,
 			CursorFactory factory, int version) {
@@ -260,6 +282,9 @@ public class LocationSQLiteHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_PRODUCT_TYPE_TABLE_SQL);
 			db.execSQL(CREATE_ORDER_TYPE_TABLE_SQL);
 			db.execSQL(CREATE_ENTERPRISE_TYPE_TABLE_SQL);
+			
+			db.execSQL(CREATE_COMMODITY_TABLE_SQL);
+			db.execSQL(CREATE_COMMODITY_REASON_TABLE_SQL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

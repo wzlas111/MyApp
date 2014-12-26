@@ -41,7 +41,7 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 		
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
-		need_update = intent.getBooleanExtra("need_update", false);
+		need_update = intent.getBooleanExtra("need_update", true);
 		
 		setContentView(R.layout.activity_client_detail);
 		initViews();

@@ -28,5 +28,6 @@ public class DealerDto {
 		public String py_index;
 		public String first_py;
 		public String type;
+		public String updatecode;
 	}
 }

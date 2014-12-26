@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10.0dp"
+    android:background="@drawable/tt_page_item_bk"
+    android:gravity="center_vertical"
+    android:paddingLeft="20dp"
+    android:shrinkColumns="1" >
+
+    <TableRow
+        android:id="@+id/row_info_model"
+        android:layout_marginTop="1.0dp"
+        android:background="@drawable/selector_select_bg" >
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="机种" />
+
+        <TextView
+            android:id="@+id/mc_info_model_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/mc_info_model_name"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <TableRow>
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="品牌 " />
+
+        <TextView
+            android:id="@+id/mc_info_brand"
+            style="@style/table_edit_style"  />
+
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <TableRow>
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="型号" />
+
+        <TextView
+            android:id="@+id/mc_info_spec"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+
+    <TableRow>
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="数量" />
+
+        <TextView
+            android:id="@+id/mc_info_num"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_line_color" />
+    
+    <TableRow>
+
+        <TextView
+            style="@style/table_text_style"
+            android:text="已使用年限" />
+
+        <TextView
+            android:id="@+id/mc_info_years"
+            style="@style/table_edit_style" />
+
+    </TableRow>
+
+</TableLayout>

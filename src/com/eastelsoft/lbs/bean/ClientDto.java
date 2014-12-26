@@ -28,5 +28,6 @@ public class ClientDto {
 		public String first_py;
 		public String type;
 		public String is_upload = "1";
+		public String updatecode = "0";
 	}
 }

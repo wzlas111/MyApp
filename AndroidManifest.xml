@@ -498,6 +498,52 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         
+        <!-- select activity -->
+        <activity 
+            android:name=".activity.select.McModelActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.McReasonActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.McSolverActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.McIsRepairActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.McInfoModelActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.ClientSelectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.McProductTypeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.McOrderTypeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.select.McCompanyNatureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
         <!-- visit activity -->
         <activity 
             android:name=".activity.visit.VisitActivity"
@@ -564,53 +610,6 @@
             android:name=".activity.visit.VisitAdditionalActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-            
-        
-        <!-- select activity -->
-        <activity 
-            android:name=".activity.select.McModelActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.McReasonActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.McSolverActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.McIsRepairActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.McInfoModelActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.ClientSelectActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.McProductTypeActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.McOrderTypeActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        
-        <activity 
-            android:name=".activity.select.McCompanyNatureActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
         
         <activity 
             android:name=".activity.select.SignImgActivity"
@@ -624,6 +623,31 @@
         
         <activity 
             android:name=".activity.util.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcRegisterDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcTypeDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcPersonDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        
+        <activity 
+            android:name=".activity.visit.VisitMcInfoDetailActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         

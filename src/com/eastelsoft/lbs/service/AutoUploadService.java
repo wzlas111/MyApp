@@ -190,6 +190,16 @@ public class AutoUploadService extends Service {
 						bean.status = "4";
 						VisitDBTask.updateIsUploadBean(bean);
 					}
+				} else if("98".equals(resultBean.resultcode)) {//此记录已上传
+					if ("0".equals(bean.visit_img_num)) {
+						bean.is_upload = "1";
+						bean.status = "2";
+						VisitDBTask.updateIsUploadBean(bean);
+					} else {
+						bean.is_upload = "0";
+						bean.status = "4";
+						VisitDBTask.updateIsUploadBean(bean);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -239,6 +249,8 @@ public class AutoUploadService extends Service {
 			try {
 				ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
 				if ("1".equals(resultBean.resultcode)) {
+					AutoUploadDBTask.updateEvaluate(bean.id);
+				} else if("98".equals(resultBean.resultcode)) {//此记录已上传
 					AutoUploadDBTask.updateEvaluate(bean.id);
 				}
 			} catch (Exception e) {
@@ -291,6 +303,12 @@ public class AutoUploadService extends Service {
 			try {
 				ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
 				if ("1".equals(resultBean.resultcode)) {
+					if ("0".equals(bean.upload_img_num)) {
+						AutoUploadDBTask.updateMc(bean.id,"1");
+					} else {
+						AutoUploadDBTask.updateMc(bean.id,"00");
+					}
+				} else if("98".equals(resultBean.resultcode)) {//此记录已上传
 					if ("0".equals(bean.upload_img_num)) {
 						AutoUploadDBTask.updateMc(bean.id,"1");
 					} else {

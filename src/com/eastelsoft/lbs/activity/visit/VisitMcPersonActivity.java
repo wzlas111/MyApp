@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
@@ -94,9 +95,9 @@ public class VisitMcPersonActivity extends BaseActivity implements OnClickListen
 				VisitMcPersonBean bean = mList.get(i);
 				View view = LayoutInflater.from(this).inflate(R.layout.widget_mc_person_add_table, null);
 				
-				TextView mc_person_name = ((EditText)view.findViewById(R.id.mc_person_name));
+				EditText mc_person_name = ((EditText)view.findViewById(R.id.mc_person_name));
 				mc_person_name.setText(bean.name);
-				TextView mc_person_tel = ((EditText)view.findViewById(R.id.mc_person_tel));
+				EditText mc_person_tel = ((EditText)view.findViewById(R.id.mc_person_tel));
 				mc_person_tel.setText(bean.tel);
 				
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
@@ -111,9 +112,9 @@ public class VisitMcPersonActivity extends BaseActivity implements OnClickListen
 	private void addTableRow() {
 		View view = LayoutInflater.from(this).inflate(R.layout.widget_mc_person_add_table, null);
 		
-		TextView mc_person_name = ((TextView)view.findViewById(R.id.mc_person_name));
+		EditText mc_person_name = ((EditText)view.findViewById(R.id.mc_person_name));
 		mc_person_name.setText("");
-		TextView mc_person_tel = ((TextView)view.findViewById(R.id.mc_person_tel));
+		EditText mc_person_tel = ((EditText)view.findViewById(R.id.mc_person_tel));
 		mc_person_tel.setText("");
 		
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
@@ -121,9 +122,25 @@ public class VisitMcPersonActivity extends BaseActivity implements OnClickListen
 		mFrameTable.addView(view, layoutParams);
 	}
 	
+	private boolean canSend() {
+		String text = mMcRepairTv.getText().toString();
+		if (TextUtils.isEmpty(text)) {
+			Toast.makeText(this, "抢填写是否机修.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
+	}
 	
 	private void save() {
-		mIsRepair = mMcRepairTv.getText().toString();
+		if (!canSend()) {
+			return;
+		}
+		String text = mMcRepairTv.getText().toString();
+		if ("是".equals(text)) {
+			mIsRepair = "1";
+		}else if("否".equals(text)) {
+			mIsRepair = "0";
+		}
 		mList = new ArrayList<VisitMcPersonBean>();
 		int count = mFrameTable.getChildCount();
 		for (int i = 0; i < count; i++) {

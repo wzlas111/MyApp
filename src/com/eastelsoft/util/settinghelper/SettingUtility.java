@@ -14,6 +14,9 @@ public class SettingUtility {
     public static final String PRODUCT_TYPE_UPDATECODE = "product_type_updatecode";
     public static final String ORDER_TYPE_UPDATECODE = "order_type_updatecode";
     public static final String ENTERPRISE_TYPE_UPDATECODE = "enterprise_type_updatecode";
+    public static final String COMMODITY_UPDATECODE = "commodity_updatecode";
+    public static final String COMMODITY_REASON_UPDATECODE = "commodity_reason_updatecode";
+    
     
     private SettingUtility() {}
 
