@@ -39,13 +39,15 @@ public class ClientContactsFragment extends Fragment implements OnClickListener{
 
 	private String mId;
 	private boolean need_update = true;
+	private String mIsUpload;
 	private List<ClientContactsBean> mList;
 	
 	private LinearLayout mFrameTable;
 	
-	public ClientContactsFragment(String id,boolean flag) {
+	public ClientContactsFragment(String id,boolean flag,String is_upload) {
 		mId = id;
 		need_update = flag;
+		mIsUpload = is_upload;
 	}
 	
 	@Override
@@ -89,6 +91,9 @@ public class ClientContactsFragment extends Fragment implements OnClickListener{
 			super.onPostExecute(result);
 			if (mList.size() > 0) {
 				fillData();
+			}
+			if ("0".equals(mIsUpload)) {
+				return;
 			}
 			need_update = true;
 			if (need_update) {

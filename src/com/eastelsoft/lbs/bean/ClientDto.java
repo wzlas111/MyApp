@@ -27,6 +27,7 @@ public class ClientDto {
 		public String py_index;
 		public String first_py;
 		public String type;
+		//00:本地; 1:已同步
 		public String is_upload = "1";
 		public String updatecode = "0";
 	}

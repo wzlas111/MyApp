@@ -116,6 +116,8 @@ public class ClientDBTask {
 			values.put(ClientTable.LAT, bean.lat);
 			values.put(ClientTable.ACCURARY, bean.accuary);
 			values.put(ClientTable.FIRST_PY, bean.first_py);
+			values.put(ClientTable.IS_UPLOAD, bean.is_upload);
+			values.put(ClientTable.UPDATECODE, bean.updatecode);
 			
 			getWsd().insert(ClientTable.TABLE_NAME, null, values);
 		} catch (Exception e) {
@@ -124,12 +126,21 @@ public class ClientDBTask {
 		return DBResult.add_successfully;
 	}
 	
+	public static DBResult updateIsUpload(String id) {
+		ContentValues values = new ContentValues();
+		values.put(ClientTable.IS_UPLOAD, "1");
+		
+		getWsd().update(ClientTable.TABLE_NAME, values, ClientTable.ID+"=?", new String[]{id});
+		
+		return DBResult.update_successfully;
+	}
+	
 	public static DBResult updateBean(ClientBean bean) {
 		ContentValues values = new ContentValues();
 		values.put(ClientTable.CLIENT_CODE, bean.client_code);
 		values.put(ClientTable.DEALER_ID, bean.dealer_id);
 		values.put(ClientTable.DEALER_NAME, bean.dealer_name);
-		values.put(ClientTable.TYPE, bean.type);
+//		values.put(ClientTable.TYPE, bean.type);
 		values.put(ClientTable.REGION_ID, bean.region_id);
 		values.put(ClientTable.REGION_NAME, bean.region_name);
 		values.put(ClientTable.TYPE_NAME, bean.type_name);
@@ -166,6 +177,7 @@ public class ClientDBTask {
 			bean.lon = c.getString(c.getColumnIndex(ClientTable.LON));
 			bean.lat = c.getString(c.getColumnIndex(ClientTable.LAT));
 			bean.accuary = c.getString(c.getColumnIndex(ClientTable.ACCURARY));
+			bean.is_upload = c.getString(c.getColumnIndex(ClientTable.IS_UPLOAD));
 			bean.updatecode = c.getString(c.getColumnIndex(ClientTable.UPDATECODE));
 			
 			return bean;

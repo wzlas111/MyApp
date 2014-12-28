@@ -2,7 +2,7 @@ package com.eastelsoft.lbs.db.table;
 
 public class ClientMechanicsTable {
 
-	public static final String TABLE_NAME = "client_contact_table";
+	public static final String TABLE_NAME = "client_mechanics_table";
 
     public static final String UID = "uid";
     

@@ -104,98 +104,6 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 		mMechanicsBtn.setOnClickListener(this);
 		
 		mClientBtn.setEnabled(false);
-		
-//		InitDataTask();
-	}
-	
-	/**
-	 * update type and region from net
-	 */
-	private void InitDataTask() {
-		String type_url = "http://58.240.63.104/mobile.do?reqCode=ClientTypeUpdateAction&gpsid=8610818980382688&pin=1&actiontype=2";
-		String region_url = "http://58.240.63.104/mobile.do?reqCode=ClientRegionUpdateAction&gpsid=8610818980382688&pin=1&actiontype=2";
-		HttpRestClient.get(type_url, null, new TextHttpResponseHandler() {
-			@Override
-			public void onStart() {
-				super.onStart();
-			}
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				new DataTypeThread(responseString).start();
-			}
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-				Toast.makeText(ClientAddActivity.this, "sorry,类型数据下载失败,请稍后再试.", Toast.LENGTH_SHORT).show();
-			}
-		});
-		HttpRestClient.get(region_url, null, new TextHttpResponseHandler() {
-			@Override
-			public void onStart() {
-				super.onStart();
-			}
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				new DataRegionThread(responseString).start();
-			}
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-				Toast.makeText(ClientAddActivity.this, "sorry,区域数据下载失败,请稍后再试.", Toast.LENGTH_SHORT).show();
-			}
-		});
-	}
-	
-	/**
-	 * handler type data
-	 * @author wangzl
-	 *
-	 */
-	private class DataTypeThread extends Thread {
-		private String responseString;
-		public DataTypeThread(String param) {
-			responseString = param;
-		}
-		@Override
-		public void run() {
-			try {
-				Gson gson = new Gson();
-				ClientTypeDto mClientTypeDto = gson.fromJson(responseString, ClientTypeDto.class);
-				updateTypeDB(mClientTypeDto.clientdata);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	private void updateTypeDB(List<TypeBean> mList) {
-		ClientDBTask.deleteType();
-		ClientDBTask.addType(mList);
-	}
-	
-	/**
-	 * handler region data
-	 * @author wangzl
-	 *
-	 */
-	private class DataRegionThread extends Thread {
-		private String responseString;
-		public DataRegionThread(String param) {
-			responseString = param;
-		}
-		@Override
-		public void run() {
-			try {
-				Gson gson = new Gson();
-				ClientRegionDto mClientRegionDto = gson.fromJson(responseString, ClientRegionDto.class);
-				updateRegionDB(mClientRegionDto.clientdata);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	private void updateRegionDB(List<RegionBean> mList) {
-		ClientDBTask.deleteRegion();
-		ClientDBTask.addRegion(mList);
 	}
 	
 	private void setTabSection(int index) {
@@ -376,6 +284,7 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 			if (!TextUtils.isEmpty(info_data)) { //insert info
 				ClientBean clientBean = gson.fromJson(info_data, ClientBean.class);
 				clientBean.is_upload = "0";
+				clientBean.updatecode = "0";
 				String name = clientBean.client_name;
 				String py = PinyinUtil.getPinYin(name);
 				clientBean.first_py = py;
@@ -386,7 +295,7 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 				ClientDBTask.addContacts(list);
 			}
 			if (!TextUtils.isEmpty(mechanics_data)) {
-				List<ClientMechanicsBean> list = gson.fromJson(contacts_data, new TypeToken<List<ClientMechanicsBean>>(){}.getType());
+				List<ClientMechanicsBean> list = gson.fromJson(mechanics_data, new TypeToken<List<ClientMechanicsBean>>(){}.getType());
 				ClientDBTask.addMechanics(list);
 			}
 			try {
@@ -420,7 +329,6 @@ public class ClientAddActivity extends FragmentActivity implements OnClickListen
 		} catch (Exception e) {
 
 		}
-
 	}
 	
 }

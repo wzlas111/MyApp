@@ -200,9 +200,12 @@ public class ClientInfoAddFragment extends Fragment implements OnClickListener{
 		mBean.client_name = client_name.getText().toString();
 		mBean.client_code = client_code.getText().toString();
 		mBean.dealer_id = mChecked_dealer;
+		mBean.dealer_name = dealer_name.getText().toString();
 		mBean.type = mChecked_type;
 		mBean.region_id = mChecked_region;
+		mBean.region_name = region_name.getText().toString();
 		mBean.type_id = mChecked_typename;
+		mBean.type_name = typename.getText().toString();
 		mBean.fax = fax.getText().toString();
 		mBean.address = address.getText().toString();
 		mBean.accuary = "-100";

@@ -84,12 +84,18 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
 		case 0:
-			if (resultCode == 0) {//本地
+			if (resultCode == 0) {//本地,新增
 				new InitDBDataTask(false).execute("");
 			} else if(resultCode == 1) {//服务器
 				initDataTask();
 			}
 			break;
+		case 1:
+			if (resultCode == 0) {//本地,新增
+				new InitDBDataTask(false).execute("");
+			} else if(resultCode == 1) {//服务器
+				initDataTask();
+			}
 		}
 	}
 	
@@ -144,7 +150,8 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 				}
 				intent.putExtra("id", bean.id);
 				intent.putExtra("need_update", need_update);
-				startActivity(intent);
+				intent.putExtra("is_upload", bean.is_upload);
+				startActivityForResult(intent, 1);
 			}
 		});
 	}
@@ -248,6 +255,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 					need_update = true;
 					mList = clientDto.clientdata;
 					insertDB();
+					mList = ClientDBTask.getBeanList();//再取一遍数据库数据，存在本地数据
 					SettingUtility.setValue(SettingUtility.CLIENT_UPDATECODE, clientDto.updatecode);
 				} else {
 					FileLog.i(TAG, TAG+"经销商数据数据下载:版本号相同，无需更新.");

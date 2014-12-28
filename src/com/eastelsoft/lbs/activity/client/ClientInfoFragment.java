@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +125,12 @@ public class ClientInfoFragment extends Fragment implements OnClickListener{
 			if (mBean != null) {
 				fillData();
 			}
+			if ("0".equals(mBean.is_upload)) {//本地数据，取数据数据
+				Log.i(TAG, TAG+" is_upload : 0 , "+mBean.is_upload);
+				return;
+			} else {
+				Log.i(TAG, TAG+" is_upload : 1 , "+mBean.is_upload);
+			}
 			if (!updatecode.equals(mBean.updatecode)) {
 				RefreshDataTask();
 			}
@@ -141,7 +148,6 @@ public class ClientInfoFragment extends Fragment implements OnClickListener{
 			@Override
 			public void onStart() {
 				super.onStart();
-				mLoadingView.setVisibility(View.VISIBLE);
 			}
 			
 			@Override
@@ -152,14 +158,11 @@ public class ClientInfoFragment extends Fragment implements OnClickListener{
 					msg.what = 0;
 					msg.obj = responseString;
 					mHandler.sendMessage(msg);
-				} else {
-					mLoadingView.setVisibility(View.GONE);
-				}
+				} 
 			}
 			
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-				mLoadingView.setVisibility(View.GONE);
 			}
 		});
 	}

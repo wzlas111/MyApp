@@ -127,7 +127,7 @@ public class AsyncHttpClientQueue {
 
     public static final int DEFAULT_MAX_CONNECTIONS = 10;
     public static final int DEFAULT_SOCKET_TIMEOUT = 30 * 1000;
-    public static final int DEFAULT_MAX_RETRIES = 1;
+    public static final int DEFAULT_MAX_RETRIES = 3;
     public static final int DEFAULT_RETRY_SLEEP_TIME_MILLIS = 5 * 1000;
     public static final int DEFAULT_SOCKET_BUFFER_SIZE = 8192;
 
