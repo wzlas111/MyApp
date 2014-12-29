@@ -59,6 +59,8 @@ import com.eastelsoft.util.file.FileManager;
 
 public class VisitFinishActivity extends BaseActivity implements OnClickListener{
 	
+	public static String TAG = "VisitFinishActivity";
+	
 	private String mId;
 	private String mType;
 	private VisitBean mBean;
@@ -89,6 +91,7 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FileLog.i(TAG, TAG+" onCreate");
 		globalVar = (GlobalVar) getApplicationContext();
 		sp = getSharedPreferences("userdata", 0);
 		max_img_num = sp.getString("img_num", Contant.IMG_NUM);
@@ -104,13 +107,26 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	}
 	
 	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		FileLog.i(TAG, TAG+" onSaveInstanceState");
+		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
 	protected void onStop() {
 		super.onStop();
+		FileLog.i(TAG, TAG+" onStop");
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		FileLog.i(TAG, TAG+" onDestroy");
 		globalVar.setImgs(new String[0]);
 	}
 	

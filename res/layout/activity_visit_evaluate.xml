@@ -70,7 +70,8 @@
                         android:padding="3dip"
                         android:text=""
                         android:textColor="@color/default_value_color"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:inputType="phone" />
                 </LinearLayout>
             </LinearLayout>
 

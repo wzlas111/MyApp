@@ -280,12 +280,10 @@ public class InitParamService extends Service {
 					}
 					SettingUtility.setValue(SettingUtility.ENTERPRISE_TYPE_UPDATECODE, dto.updatecode);
 				}
-				stopService();
 			}
 			@Override
 			public void onFailure(int statusCode, Header[] headers,String responseString, Throwable throwable) {
 				FileLog.i(TAG, TAG+"企业类型下载失败.");
-				stopService();
 			}
 		});
 	}

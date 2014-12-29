@@ -61,6 +61,8 @@ import com.eastelsoft.util.Util;
 import com.eastelsoft.util.file.FileManager;
 
 public class VisitMcAddActivity extends BaseActivity implements OnClickListener {
+	
+	public static String TAG = "VisitMcAddActivity";
 
 	private String mId;
 	private String mType;
@@ -98,6 +100,7 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FileLog.i(TAG, TAG+" onCreate");
 		globalVar = (GlobalVar) getApplicationContext();
 		sp = getSharedPreferences("userdata", 0);
 		max_img_num = sp.getString("img_num", Contant.IMG_NUM);
@@ -113,7 +116,31 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 		mBean.visit_id = mId;
 		mBean.id = UUID.randomUUID().toString();
 	}
-
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		FileLog.i(TAG, TAG+" onRestoreInstanceState");
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		FileLog.i(TAG, TAG+" onSaveInstanceState");
+		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FileLog.i(TAG, TAG+" onStop");
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		FileLog.i(TAG, TAG+" onDestroy");
+	}
+	
 	private void parseIntent() {
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
