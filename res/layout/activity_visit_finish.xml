@@ -26,17 +26,18 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10.0dp"
             android:gravity="center_vertical"
-            android:text="完成"
+            android:text="确认完成"
             android:textColor="#f6f7f8"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/save_db"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="20.0dp"
-            android:layout_toLeftOf="@id/save_upload"
+            android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:text="保存"
             android:textColor="#f6f7f8"

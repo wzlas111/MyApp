@@ -40,6 +40,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
@@ -71,6 +72,26 @@ public class InitParamService extends Service {
 		if (TextUtils.isEmpty(gps_id)) {
 			stopService();
 		}else {
+			try {
+				new Thread(new InitThread()).start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return START_NOT_STICKY;
+	}
+	
+	/**
+	 * 另起一线程，新建一个looper和消息队列，即使线程耗时很长也不会阻塞UI线程.
+	 * 注意:httplib 会自动识别looper是否为主线程
+	 * @author wangzl
+	 *
+	 */
+	private class InitThread extends Thread {
+		@Override
+		public void run() {
+			Looper.prepare();
 			if (is_reg) {//初次注册默认加载联系人和客户信息
 				try {
 					initDealerList();
@@ -82,7 +103,6 @@ public class InitParamService extends Service {
 				} catch (Exception e) {
 					GlobalVar.getInstance().setClient_uploading(true);
 				}
-				
 			}
 			initClientType();
 			initClientRegion();
@@ -92,8 +112,8 @@ public class InitParamService extends Service {
 			initEnterpriseType();
 			initCommodity();
 			initCommodityReason();
+			Looper.loop();
 		}
-		return START_NOT_STICKY;
 	}
 	
 	private void initClientType() {

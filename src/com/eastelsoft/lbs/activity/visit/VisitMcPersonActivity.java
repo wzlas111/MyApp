@@ -175,6 +175,16 @@ public class VisitMcPersonActivity extends BaseActivity implements OnClickListen
 				String name = data.getStringExtra("checked_name");
 				mMcRepairTv.setText(name);
 				mIsRepair = id;
+				if ("0".equals(mIsRepair)) {//否
+					mFrameTable.removeAllViews();
+					mAddBtn.setVisibility(View.GONE);
+				} else if("1".equals(mIsRepair)) {//是
+					mAddBtn.setVisibility(View.VISIBLE);
+					int count = mFrameTable.getChildCount();
+					if (count == 0) {
+						addTableRow();
+					}
+				}
 			}
 			break;
 		}

@@ -18,6 +18,7 @@
 
 package com.loopj.android.http;
 
+import android.os.Looper;
 import android.util.Log;
 
 import org.apache.http.Header;
@@ -75,7 +76,7 @@ public abstract class TextHttpResponseHandler extends AsyncHttpResponseHandler {
         super();
         setCharset(encoding);
     }
-
+    
     /**
      * Called when request fails
      *

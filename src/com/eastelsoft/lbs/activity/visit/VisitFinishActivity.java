@@ -158,8 +158,12 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		
 		if ("add".equals(mType)) {
 			initAdd();
+			mSaveDBBtn.setVisibility(View.VISIBLE);
+			mSaveUploadBtn.setVisibility(View.GONE);
 		} else {
 			initDetail();
+			mSaveDBBtn.setVisibility(View.GONE);
+			mSaveUploadBtn.setVisibility(View.VISIBLE);
 		} 
 	}
 	
@@ -240,14 +244,20 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private boolean canSend() {
-		if (TextUtils.isEmpty(service_start_time.getText().toString())) {
+		String s_time = service_start_time.getText().toString();
+		String e_time = service_end_time.getText().toString();
+		if (TextUtils.isEmpty(s_time)) {
 			service_start_time.requestFocus();
 			Toast.makeText(this, "服务开始时间不能为空!", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if (TextUtils.isEmpty(service_end_time.getText().toString())) {
+		if (TextUtils.isEmpty(e_time)) {
 			service_end_time.requestFocus();
 			Toast.makeText(this, "服务结束时间不能为空!", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (s_time.compareTo(e_time) > 0) {
+			Toast.makeText(this, "服务开始时间应小于服务结束时间!", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		return true;

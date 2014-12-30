@@ -31,6 +31,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.IBinder;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -58,8 +59,6 @@ public class AutoUploadService extends Service {
 		IntentFilter mFilter = new IntentFilter();
 		mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		registerReceiver(netReceiver, mFilter);
-		
-//		Looper.prepare();
 	}
 
 	@Override
@@ -107,48 +106,68 @@ public class AutoUploadService extends Service {
 		SetInfo set = IUtil.initSetInfo(sp);
 		gps_id = set.getDevice_id();
 		
-		is_uploading = true;
-		//load need upload data
-		int list_size = 0;
 		try {
-			List<VisitBean> visit_list = AutoUploadDBTask.getVisitForm();
-			uploadVisitForm(visit_list);
-			FileLog.i(TAG,TAG+"visit_list : "+visit_list.size());
-			list_size += visit_list.size();
+			new Thread(new InitThread()).start();
 		} catch (Exception e) {
 			e.printStackTrace();
-			list_size += 0;
-		}
-		try {
-			List<VisitEvaluateBean> evaluate_list = AutoUploadDBTask.getEvaluate();
-			uploadEvaluate(evaluate_list);
-			FileLog.i(TAG,TAG+"evaluate_list : "+evaluate_list.size());
-			list_size += evaluate_list.size();
-		} catch (Exception e) {
-			e.printStackTrace();
-			list_size += 0;
-		}
-		try {
-			List<VisitMcBean> mc_list = AutoUploadDBTask.getMc();
-			uploadMc(mc_list);
-			FileLog.i(TAG,TAG+"mc_list : "+mc_list.size());
-			list_size += mc_list.size();
-		} catch (Exception e) {
-			e.printStackTrace();
-			list_size += 0;
-		}
-		try {
-			List<UploadImgBean> img_list = AutoUploadDBTask.getUploadImg();
-			uploadImg(img_list);
-			FileLog.i(TAG,TAG+"img_list : "+img_list.size());
-			list_size += img_list.size();
-		} catch (Exception e) {
-			e.printStackTrace();
-			list_size += 0;
-		}
-		
-		if (list_size == 0) {
 			is_uploading = false;
+		}
+	}
+	
+	/**
+	 * 另起一线程，新建一个looper和消息队列，即使线程耗时很长也不会阻塞UI线程.
+	 * 注意:httplib 会自动识别looper是否为主线程
+	 * @author wangzl
+	 *
+	 */
+	private class InitThread extends Thread {
+		@Override
+		public void run() {
+			Looper.prepare();
+			is_uploading = true;
+			//load need upload data
+			int list_size = 0;
+			try {
+				List<VisitBean> visit_list = AutoUploadDBTask.getVisitForm();
+				uploadVisitForm(visit_list);
+				FileLog.i(TAG,TAG+"visit_list : "+visit_list.size());
+				list_size += visit_list.size();
+			} catch (Exception e) {
+				e.printStackTrace();
+				list_size += 0;
+			}
+			try {
+				List<VisitEvaluateBean> evaluate_list = AutoUploadDBTask.getEvaluate();
+				uploadEvaluate(evaluate_list);
+				FileLog.i(TAG,TAG+"evaluate_list : "+evaluate_list.size());
+				list_size += evaluate_list.size();
+			} catch (Exception e) {
+				e.printStackTrace();
+				list_size += 0;
+			}
+			try {
+				List<VisitMcBean> mc_list = AutoUploadDBTask.getMc();
+				uploadMc(mc_list);
+				FileLog.i(TAG,TAG+"mc_list : "+mc_list.size());
+				list_size += mc_list.size();
+			} catch (Exception e) {
+				e.printStackTrace();
+				list_size += 0;
+			}
+			try {
+				List<UploadImgBean> img_list = AutoUploadDBTask.getUploadImg();
+				uploadImg(img_list);
+				FileLog.i(TAG,TAG+"img_list : "+img_list.size());
+				list_size += img_list.size();
+			} catch (Exception e) {
+				e.printStackTrace();
+				list_size += 0;
+			}
+			
+			if (list_size == 0) {
+				is_uploading = false;
+			}
+			Looper.loop();
 		}
 	}
 	

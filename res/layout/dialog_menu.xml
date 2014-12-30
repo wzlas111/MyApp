@@ -10,26 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7.0dp"
+        android:padding="5.0dp"
         android:gravity="center"
         android:text="提交"
         android:textSize="16.0sp"
         android:textColor="#f6f7f8"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:background="@drawable/selector_menu_item_true" />
 
     <View 
         android:layout_width="match_parent"
         android:layout_height="0.8dp"
-        android:background="#535455"/>
+        android:background="#40ffffff"/>
     
     <TextView
         android:id="@+id/menu_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7.0dp"
+        android:padding="5.0dp"
         android:gravity="center"
         android:text="删除"
         android:textSize="16.0sp"
         android:textColor="#f6f7f8"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:background="@drawable/selector_menu_item_true" />
 
 </LinearLayout>

@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity {
 		}
 		alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-				System.currentTimeMillis(), 5 * 60 * 1000, alarmIntent);
+				System.currentTimeMillis() + 5*1000, 5 * 60 * 1000, alarmIntent);
 	}
 	
 	private class MainItemClickListener implements OnItemClickListener {

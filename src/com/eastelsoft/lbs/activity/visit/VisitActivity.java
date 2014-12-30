@@ -3,22 +3,44 @@ package com.eastelsoft.lbs.activity.visit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
+import com.eastelsoft.lbs.activity.client.ClientDetailActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.VisitAdapter;
+import com.eastelsoft.lbs.bean.ClientContactsBean;
+import com.eastelsoft.lbs.bean.ClientMechanicsBean;
+import com.eastelsoft.lbs.bean.ClientUploadBean;
+import com.eastelsoft.lbs.bean.ResultBean;
 import com.eastelsoft.lbs.bean.VisitBean;
+import com.eastelsoft.lbs.bean.ClientDto.ClientBean;
+import com.eastelsoft.lbs.db.ClientDBTask;
 import com.eastelsoft.lbs.db.VisitDBTask;
+import com.eastelsoft.lbs.entity.SetInfo;
+import com.eastelsoft.util.IUtil;
+import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 public class VisitActivity extends BaseActivity implements OnClickListener {
 	
@@ -27,8 +49,9 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 	
 	private ListView mListView;
 	private Button mBackBtn;
-	private TextView mAddBtn;
-	private TextView mAddAfterBtn;
+//	private TextView mAddBtn;
+//	private TextView mAddAfterBtn;
+	private Button mMenuBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +69,10 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 	
 	private void initView() {
 		mBackBtn = (Button)findViewById(R.id.btBack);
-		mAddBtn = (TextView)findViewById(R.id.add);
-		mAddAfterBtn = (TextView)findViewById(R.id.add_additional);
+		mMenuBtn = (Button)findViewById(R.id.btMenu);
+		mMenuBtn.setOnClickListener(this);
+//		mAddBtn = (TextView)findViewById(R.id.add);
+//		mAddAfterBtn = (TextView)findViewById(R.id.add_additional);
 		mListView = (ListView)findViewById(R.id.listview);
 		
 		mList = new ArrayList<VisitBean>();
@@ -55,8 +80,8 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 		mListView.setAdapter(mAdapter);
 		
 		mBackBtn.setOnClickListener(this);
-		mAddBtn.setOnClickListener(this);
-		mAddAfterBtn.setOnClickListener(this);
+//		mAddBtn.setOnClickListener(this);
+//		mAddAfterBtn.setOnClickListener(this);
 		mListView.setOnItemClickListener(new ListViewOnItemClick());
 	}
 	
@@ -122,14 +147,68 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 		case R.id.btBack:
 			finish();
 			break;
-		case R.id.add:
-			Intent intent = new Intent(this, VisitStartActivity.class);
-			startActivity(intent);
+		case R.id.btMenu:
+			if (popupWindow != null && popupWindow.isShowing()) {
+				try {
+					popupWindow.dismiss();
+				} catch (Exception e) {
+				}
+			} else {
+				showPopupWindow();
+			}
 			break;
-		case R.id.add_additional:
-			Intent intent2 = new Intent(this, VisitAdditionalActivity.class);
-			startActivity(intent2);
-			break;
+//		case R.id.add:
+//			Intent intent = new Intent(this, VisitStartActivity.class);
+//			startActivity(intent);
+//			break;
+//		case R.id.add_additional:
+//			Intent intent2 = new Intent(this, VisitAdditionalActivity.class);
+//			startActivity(intent2);
+//			break;
 		}
+	}
+	
+	private LinearLayout layout;
+	private TextView mMenu1Tv;
+	private TextView mMenu2Tv;
+	public void showPopupWindow() {
+		layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_menu, null);
+		mMenu1Tv = (TextView)layout.findViewById(R.id.menu_1);
+		mMenu2Tv = (TextView)layout.findViewById(R.id.menu_2);
+		mMenu1Tv.setText("添加");
+		mMenu2Tv.setText("补录");
+		popupWindow = new PopupWindow(this);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
+		popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.setFocusable(true);
+		popupWindow.setContentView(layout);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		popupWindow.showAsDropDown(findViewById(R.id.btMenu), -5, 0);
+		
+		mMenu1Tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					popupWindow.dismiss();
+				} catch (Exception e) {
+				}
+				Intent intent = new Intent(VisitActivity.this, VisitStartActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		mMenu2Tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					popupWindow.dismiss();
+				} catch (Exception e) {
+				}
+				Intent intent = new Intent(VisitActivity.this, VisitAdditionalActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 }

@@ -175,20 +175,32 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			Toast.makeText(this, "请选择经销商.", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if (TextUtils.isEmpty(start_time.getText().toString())) {
+		String s_time = start_time.getText().toString();
+		String e_time = arrive_time.getText().toString();
+		String s_s_time = service_start_time.getText().toString();
+		String s_e_time = service_end_time.getText().toString();
+		if (TextUtils.isEmpty(s_time)) {
 			Toast.makeText(this, "请填写出发时间.", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if (TextUtils.isEmpty(arrive_time.getText().toString())) {
+		if (TextUtils.isEmpty(e_time)) {
 			Toast.makeText(this, "请填写抵达时间.", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if (TextUtils.isEmpty(service_start_time.getText().toString())) {
+		if (TextUtils.isEmpty(s_s_time)) {
 			Toast.makeText(this, "请填写服务开始时间.", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if (TextUtils.isEmpty(service_end_time.getText().toString())) {
+		if (TextUtils.isEmpty(s_e_time)) {
 			Toast.makeText(this, "请填写服务结束时间.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (s_time.compareTo(e_time) > 0) {
+			Toast.makeText(this, "出发时间应小于抵达时间!", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (s_s_time.compareTo(s_e_time) > 0) {
+			Toast.makeText(this, "服务开始时间应小于服务结束时间!", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		return true;

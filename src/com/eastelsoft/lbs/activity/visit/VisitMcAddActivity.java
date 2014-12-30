@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +101,7 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		FileLog.i(TAG, TAG+" onCreate");
+		Log.i(TAG, TAG+" onCreate");
 		globalVar = (GlobalVar) getApplicationContext();
 		sp = getSharedPreferences("userdata", 0);
 		max_img_num = sp.getString("img_num", Contant.IMG_NUM);
@@ -109,42 +110,65 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		mScreenWidth = dm.widthPixels;
 		mScreenHeight = dm.heightPixels;
-
-		setContentView(R.layout.activity_visit_mc_add);
-		initView();
+		
 		mBean = new VisitMcBean();
 		mBean.visit_id = mId;
 		mBean.id = UUID.randomUUID().toString();
-	}
-	
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		FileLog.i(TAG, TAG+" onRestoreInstanceState");
-		super.onRestoreInstanceState(savedInstanceState);
+		
+		setContentView(R.layout.activity_visit_mc_add);
+		initView();
+		
+		if (savedInstanceState != null) {
+			mBean = savedInstanceState.getParcelable("bean");
+			photos_path = savedInstanceState.getStringArray("photo_path");
+			fillSavedData();
+		}
 	}
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		FileLog.i(TAG, TAG+" onSaveInstanceState");
+		Log.i(TAG, TAG+" onSaveInstanceState");
+		outState.putParcelable("bean", mBean);
+		outState.putStringArray("photo_path", photos_path);
 		super.onSaveInstanceState(outState);
 	}
 	
 	@Override
 	protected void onStop() {
 		super.onStop();
-		FileLog.i(TAG, TAG+" onStop");
+		Log.i(TAG, TAG+" onStop");
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		FileLog.i(TAG, TAG+" onDestroy");
+		Log.i(TAG, TAG+" onDestroy");
 	}
 	
 	private void parseIntent() {
 		Intent intent = getIntent();
 		mId = intent.getStringExtra("id");
 		mType = intent.getStringExtra("type");
+	}
+	
+	private void fillSavedData() {
+		client_name.setText(mBean.client_name);
+		start_time.setText(mBean.start_time);
+		end_time.setText(mBean.end_time);
+		repair_start_time.setText(mBean.service_start_time);
+		repair_end_time.setText(mBean.service_end_time);
+		if (!TextUtils.isEmpty(mBean.mc_register_json)) {
+			mc_register_write.setText("已填");
+		}
+		if (!TextUtils.isEmpty(mBean.mc_type_json)) {
+			mc_type_write.setText("已填");
+		}
+		if (!TextUtils.isEmpty(mBean.mc_person_json)) {
+			mc_person_write.setText("已填");
+		}
+		if (!TextUtils.isEmpty(mBean.mc_info_json)) {
+			mc_info_write.setText("已填");
+		}
 	}
 
 	private void initView() {
@@ -257,6 +281,22 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 		}
 		if (TextUtils.isEmpty(mBean.client_sign)) {
 			Toast.makeText(this, "签名不能为空.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (mBean.start_time.compareTo(mBean.end_time) > 0) {
+			Toast.makeText(this, "在途开始时间应小于在途结束时间!", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (mBean.service_start_time.compareTo(mBean.service_end_time) > 0) {
+			Toast.makeText(this, "维修开始时间应小于维修结束时间!", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (mBean.start_time.compareTo(mBean.service_start_time) > 0) {
+			Toast.makeText(this, "在途开始时间应小于维修开始时间!", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (mBean.end_time.compareTo(mBean.service_end_time) > 0) {
+			Toast.makeText(this, "在途结束时间应小于维修结束时间!", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		return true;
