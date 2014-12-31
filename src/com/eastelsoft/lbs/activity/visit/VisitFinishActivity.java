@@ -369,7 +369,13 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 				FileLog.e("VisitFinish", e.toString());
 			}
 			
-			handlePhoto(FileManager.PHOTO_TEST);
+//			handlePhoto(FileManager.PHOTO_TEST);
+			try {
+				new HandlePhotoTask().execute(FileManager.PHOTO_TEST);
+			} catch (Exception e) {
+				Toast.makeText(this, "读取图片失败,请重试.", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
 			break;
 		case PHOTO_PICKED_WITH_DATA:
 			try {
@@ -389,7 +395,13 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			}
 			String photo_path = getChoosePath(photo_uri);
 			
-			handlePhoto(photo_path);
+//			handlePhoto(photo_path);
+			try {
+				new HandlePhotoTask().execute(photo_path);
+			} catch (Exception e) {
+				Toast.makeText(this, "读取图片失败,请重试.", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
 			break;
 		case PHOTO_DEL://圖片刪除
 			if (data != null) {
@@ -519,7 +531,7 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
         return picPath;
 	}
 	
-	private void handlePhoto(String photo_path) {
+	private String handlePhoto(String photo_path) {
 		Bitmap zoomBitmap = null;
 		Bitmap saveBitmap = null;
 		try {
@@ -542,20 +554,39 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			}
 			photos_path[temp.length] = filepath;
 			
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inSampleSize = 10;// 图片的长宽都是原来的1/10
-			FileInputStream f = new FileInputStream(filepath);
-			BufferedInputStream bis = new BufferedInputStream(f);
-			Bitmap bm = BitmapFactory.decodeStream(bis, null, options);
-			displayPhoto(bm);
+			return filepath;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "";
 		} finally {
 			if (zoomBitmap != null) {
 				zoomBitmap.recycle();
+				zoomBitmap = null;
 			}
 			if (saveBitmap != null) {
 				saveBitmap.recycle();
+				saveBitmap = null;
+			}
+		}
+	}
+	
+	private class HandlePhotoTask extends AsyncTask<String, Integer, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			return handlePhoto(params[0]);
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			try {
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inSampleSize = 10;// 图片的长宽都是原来的1/10
+				FileInputStream f = new FileInputStream(result);
+				BufferedInputStream bis = new BufferedInputStream(f);
+				Bitmap bm = BitmapFactory.decodeStream(bis, null, options);
+				displayPhoto(bm);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

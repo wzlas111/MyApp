@@ -460,10 +460,10 @@ public class LocationService extends Service {
 					String name = info.getTypeName();
 					FileLog.i(TAG + "network", "当前网络名称：" + name);
 					// 有网络，检测是否有未上传的缓存信息
-					if (!isInfoUploading) {
-						Thread mThread = new Thread(new InfoAutoThread());
-						mThread.start();
-					}
+//					if (!isInfoUploading) {
+//						Thread mThread = new Thread(new InfoAutoThread());
+//						mThread.start();
+//					}
 				} else {
 					Log.d(TAG + "network", "没有可用网络");
 				}

@@ -219,7 +219,7 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 				List<ClientContactsBean> cList = ClientDBTask.getContactsByClientId(mId);
 				String contacts_data = "";
 				if (cList != null && cList.size() > 0) {
-					Toast.makeText(ClientDetailActivity.this, "客户提交失败.", Toast.LENGTH_SHORT).show();
+//					Toast.makeText(ClientDetailActivity.this, "客户提交失败.", Toast.LENGTH_SHORT).show();
 					contacts_data = gson.toJson(cList);
 				}
 				List<ClientMechanicsBean> mList = ClientDBTask.getMechanicsByClientId(mId);

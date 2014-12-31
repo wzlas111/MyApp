@@ -55,6 +55,7 @@ public class InitParamService extends Service {
 	public static String TAG = "InitParamService";
 	private String gps_id;
 	private boolean is_reg = false;
+	private Thread mThread;
 	private Gson gson = new Gson();
 
 	@Override
@@ -73,13 +74,24 @@ public class InitParamService extends Service {
 			stopService();
 		}else {
 			try {
-				new Thread(new InitThread()).start();
+				mThread = new Thread(new InitThread());
+				mThread.start();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 		}
 		return START_NOT_STICKY;
+	}
+	
+	@Override
+	public void onDestroy() {
+		Log.i(TAG, TAG+"---->onDestroy");
+		super.onDestroy();
+		if (mThread != null) {
+			mThread.interrupt();
+			mThread = null;
+		}
 	}
 	
 	/**
@@ -360,15 +372,19 @@ public class InitParamService extends Service {
 					}
 					SettingUtility.setValue(SettingUtility.COMMODITY_REASON_UPDATECODE, dto.updatecode);
 				}
+				
+				stopService();
 			}
 			@Override
 			public void onFailure(int statusCode, Header[] headers,String responseString, Throwable throwable) {
 				FileLog.i(TAG, TAG+"机器故障下载失败.");
+				stopService();
 			}
 		});
 	}
 	
 	private void stopService() {
+		Looper.myLooper().quit();
 		stopForeground(true);
         stopSelf();
 	}

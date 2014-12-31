@@ -92,7 +92,10 @@ public class AutoUploadService extends Service {
 					// 有网络，检测是否有未上传的缓存信息
 					if (!is_uploading) {
 //						new Thread(new NetThread()).start();
+						Log.i(TAG, TAG+" 新建线程,is_uploading ：" + is_uploading);
 						init();
+					} else {
+						Log.i(TAG, TAG+" no,is_uploading ：" + is_uploading);
 					}
 				} else {
 					Log.d(TAG + "network", "没有可用网络");
@@ -166,8 +169,10 @@ public class AutoUploadService extends Service {
 			
 			if (list_size == 0) {
 				is_uploading = false;
+				Looper.myLooper().quit();
+			} else {
+				Looper.loop();
 			}
-			Looper.loop();
 		}
 	}
 	
@@ -223,17 +228,11 @@ public class AutoUploadService extends Service {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 			FileLog.i(TAG, TAG+"uploadVisitForm,基础数据上传失败...");
 		}
 	}
@@ -275,17 +274,11 @@ public class AutoUploadService extends Service {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 			FileLog.i(TAG, TAG+"uploadEvaluate,基础数据上传失败...");
 		}
 	}
@@ -337,17 +330,11 @@ public class AutoUploadService extends Service {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 			FileLog.i(TAG, TAG+"uploadMc,基础数据上传失败...");
 		}
 	}
@@ -412,18 +399,20 @@ public class AutoUploadService extends Service {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 		}
 		@Override
 		public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-			count--;
-			if (count <=0 ) {
-				is_uploading = false;
-			}
+			updateStatus();
 			FileLog.i(TAG, TAG+"uploadImg,图片上传失败.");
+		}
+	}
+	
+	private void updateStatus() {
+		count--;
+		if (count <=0 ) {
+			is_uploading = false;
+			Looper.myLooper().quit();
 		}
 	}
 

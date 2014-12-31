@@ -18,6 +18,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -122,6 +123,9 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 			mBean = savedInstanceState.getParcelable("bean");
 			photos_path = savedInstanceState.getStringArray("photo_path");
 			fillSavedData();
+			if (!TextUtils.isEmpty(mBean.client_sign)) {
+				fillClientSign(mBean.client_sign);
+			}
 		}
 	}
 	
@@ -169,6 +173,17 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 		if (!TextUtils.isEmpty(mBean.mc_info_json)) {
 			mc_info_write.setText("已填");
 		}
+	}
+	
+	private void fillClientSign(String sign_path) {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 10;// 图片的长宽都是原来的1/10
+		options.inTempStorage = new byte[5 * 1024];
+		Bitmap mBitmap = BitmapFactory.decodeFile(sign_path, options);
+		sign_img.setImageBitmap(mBitmap);
+		sign_img.setClickable(false);
+		sign_show.setVisibility(View.VISIBLE);
+		sign_delete.setVisibility(View.VISIBLE);
 	}
 
 	private void initView() {
@@ -454,7 +469,13 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 				FileLog.e("VisitFinish", e.toString());
 			}
 			
-			handlePhoto(FileManager.PHOTO_TEST);
+//			handlePhoto(FileManager.PHOTO_TEST);
+			try {
+				new HandlePhotoTask().execute(FileManager.PHOTO_TEST);
+			} catch (Exception e) {
+				Toast.makeText(this, "读取图片失败,请重试.", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
 			break;
 		case PHOTO_PICKED_WITH_DATA:
 			if (resultCode != RESULT_OK)
@@ -476,7 +497,13 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 			}
 			String photo_path = getChoosePath(photo_uri);
 			
-			handlePhoto(photo_path);
+//			handlePhoto(photo_path);
+			try {
+				new HandlePhotoTask().execute(photo_path);
+			} catch (Exception e) {
+				Toast.makeText(this, "读取图片失败,请重试.", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
 			break;
 		case PHOTO_DEL://圖片刪除
 			if (data != null) {
@@ -590,7 +617,7 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
         return picPath;
 	}
 	
-	private void handlePhoto(String photo_path) {
+	private String handlePhoto(String photo_path) {
 		Bitmap zoomBitmap = null;
 		Bitmap saveBitmap = null;
 		try {
@@ -613,20 +640,39 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 			}
 			photos_path[temp.length] = filepath;
 			
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inSampleSize = 10;// 图片的长宽都是原来的1/10
-			FileInputStream f = new FileInputStream(filepath);
-			BufferedInputStream bis = new BufferedInputStream(f);
-			Bitmap bm = BitmapFactory.decodeStream(bis, null, options);
-			displayPhoto(bm);
+			return filepath;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "";
 		} finally {
 			if (zoomBitmap != null) {
 				zoomBitmap.recycle();
+				zoomBitmap = null;
 			}
 			if (saveBitmap != null) {
 				saveBitmap.recycle();
+				saveBitmap = null;
+			}
+		}
+	}
+	
+	private class HandlePhotoTask extends AsyncTask<String, Integer, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			return handlePhoto(params[0]);
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			try {
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inSampleSize = 10;// 图片的长宽都是原来的1/10
+				FileInputStream f = new FileInputStream(result);
+				BufferedInputStream bis = new BufferedInputStream(f);
+				Bitmap bm = BitmapFactory.decodeStream(bis, null, options);
+				displayPhoto(bm);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -724,12 +770,16 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 				sb.append(":00");
 				if (type == 1) {
 					start_time.setText(sb.toString());
+					mBean.start_time = sb.toString();
 				} else if(type == 2) {
 					end_time.setText(sb.toString());
+					mBean.end_time = sb.toString();
 				} else if(type == 3) {
 					repair_start_time.setText(sb.toString());
+					mBean.service_start_time  = sb.toString();
 				} else if(type == 4) {
 					repair_end_time.setText(sb.toString());
+					mBean.service_end_time  = sb.toString();
 				}
 				dialog.cancel();
 			}

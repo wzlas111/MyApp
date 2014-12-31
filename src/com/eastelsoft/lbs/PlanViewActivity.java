@@ -771,8 +771,10 @@ public class PlanViewActivity extends BaseActivity {
 						&& !lat.equals("")) {
 					Intent intent = new Intent(PlanViewActivity.this,
 							ItemizedOverlayBaiduActivity.class);
-					intent.putExtra("lon", lon);
-					intent.putExtra("lat", lat);
+					Float mLon = Float.parseFloat(lon)+0.0065f;
+					Float mLat = Float.parseFloat(lat)+0.006f;
+					intent.putExtra("lon", String.valueOf(mLon));
+					intent.putExtra("lat", String.valueOf(mLat));
 					intent.putExtra("location", location);
 					intent.putExtra("title", "目的地");
 					startActivity(intent);
@@ -1137,7 +1139,6 @@ public class PlanViewActivity extends BaseActivity {
 			}
 		}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return msg_name;
