@@ -656,24 +656,28 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 		}
 	}
 	
-	private class HandlePhotoTask extends AsyncTask<String, Integer, String> {
+	private class HandlePhotoTask extends AsyncTask<String, Integer, Bitmap> {
 		@Override
-		protected String doInBackground(String... params) {
-			return handlePhoto(params[0]);
-		}
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected Bitmap doInBackground(String... params) {
+			Bitmap bm = null;
 			try {
+				String path = handlePhoto(params[0]);
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inSampleSize = 10;// 图片的长宽都是原来的1/10
-				FileInputStream f = new FileInputStream(result);
-				BufferedInputStream bis = new BufferedInputStream(f);
-				Bitmap bm = BitmapFactory.decodeStream(bis, null, options);
-				displayPhoto(bm);
+				bm = BitmapFactory.decodeFile(path, options);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			return bm;
+		}
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			try {
+				displayPhoto(result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
 		}
 	}
 	

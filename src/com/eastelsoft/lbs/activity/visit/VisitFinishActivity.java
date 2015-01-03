@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -368,10 +369,11 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			} catch (Exception e) {
 				FileLog.e("VisitFinish", e.toString());
 			}
-			
+			Log.i(TAG, TAG+" end take photo");
 //			handlePhoto(FileManager.PHOTO_TEST);
 			try {
 				new HandlePhotoTask().execute(FileManager.PHOTO_TEST);
+				Log.i(TAG, TAG+" handle photo");
 			} catch (Exception e) {
 				Toast.makeText(this, "读取图片失败,请重试.", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
@@ -500,6 +502,7 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	}
 	
 	private void takePhoto() {
+		Log.i(TAG, TAG+" start take phtot!");
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		File dir = new File(FileManager.BASE_PATH);
 		if (!dir.exists()) {
@@ -570,24 +573,28 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		}
 	}
 	
-	private class HandlePhotoTask extends AsyncTask<String, Integer, String> {
+	private class HandlePhotoTask extends AsyncTask<String, Integer, Bitmap> {
 		@Override
-		protected String doInBackground(String... params) {
-			return handlePhoto(params[0]);
-		}
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
+		protected Bitmap doInBackground(String... params) {
+			Bitmap bm = null;
 			try {
+				String path = handlePhoto(params[0]);
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inSampleSize = 10;// 图片的长宽都是原来的1/10
-				FileInputStream f = new FileInputStream(result);
-				BufferedInputStream bis = new BufferedInputStream(f);
-				Bitmap bm = BitmapFactory.decodeStream(bis, null, options);
-				displayPhoto(bm);
+				bm = BitmapFactory.decodeFile(path, options);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			return bm;
+		}
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			super.onPostExecute(result);
+			try {
+				displayPhoto(result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
 		}
 	}
 	

@@ -76,7 +76,6 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		System.out.println("ClientActivity -> onStart");
 	}
 	
 	@Override
@@ -419,6 +418,7 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 					// 查全部
 					ClientAdapter adapter2 = new ClientAdapter(ClientActivity.this, mList);
 					mListView.setAdapter(adapter2);
+					isSearchMode = false;
 					break;
 				}
 			}

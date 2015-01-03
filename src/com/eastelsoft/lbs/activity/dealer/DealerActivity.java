@@ -85,11 +85,6 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (mDataThread != null) {
-			System.out.println("dealer list interrupt");
-			mDataThread.interrupt();
-			mDataThread = null;
-		}
 	}
 	
 	private void initViews() {
@@ -365,6 +360,7 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 					}
 					DealerAdapter adapter0 = new DealerAdapter(DealerActivity.this, mFilterList);
 					mListView.setAdapter(adapter0);
+					isSearchMode = true;
 					break;
 				case 1:
 					// 查员工私有
@@ -380,11 +376,13 @@ public class DealerActivity extends BaseActivity implements TextWatcher {
 					}
 					DealerAdapter adapter1 = new DealerAdapter(DealerActivity.this, mFilterList);
 					mListView.setAdapter(adapter1);
+					isSearchMode = true;
 					break;
 				case 2:
 					// 查全部
 					DealerAdapter adapter2 = new DealerAdapter(DealerActivity.this, mList);
 					mListView.setAdapter(adapter2);
+					isSearchMode = false;
 					break;
 				}
 			}

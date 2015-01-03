@@ -140,7 +140,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"客户类型下载成功.");
-				Log.i(TAG, TAG+"客户类型下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"客户类型下载成功.data:"+responseString);
 				try {
 					ClientTypeDto dto = gson.fromJson(responseString, ClientTypeDto.class);
 					if ("1".equals(dto.resultcode)) {
@@ -174,7 +174,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"客户区域 下载成功.");
-				Log.i(TAG, TAG+"客户区域下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"客户区域下载成功.data:"+responseString);
 				try {
 					ClientRegionDto dto = gson.fromJson(responseString, ClientRegionDto.class);
 					if ("1".equals(dto.resultcode)) {
@@ -208,7 +208,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"服务评价下载成功.");
-				Log.i(TAG, TAG+"服务评价下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"服务评价下载成功.data:"+responseString);
 				try {
 					EvaluateDto dto = gson.fromJson(responseString, EvaluateDto.class);
 					if ("1".equals(dto.resultcode)) {
@@ -242,7 +242,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"产品类型 下载成功.");
-				Log.i(TAG, TAG+"产品类型下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"产品类型下载成功.data:"+responseString);
 				ProductTypeDto dto = gson.fromJson(responseString, ProductTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
 					List<ProductTypeBean> list = dto.clientdata;
@@ -272,7 +272,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"订单类型下载成功.");
-				Log.i(TAG, TAG+"订单类型下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"订单类型下载成功.data:"+responseString);
 				OrderTypeDto dto = gson.fromJson(responseString, OrderTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
 					List<OrderTypeBean> list = dto.clientdata;
@@ -302,7 +302,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"企业类型下载成功.");
-				Log.i(TAG, TAG+"企业类型下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"企业类型下载成功.data:"+responseString);
 				EnterpriseTypeDto dto = gson.fromJson(responseString, EnterpriseTypeDto.class);
 				if ("1".equals(dto.resultcode)) {
 					List<EnterpriseTypeBean> list = dto.clientdata;
@@ -332,7 +332,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"机器型号下载成功.");
-				Log.i(TAG, TAG+"机器型号下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"机器型号下载成功.data:"+responseString);
 				CommodityDto dto = gson.fromJson(responseString, CommodityDto.class);
 				if ("1".equals(dto.resultcode)) {
 					List<CommodityBean> list = dto.clientdata;
@@ -362,7 +362,7 @@ public class InitParamService extends Service {
 			public void onSuccess(int statusCode, Header[] headers,String responseString) {
 				//insert to db
 				FileLog.i(TAG, TAG+"机器故障下载成功.");
-				Log.i(TAG, TAG+"机器故障下载成功.data:"+responseString);
+//				Log.i(TAG, TAG+"机器故障下载成功.data:"+responseString);
 				CommodityReasonDto dto = gson.fromJson(responseString, CommodityReasonDto.class);
 				if ("1".equals(dto.resultcode)) {
 					List<CommodityReasonBean> list = dto.clientdata;
@@ -494,6 +494,7 @@ public class InitParamService extends Service {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, String responseString) {
 				FileLog.i(TAG, TAG+"经销商数据数据下载成功.");
+				FileLog.i(TAG, TAG+"经销商数据数据下载成功.responseString:"+responseString);
 				Message msg = new Message();
 				msg.what = 1;
 				msg.obj = responseString;
