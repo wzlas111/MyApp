@@ -18,11 +18,7 @@ import android.widget.TextView;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.select.McInfoModelActivity;
-import com.eastelsoft.lbs.activity.select.McModelActivity;
-import com.eastelsoft.lbs.activity.select.McReasonActivity;
-import com.eastelsoft.lbs.activity.select.McSolverActivity;
 import com.eastelsoft.lbs.bean.VisitMcInfoBean;
-import com.eastelsoft.lbs.bean.VisitMcRegisterBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -71,6 +67,7 @@ public class VisitMcInfoActivity extends BaseActivity implements OnClickListener
 		}
 	}
 	
+	private int i = 0;
 	private void fillData() {
 		try {
 			Gson gson = new Gson();
@@ -97,18 +94,18 @@ public class VisitMcInfoActivity extends BaseActivity implements OnClickListener
 				holder.mc_model_name = mc_info_model_name;
 				mViewList.add(holder);
 				
-				view.findViewById(R.id.row_model).setOnClickListener(new McModelOnClickListener(i));
+				view.findViewById(R.id.row_info_model).setOnClickListener(new McModelOnClickListener(i));
 				
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
 				layoutParams.topMargin = 15;
 				mFrameTable.addView(view, layoutParams);
 			}
+			i = mList.size();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private int i = 0;
 	private void addTableRow() {
 		View view = LayoutInflater.from(this).inflate(R.layout.widget_mc_info_add_table, null);
 		

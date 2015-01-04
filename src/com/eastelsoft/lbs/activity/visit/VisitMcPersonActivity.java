@@ -26,7 +26,7 @@ import com.google.gson.reflect.TypeToken;
 public class VisitMcPersonActivity extends BaseActivity implements OnClickListener{
 	
 	private String mId;
-	private String mIsRepair = "0";
+	private String mIsRepair;
 	private String mJson;
 	private List<VisitMcPersonBean> mList;
 	
@@ -151,11 +151,17 @@ public class VisitMcPersonActivity extends BaseActivity implements OnClickListen
 			bean.tel = ((EditText)view.findViewById(R.id.mc_person_tel)).getText().toString();
 			mList.add(bean);
 		}
-		if (count == 0) {
+		
+		if (TextUtils.isEmpty(mIsRepair)) {
 			setResult(1);
 		} else {
 			Gson gson = new Gson();
-			String jsonString = gson.toJson(mList);
+			String jsonString = "";
+			if (count == 0) {
+				jsonString = "";
+			} else {
+				jsonString = gson.toJson(mList);
+			}
 			Intent intent = new Intent(this, VisitMcAddActivity.class);
 			intent.putExtra("json", jsonString);
 			intent.putExtra("is_repair", mIsRepair);

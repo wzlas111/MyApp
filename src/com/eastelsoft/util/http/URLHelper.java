@@ -16,6 +16,8 @@ public class URLHelper {
 	
 	public static final String UPDATE_FINISH = "UpdateFinish";
 	
+	public static final String UPDATE_CONFIRM_FINISH = "UpdateConfirmFinish";
+	
 	public static final String UPDATE_ADDITIONAL = "UpdateAdditional";
 	
 	public static final String UPDATE_EVALUATE = "UpdateEvaluate";

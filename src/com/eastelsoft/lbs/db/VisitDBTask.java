@@ -154,6 +154,15 @@ public class VisitDBTask {
 		return DBResult.update_successfully;
 	}
 	
+	public static DBResult updateConfirmFinishBean(String id) {
+		ContentValues values = new ContentValues();
+		values.put(VisitTable.STATUS, "5");
+		
+		getWsd().update(VisitTable.TABLE_NAME, values, "id=?", new String[]{id});
+		
+		return DBResult.update_successfully;
+	}
+	
 	public static DBResult updateIsUploadBean(VisitBean bean) {
 		ContentValues values = new ContentValues();
 		values.put(VisitTable.IS_UPLOAD, bean.is_upload);

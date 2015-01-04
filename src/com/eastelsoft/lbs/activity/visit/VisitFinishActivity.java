@@ -1,11 +1,11 @@
 package com.eastelsoft.lbs.activity.visit;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import org.apache.http.Header;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -45,6 +45,7 @@ import com.eastelsoft.lbs.MyGridView;
 import com.eastelsoft.lbs.R;
 import com.eastelsoft.lbs.activity.BaseActivity;
 import com.eastelsoft.lbs.activity.visit.adapter.GridPhotoAdapter;
+import com.eastelsoft.lbs.bean.ResultBean;
 import com.eastelsoft.lbs.bean.VisitBean;
 import com.eastelsoft.lbs.db.VisitDBTask;
 import com.eastelsoft.lbs.photo.GalleryActivity;
@@ -57,6 +58,11 @@ import com.eastelsoft.util.ImageThumbnail;
 import com.eastelsoft.util.ImageUtil;
 import com.eastelsoft.util.Util;
 import com.eastelsoft.util.file.FileManager;
+import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 public class VisitFinishActivity extends BaseActivity implements OnClickListener{
 	
@@ -92,7 +98,6 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		FileLog.i(TAG, TAG+" onCreate");
 		globalVar = (GlobalVar) getApplicationContext();
 		sp = getSharedPreferences("userdata", 0);
 		max_img_num = sp.getString("img_num", Contant.IMG_NUM);
@@ -114,20 +119,17 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		FileLog.i(TAG, TAG+" onSaveInstanceState");
 		super.onSaveInstanceState(outState);
 	}
 	
 	@Override
 	protected void onStop() {
 		super.onStop();
-		FileLog.i(TAG, TAG+" onStop");
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		FileLog.i(TAG, TAG+" onDestroy");
 		globalVar.setImgs(new String[0]);
 	}
 	
@@ -227,6 +229,13 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		}
 		
 		if ("detail".equals(mType)) {
+			//若已完成，控制按钮
+			if ("5".equals(mBean.status)) {
+				mSaveDBBtn.setVisibility(View.GONE);
+				mSaveUploadBtn.setVisibility(View.GONE);
+				mMechanicBtn.setOnClickListener(null);
+				mEvaluateBtn.setOnClickListener(null);
+			}
 			service_start_time.setText(mBean.service_begin_time);
 			service_end_time.setText(mBean.service_end_time);
 			String photos = mBean.visit_img;
@@ -278,6 +287,48 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		}
 	}
 	
+	private void saveUpload() {
+		openPopupWindowPG("数据上传中...");
+		btPopGps.setText("数据上传中...");
+		
+		String mUrl = URLHelper.BASE_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", URLHelper.UPDATE_CONFIRM_FINISH);
+		params.put("data_id", mId);
+		HttpRestClient.post(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				try {
+					popupWindowPg.dismiss();
+				} catch (Exception e) {
+				}
+				try {
+					Gson gson = new Gson();
+					ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+					if ("1".equals(resultBean.resultcode)) {
+						VisitDBTask.updateConfirmFinishBean(mId);
+						Toast.makeText(VisitFinishActivity.this, getResources().getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
+						finish();
+					} else {
+						Toast.makeText(VisitFinishActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				try {
+					popupWindowPg.dismiss();
+					Toast.makeText(VisitFinishActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	@Override
 	public void onClick(View v) {
 		Intent intent;
@@ -285,11 +336,11 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		case R.id.btBack:
 			finish();
 			break;
-		case R.id.save_db:
+		case R.id.save_db://保存记录
 			saveDB();
 			break;
-		case R.id.save_upload:
-			
+		case R.id.save_upload://确认完成
+			saveUpload();
 			break;
 		case R.id.row_service_start_time:
 			showDatetimeDialog(1);

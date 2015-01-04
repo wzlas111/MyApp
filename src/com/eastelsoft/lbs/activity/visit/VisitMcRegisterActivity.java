@@ -107,6 +107,7 @@ public class VisitMcRegisterActivity extends BaseActivity implements OnClickList
 				layoutParams.topMargin = 15;
 				mFrameTable.addView(view, layoutParams);
 			}
+			i = mList.size();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

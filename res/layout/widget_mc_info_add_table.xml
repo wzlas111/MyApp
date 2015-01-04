@@ -105,7 +105,8 @@
             android:id="@+id/mc_info_years"
             style="@style/table_edit_style"
             android:imeOptions="actionNext"
-            android:hint="手动输入" />
+            android:hint="手动输入"
+            android:inputType="phone" />
 
     </TableRow>
 

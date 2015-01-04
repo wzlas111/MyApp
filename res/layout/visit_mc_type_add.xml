@@ -153,7 +153,8 @@
             <EditText
                 android:id="@+id/factory_persons"
                 style="@style/table_edit_style"
-                android:hint="手动输入" />
+                android:hint="手动输入"
+                android:inputType="phone" />
         </LinearLayout>
     </LinearLayout>
 

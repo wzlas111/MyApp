@@ -73,7 +73,7 @@ public class McInfoModelActivity extends Activity {
 	
 	private void initData() {
 		SelectBean bean = new SelectBean();
-		bean.id = "10001";
+		bean.id = "1001";
 		bean.name = "平缝";
 		mList.add(bean);
 		
@@ -88,7 +88,7 @@ public class McInfoModelActivity extends Activity {
 		mList.add(bean2);
 		
 		SelectBean bean3 = new SelectBean();
-		bean3.id = "1003";
+		bean3.id = "1004";
 		bean3.name = "特种机";
 		mList.add(bean3);
 	}
