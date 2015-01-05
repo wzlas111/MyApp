@@ -140,17 +140,21 @@ public class ClientActivity extends BaseActivity implements TextWatcher {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(ClientActivity.this, ClientDetailActivity.class);
-				ClientBean bean = null;
-				if (!isSearchMode) {
-					bean = mList.get(position);
-				} else {
-					bean = mFilterList.get(position);
+				try {
+					Intent intent = new Intent(ClientActivity.this, ClientDetailActivity.class);
+					ClientBean bean = null;
+					if (!isSearchMode) {
+						bean = mList.get(position);
+					} else {
+						bean = mFilterList.get(position);
+					}
+					intent.putExtra("id", bean.id);
+					intent.putExtra("need_update", need_update);
+					intent.putExtra("is_upload", bean.is_upload);
+					startActivityForResult(intent, 1);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				intent.putExtra("id", bean.id);
-				intent.putExtra("need_update", need_update);
-				intent.putExtra("is_upload", bean.is_upload);
-				startActivityForResult(intent, 1);
 			}
 		});
 	}

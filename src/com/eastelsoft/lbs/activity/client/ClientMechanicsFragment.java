@@ -16,6 +16,7 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -176,9 +177,10 @@ public class ClientMechanicsFragment extends Fragment implements OnClickListener
 	}
 	
 	private void fillData() {
+		Context context = getActivity();
 		for (int i = 0; i < mList.size(); i++) {
 			ClientMechanicsBean bean = mList.get(i);
-			View view = LayoutInflater.from(getActivity()).inflate(R.layout.widget_mechanics_table, null);
+			View view = LayoutInflater.from(context).inflate(R.layout.widget_mechanics_table, null);
 			((TextView)view.findViewById(R.id.contact_person_name)).setText(bean.contact_person_name);
 			((TextView)view.findViewById(R.id.contact_phone_1)).setText(bean.contact_phone_1);
 			((TextView)view.findViewById(R.id.contact_phone_2)).setText(bean.contact_phone_2);

@@ -188,11 +188,13 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 	private PopupWindow popupWindow;
 	private LinearLayout layout;
 	private TextView mUploadTv;
+	private TextView mEditTv;
 	private TextView mDeleteTv;
 	public void showPopupWindow() {
 		layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_menu, null);
 		mUploadTv = (TextView)layout.findViewById(R.id.menu_1);
-		mDeleteTv = (TextView)layout.findViewById(R.id.menu_2);
+		mEditTv = (TextView)layout.findViewById(R.id.menu_2);
+		mDeleteTv = (TextView)layout.findViewById(R.id.menu_3);
 		popupWindow = new PopupWindow(this);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);
@@ -279,6 +281,20 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 						}
 					}
 				});
+			}
+		});
+		
+		mEditTv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					Intent intent = new Intent(ClientDetailActivity.this, ClientEditActivity.class);
+					intent.putExtra("id", mId);
+					startActivity(intent);
+					finish();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		

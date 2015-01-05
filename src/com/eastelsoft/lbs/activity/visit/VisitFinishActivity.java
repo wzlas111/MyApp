@@ -60,6 +60,7 @@ import com.eastelsoft.util.Util;
 import com.eastelsoft.util.file.FileManager;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
+import com.eastelsoft.util.image.SelectImageActivity;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -462,6 +463,25 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 				displayPhotoDel(p);
 			}
 			break;
+		case PHOTO_PICKED_WITH_DATA_BATCH:
+			if (resultCode != RESULT_OK)
+				return;
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+			}
+			if (data != null) {
+				ArrayList<String> list = data.getStringArrayListExtra("paths");
+				for (int i = 0; i < list.size(); i++) {
+					try {
+						new HandlePhotoTask().execute(list.get(i));
+					} catch (Exception e) {
+						Toast.makeText(this, "加载图片失败,请重试.", Toast.LENGTH_SHORT).show();
+						e.printStackTrace();
+					}
+				}
+			}
+			break;
 		case PHOTO_VIEW:
 			break;
 		}
@@ -474,10 +494,12 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 	public static final int CAMERA_WITH_DATA = 1001;
 	// 选择本地图片
 	public static final int PHOTO_PICKED_WITH_DATA = 1002;
+	//批量选取
+	public static final int PHOTO_PICKED_WITH_DATA_BATCH = 1003;
 	//图片删除
 	private static final int PHOTO_DEL = 99990;
 	//图片查看
-	private static final int PHOTO_VIEW = 1003;
+	private static final int PHOTO_VIEW = 1009;
 	//display
 	private Bitmap[] photos;
 	//path
@@ -569,6 +591,14 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 		intent.setAction("android.intent.action.GET_CONTENT");
 		Intent chooseIntent = Intent.createChooser(intent, "选择图片");
 		startActivityForResult(chooseIntent, PHOTO_PICKED_WITH_DATA);
+	}
+	
+	private void choosePhotoBatch() {
+		Intent intent = new Intent(this, SelectImageActivity.class);
+		intent.putExtra("type", "1");
+		int leftNum = Integer.parseInt(max_img_num)-photos_path.length;
+		intent.putExtra("left_num", leftNum);
+		startActivityForResult(intent, PHOTO_PICKED_WITH_DATA_BATCH);
 	}
 	
 	Cursor cursor = null;
@@ -709,7 +739,7 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			row_choose.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					choosePhoto();
+					choosePhotoBatch();
 				}
 			});
 			popupWindow = new PopupWindow(menuView, LayoutParams.MATCH_PARENT,

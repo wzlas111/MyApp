@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        style="@style/RelativeLayoutTop"
+        android:layout_alignParentTop="true" >
+
+        <Button
+            android:id="@+id/btBack"
+            style="@style/ButtonBack" />
+
+        <TextView
+            android:id="@+id/tvTitleCust"
+            style="@style/TextViewTopTitle"
+            android:text="选取图片" />
+        
+        <Button
+            android:id="@+id/btSave"
+	        style="@style/ButtonSave" />
+    </RelativeLayout>
+    
+    <GridView
+        android:id="@+id/child_grid"
+        android:layout_below="@id/layout_top"
+        android:padding="3dip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="3dip"
+        android:gravity="center"
+        android:verticalSpacing="3dip"
+        android:columnWidth="90dip"
+        android:numColumns="auto_fit" >
+    </GridView>
+
+</RelativeLayout>

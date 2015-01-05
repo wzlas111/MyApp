@@ -125,47 +125,49 @@ public class UMMPUtil {
 	}
 	
 	
-	public static AuthCentreResp sendAuthCentreReg(short msg_seq, 
-			String serialNumber
-			
-			) {
+	public static AuthCentreResp sendAuthCentreReg(short msg_seq, String serialNumber) {
 		AuthCentreResp authCentreResp = null;
 		// 组长包体
-					int tags[] = {h0};
-					String values[] = new String[tags.length];
-					values[0] = serialNumber; // 手机号码
-					
-					byte[] bodyData = encodeBodyData(tags, values);
-					
-					// 组装包头
-					byte[] headData = encodeHeadData((short)bodyData.length ,
-							Contant.AUTH_COMMAND_ID,
-							msg_seq, 
-							(long)0,
-							Contant.DEF_DEVICE_ID, // 注册消息，使用默认设备ID
-							(short)0);
-					
-					// 组装包尾 ，注册包使用默认校验码
-					byte[] footData = encodeFootData(bodyData, Contant.DEF_AUTH_CODE); 
-					
-					// 数据包
-					byte[] data = encodeData(headData, bodyData, footData);
+		int tags[] = { h0 };
+		String values[] = new String[tags.length];
+		values[0] = serialNumber; // 手机号码
+
+		byte[] bodyData = encodeBodyData(tags, values);
+
+		// 组装包头
+		byte[] headData = encodeHeadData((short) bodyData.length,
+				Contant.AUTH_COMMAND_ID, msg_seq, (long) 0,
+				Contant.DEF_DEVICE_ID, // 注册消息，使用默认设备ID
+				(short) 0);
+
+		// 组装包尾 ，注册包使用默认校验码
+		byte[] footData = encodeFootData(bodyData, Contant.DEF_AUTH_CODE);
+
+		// 数据包
+		byte[] data = encodeData(headData, bodyData, footData);
 
 		try {
 			// 使用UDP方式发送
-			byte[] receData = send(data, Contant.AUTHCENTRE_IP, Contant.AUTHCENTRE_PORT);
-			
-			authCentreResp = (AuthCentreResp)decodeResp(Contant.AUTH_CMD_ID, receData);
+			byte[] receData = send(data, Contant.AUTHCENTRE_IP,
+					Contant.AUTHCENTRE_PORT);
+
+			authCentreResp = (AuthCentreResp) decodeResp(Contant.AUTH_CMD_ID,
+					receData);
 		} catch (Exception e) {
 			FileLog.e(TAG, e);
-			/*try {
-				// 使用TCP方式发送
-				byte[] receData = sendTcp(data, Contant.GATE_IP, Contant.GATE_TCP_PORT);
-				regResp = (RegResp)decodeResp(Contant.REG_CMD_ID, receData);
-			} catch (Exception e1) {
-				FileLog.e(TAG, e);
-			}*/
+			/*
+			 * try { // 使用TCP方式发送 byte[] receData = sendTcp(data,
+			 * Contant.GATE_IP, Contant.GATE_TCP_PORT); regResp =
+			 * (RegResp)decodeResp(Contant.REG_CMD_ID, receData); } catch
+			 * (Exception e1) { FileLog.e(TAG, e); }
+			 */
 		}
+//		try { // 使用TCP方式发送 
+//			byte[] receData = sendTcp(data,Contant.AUTHCENTRE_IP,Contant.AUTHCENTRE_PORT); 
+//			authCentreResp = (AuthCentreResp) decodeResp(Contant.AUTH_CMD_ID,receData); 
+//		} catch(Exception e) { 
+//			FileLog.e(TAG, e); 
+//		}
 		return authCentreResp;
 	}
 	

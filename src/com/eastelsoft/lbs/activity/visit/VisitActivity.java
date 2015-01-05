@@ -171,12 +171,15 @@ public class VisitActivity extends BaseActivity implements OnClickListener {
 	private LinearLayout layout;
 	private TextView mMenu1Tv;
 	private TextView mMenu2Tv;
+	private TextView mMenu3Tv;
 	public void showPopupWindow() {
 		layout = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.dialog_menu, null);
 		mMenu1Tv = (TextView)layout.findViewById(R.id.menu_1);
 		mMenu2Tv = (TextView)layout.findViewById(R.id.menu_2);
+		mMenu3Tv = (TextView)layout.findViewById(R.id.menu_3);
 		mMenu1Tv.setText("添加");
 		mMenu2Tv.setText("补录");
+		mMenu3Tv.setVisibility(View.GONE);
 		popupWindow = new PopupWindow(this);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 3);

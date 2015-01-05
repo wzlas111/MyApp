@@ -144,12 +144,6 @@ public class ClientInfoFragment extends Fragment implements OnClickListener{
 		params.put("GpsId", ((ClientDetailActivity)getActivity()).getGpsId());
 		params.put("id", mId);
 		HttpRestClient.get(mUrl, params, new TextHttpResponseHandler() {
-			
-			@Override
-			public void onStart() {
-				super.onStart();
-			}
-			
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, String responseString) {
 				FileLog.i(TAG, TAG+"客户基本数据下载成功.data: "+responseString);

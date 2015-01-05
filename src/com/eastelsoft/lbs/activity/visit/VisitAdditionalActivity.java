@@ -3,6 +3,7 @@ package com.eastelsoft.lbs.activity.visit;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -64,6 +67,7 @@ import com.eastelsoft.util.Util;
 import com.eastelsoft.util.file.FileManager;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
+import com.eastelsoft.util.image.SelectImageActivity;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -413,9 +417,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			try {
 				popupWindow.dismiss();
 			} catch (Exception e) {
-				FileLog.e("VisitFinish", e.toString());
 			}
-			
 //			handlePhoto(FileManager.PHOTO_TEST);
 			try {
 				new HandlePhotoTask().execute(FileManager.PHOTO_TEST);
@@ -430,7 +432,6 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			try {
 				popupWindow.dismiss();
 			} catch (Exception e) {
-				FileLog.e("VisitFinish", e.toString());
 			}
 			System.out.println(data);
 			if (data == null) {
@@ -452,6 +453,25 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 				e.printStackTrace();
 			}
 			break;
+		case PHOTO_PICKED_WITH_DATA_BATCH:
+			if (resultCode != RESULT_OK)
+				return;
+			try {
+				popupWindow.dismiss();
+			} catch (Exception e) {
+			}
+			if (data != null) {
+				ArrayList<String> list = data.getStringArrayListExtra("paths");
+				for (int i = 0; i < list.size(); i++) {
+					try {
+						new HandlePhotoTask().execute(list.get(i));
+					} catch (Exception e) {
+						Toast.makeText(this, "加载图片失败,请重试.", Toast.LENGTH_SHORT).show();
+						e.printStackTrace();
+					}
+				}
+			}
+			break;
 		case PHOTO_DEL://圖片刪除
 			if (data != null) {
 				int p = data.getIntExtra("p", 0);
@@ -468,6 +488,8 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 	public static final int CAMERA_WITH_DATA = 1001;
 	// 选择本地图片
 	public static final int PHOTO_PICKED_WITH_DATA = 1002;
+	//批量选取
+	public static final int PHOTO_PICKED_WITH_DATA_BATCH = 1003;
 	//图片删除
 	private static final int PHOTO_DEL = 99990;
 	//display
@@ -482,15 +504,6 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
 		grid_photo.setAdapter(mGridAdapter);
 		grid_photo.setOnItemClickListener(new GridOnItemClick());
-	}
-	
-	private void initGrid(List<String> paths){
-		photos = new Bitmap[paths.size()];
-		for (int i = 0; i < paths.size(); i++) {
-			photos[i] = BitmapFactory.decodeFile(paths.get(i));
-		}
-		mGridAdapter = new GridPhotoAdapter(this, photos, mScreenWidth, mScreenHeight, max_img_num);
-		grid_photo.setAdapter(mGridAdapter);
 	}
 	
 	private void displayPhoto(Bitmap bitmap) {
@@ -551,12 +564,12 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 		startActivityForResult(intent, CAMERA_WITH_DATA);
 	}
 	
-	private void choosePhoto() {
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction("android.intent.action.GET_CONTENT");
-		Intent chooseIntent = Intent.createChooser(intent, "选择图片");
-		startActivityForResult(chooseIntent, PHOTO_PICKED_WITH_DATA);
+	private void choosePhotoBatch() {
+		Intent intent = new Intent(this, SelectImageActivity.class);
+		intent.putExtra("type", "2");
+		int leftNum = Integer.parseInt(max_img_num)-photos_path.length;
+		intent.putExtra("left_num", leftNum);
+		startActivityForResult(intent, PHOTO_PICKED_WITH_DATA_BATCH);
 	}
 	
 	Cursor cursor = null;
@@ -586,16 +599,15 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			matrix.postRotate(degree);
 			//save
 			saveBitmap = Bitmap.createBitmap(zoomBitmap, 0, 0, zoomBitmap.getWidth(), zoomBitmap.getHeight(), matrix, true);
-			String filename = Util.getLocaleTime("yyyyMMddHHmmss") + ".jpg";
+//			String filename = Util.getLocaleTime("yyyyMMddHHmmss") + ".jpg";
+			String filename = UUID.randomUUID().toString() + ".jpg";
 			String filepath = FileUtil.saveBitmapToFileForPath(saveBitmap, filename);
-			
 			String[] temp = photos_path;
 			photos_path = new String[temp.length+1];
 			for (int i = 0; i < temp.length; i++) {
 				photos_path[i] = temp[i];
 			}
 			photos_path[temp.length] = filepath;
-			
 			return filepath;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -650,7 +662,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 				} else {
 					Toast.makeText(VisitAdditionalActivity.this, getString(R.string.noSDCard), Toast.LENGTH_SHORT).show();
 				}
-			}  else {
+			} else {
 				globalVar.setImgs(photos_path);
 				Intent intent = new Intent();
 				intent.setClass(VisitAdditionalActivity.this, GalleryActivity.class);
@@ -688,7 +700,7 @@ public class VisitAdditionalActivity extends BaseActivity implements OnClickList
 			row_choose.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					choosePhoto();
+					choosePhotoBatch();
 				}
 			});
 			popupWindow = new PopupWindow(menuView, LayoutParams.MATCH_PARENT,
