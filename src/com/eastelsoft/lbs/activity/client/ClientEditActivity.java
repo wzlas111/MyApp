@@ -1,5 +1,7 @@
 package com.eastelsoft.lbs.activity.client;
 
+import org.apache.http.Header;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,14 +18,26 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eastelsoft.lbs.R;
+import com.eastelsoft.lbs.bean.ClientUploadBean;
+import com.eastelsoft.lbs.bean.ResultBean;
+import com.eastelsoft.lbs.db.ClientDBTask;
 import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.util.IUtil;
+import com.eastelsoft.util.http.HttpRestClient;
+import com.eastelsoft.util.http.URLHelper;
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 public class ClientEditActivity extends FragmentActivity implements OnClickListener{
 	
 	private String mId;
+	private String info_data = "";
+	private String contacts_data = "";
+	private String mechanics_data = "";
 	private FragmentManager mFragmentManager;
 	private ClientInfoEditFragment mInfoFragment;
 	private ClientContactsEditFragment mContactsFragment;
@@ -122,6 +136,73 @@ public class ClientEditActivity extends FragmentActivity implements OnClickListe
 		}
 	}
 	
+	private void save() {
+		if (mInfoFragment != null) {
+			if (!mInfoFragment.canSend()) {
+				return;
+			}
+			info_data = mInfoFragment.getJSON();
+		} 
+		if (mContactsFragment != null) {
+			contacts_data = mContactsFragment.getJSON();
+		} 
+		if (mMechanicsFragment != null) {
+			mechanics_data = mMechanicsFragment.getJSON();
+		} 
+		
+		openPopupWindowPG("客户信息上传中...");
+		
+		SharedPreferences sp = getSharedPreferences("userdata", 0);
+		SetInfo set = IUtil.initSetInfo(sp);
+		
+		ClientUploadBean bean = new ClientUploadBean();
+		bean.id = mId;
+		bean.info_data = info_data;
+		bean.contacts_data = contacts_data;
+		bean.mechanics_data = mechanics_data;
+		
+		String json = new Gson().toJson(bean);
+		String mUrl = URLHelper.TEST_ACTION;
+		RequestParams params = new RequestParams();
+		params.put("reqCode", URLHelper.UPDATE_CLIENT);
+		params.put("json", json);
+		params.put("data_id", mId);
+		params.put("gps_id", set.getDevice_id());
+		System.out.println("json : "+json);
+		HttpRestClient.post(mUrl, params, new TextHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				try {
+					popupWindowPg.dismiss();
+				} catch (Exception e) {
+				}
+				try {
+					Gson gson = new Gson();
+					ResultBean resultBean = gson.fromJson(responseString, ResultBean.class);
+					if ("1".equals(resultBean.resultcode)) {
+						ClientDBTask.updateIsUpload(mId);
+						Toast.makeText(ClientEditActivity.this, getResources().getString(R.string.upload_success), Toast.LENGTH_SHORT).show();
+						setResult(1);
+						finish();
+					} else {
+						Toast.makeText(ClientEditActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				try {
+					popupWindowPg.dismiss();
+					Toast.makeText(ClientEditActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -144,7 +225,7 @@ public class ClientEditActivity extends FragmentActivity implements OnClickListe
 			setTabSection(2);
 			break;
 		case R.id.btSave:
-			
+			save();
 			break;
 		}
 	}

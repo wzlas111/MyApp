@@ -659,7 +659,8 @@ public class VisitMcAddActivity extends BaseActivity implements OnClickListener 
 			matrix.postRotate(degree);
 			//save
 			saveBitmap = Bitmap.createBitmap(zoomBitmap, 0, 0, zoomBitmap.getWidth(), zoomBitmap.getHeight(), matrix, true);
-			String filename = Util.getLocaleTime("yyyyMMddHHmmss") + ".jpg";
+//			String filename = Util.getLocaleTime("yyyyMMddHHmmss") + ".jpg";
+			String filename = UUID.randomUUID().toString() + ".jpg";
 			String filepath = FileUtil.saveBitmapToFileForPath(saveBitmap, filename);
 			
 			String[] temp = photos_path;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.http.Header;
 
@@ -56,7 +57,6 @@ import com.eastelsoft.util.FileUtil;
 import com.eastelsoft.util.GlobalVar;
 import com.eastelsoft.util.ImageThumbnail;
 import com.eastelsoft.util.ImageUtil;
-import com.eastelsoft.util.Util;
 import com.eastelsoft.util.file.FileManager;
 import com.eastelsoft.util.http.HttpRestClient;
 import com.eastelsoft.util.http.URLHelper;
@@ -628,7 +628,8 @@ public class VisitFinishActivity extends BaseActivity implements OnClickListener
 			matrix.postRotate(degree);
 			//save
 			saveBitmap = Bitmap.createBitmap(zoomBitmap, 0, 0, zoomBitmap.getWidth(), zoomBitmap.getHeight(), matrix, true);
-			String filename = Util.getLocaleTime("yyyyMMddHHmmss") + ".jpg";
+//			String filename = Util.getLocaleTime("yyyyMMddHHmmss") + ".jpg";
+			String filename = UUID.randomUUID().toString() + ".jpg";
 			String filepath = FileUtil.saveBitmapToFileForPath(saveBitmap, filename);
 			
 			String[] temp = photos_path;

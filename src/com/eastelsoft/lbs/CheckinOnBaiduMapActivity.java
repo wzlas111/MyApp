@@ -9,7 +9,6 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 
-//import com.baidu.mapapi.map.LocationData;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -23,7 +22,6 @@ import com.eastelsoft.lbs.entity.ReportResp;
 import com.eastelsoft.lbs.entity.SetInfo;
 import com.eastelsoft.lbs.location.BaiduMapActionForCheckin;
 import com.eastelsoft.lbs.location.BaseStationAction.SItude;
-//import com.eastelsoft.lbs.locationOverlay.OnBtCloseClickListenerImpl;
 import com.eastelsoft.lbs.service.LocationService;
 import com.eastelsoft.lbs.service.LocationService.MBinder;
 import com.eastelsoft.util.CallBack;
@@ -31,13 +29,11 @@ import com.eastelsoft.util.FileLog;
 import com.eastelsoft.util.IUtil;
 import com.eastelsoft.util.Util;
 import android.app.Activity;
-import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -47,7 +43,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -181,21 +176,9 @@ public class CheckinOnBaiduMapActivity extends Activity {
 			mLocClient.start();
 			// createPaopao();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			FileLog.i(TAG, "地图初始化异常");
-
 		}
-	}
-
-	private void SDKInitializer(Application application) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void SDKInitializer() {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -597,12 +580,11 @@ public class CheckinOnBaiduMapActivity extends Activity {
 
 	}
 
-
 	public class MyLocationListenner implements BDLocationListener {
 
 		@Override
-		public void onReceiveLocation(BDLocation location){
-			//map view 销毁后不在处理新接收的位置
+		public void onReceiveLocation(BDLocation location) {
+			// map view 销毁后不在处理新接收的位置
 			if (location == null || mapView == null)
 				return;
 			MyLocationData locData = new MyLocationData.Builder()
@@ -611,28 +593,24 @@ public class CheckinOnBaiduMapActivity extends Activity {
 					.direction(100).latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(locData);
-				LatLng ll = new LatLng(location.getLatitude(),
-						location.getLongitude());
-				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-				mBaiduMap.animateMapStatus(u);
-
+			LatLng ll = new LatLng(location.getLatitude(),location.getLongitude());
+			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+			mBaiduMap.animateMapStatus(u);
 			/*******************************************************************/
 			Location currentBaiduLocationtemp = new Location("lbs");
 
 			currentBaiduLocationtemp.setProvider("lbs");
 			currentBaiduLocationtemp.setAccuracy(location.getRadius());
-			//高德数据与百度数据---经度相差0.0065f---纬度相差0.006f
-			lon=location.getLongitude();
-			lat=location.getLatitude();
-			currentBaiduLocationtemp
-			.setLongitude(lon - 0.0065f);
-	currentBaiduLocationtemp
-			.setLatitude(lat - 0.006f);
-	
-//			currentBaiduLocationtemp
-//					.setLongitude(location.getLongitude());
-//			currentBaiduLocationtemp
-//					.setLatitude(location.getLatitude());
+			// 高德数据与百度数据---经度相差0.0065f---纬度相差0.006f
+			lon = location.getLongitude();
+			lat = location.getLatitude();
+			currentBaiduLocationtemp.setLongitude(lon - 0.0065f);
+			currentBaiduLocationtemp.setLatitude(lat - 0.006f);
+
+			// currentBaiduLocationtemp
+			// .setLongitude(location.getLongitude());
+			// currentBaiduLocationtemp
+			// .setLatitude(location.getLatitude());
 			// 增加时间2013-07-10 13:13:05
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			long timeStart = 0;
@@ -642,10 +620,10 @@ public class CheckinOnBaiduMapActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.i(TAG, "Radius:"+location.getRadius()+
-					"AddrStr:"+location.getAddrStr()+
-					"City:"+location.getCity()
-					);
+			Log.i(TAG,
+					"Radius:" + location.getRadius() + "AddrStr:"
+							+ location.getAddrStr() + "City:"
+							+ location.getCity());
 			currentBaiduLocationtemp.setTime(timeStart);
 			currentBaiduLocationtemp.setAccuracy(-location.getRadius());
 			Bundle b = new Bundle();
@@ -655,10 +633,8 @@ public class CheckinOnBaiduMapActivity extends Activity {
 			currentBaiduLocation = currentBaiduLocationtemp;
 			/************************************/
 		}
-
 		public void onReceivePoi(BDLocation poiLocation) {
 		}
-
 	}
 
 	protected class OnBtCloseClickListenerImpl implements OnClickListener {

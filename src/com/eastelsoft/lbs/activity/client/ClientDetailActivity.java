@@ -253,6 +253,7 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 					@Override
 					public void onSuccess(int statusCode, Header[] headers, String responseString) {
 						try {
+							popupWindow.dismiss();
 							popupWindowPg.dismiss();
 						} catch (Exception e) {
 						}
@@ -274,6 +275,7 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 					@Override
 					public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 						try {
+							popupWindow.dismiss();
 							popupWindowPg.dismiss();
 							Toast.makeText(ClientDetailActivity.this, getResources().getString(R.string.upload_fail), Toast.LENGTH_SHORT).show();
 						} catch (Exception e) {
@@ -288,6 +290,11 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 			@Override
 			public void onClick(View v) {
 				try {
+					popupWindow.dismiss();
+					popupWindowPg.dismiss();
+				} catch (Exception e) {
+				}
+				try {
 					Intent intent = new Intent(ClientDetailActivity.this, ClientEditActivity.class);
 					intent.putExtra("id", mId);
 					startActivity(intent);
@@ -301,6 +308,11 @@ public class ClientDetailActivity extends FragmentActivity implements OnClickLis
 		mDeleteTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				try {
+					popupWindow.dismiss();
+					popupWindowPg.dismiss();
+				} catch (Exception e) {
+				}
 				try {
 					ClientDBTask.deleteBean(mId);
 					Toast.makeText(ClientDetailActivity.this, "客户删除成功.", Toast.LENGTH_SHORT).show();

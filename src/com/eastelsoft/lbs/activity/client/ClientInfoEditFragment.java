@@ -131,6 +131,11 @@ public class ClientInfoEditFragment extends Fragment implements OnClickListener{
 	}
 	
 	private void fillData() {
+		mChecked_dealer = mBean.dealer_id;
+		mChecked_type = mBean.type;
+		mChecked_region = mBean.region_id;
+		mChecked_typename = mBean.type_id;
+		
 		client_name.setText(mBean.client_name);
 		client_code.setText(mBean.client_code);
 		dealer_name.setText(mBean.dealer_name);

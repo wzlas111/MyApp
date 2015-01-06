@@ -75,6 +75,9 @@ public class VisitAdapter extends BaseAdapter {
 			msg = "图片上传中";
 		} else if("5".equals(status)) {//确认完成
 			msg = "拜访完成";
+			msg_color = mContext.getResources().getColor(R.color.is_upload_blue);
+			viewHolder.visit_img_blue.setVisibility(View.VISIBLE);
+			viewHolder.visit_img_red.setVisibility(View.GONE);
 		} else if("9".equals(status)) {//上传失败
 			msg = "上传失败";
 		}
